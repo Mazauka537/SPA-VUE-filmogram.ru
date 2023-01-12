@@ -1,0 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;300;400;700&family=Kolker+Brush&display=swap');
+@import "src/assets/styles/vars";
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: $color-text;
+  height: 100vh;
+  overflow: hidden;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+  font-family: inherit;
+}
+
+button {
+  border: none;
+}
+
+input, textarea {
+  color: inherit;
+  font-family: 'Inter', sans-serif;
+  border: none;
+}

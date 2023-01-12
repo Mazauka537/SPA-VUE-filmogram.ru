@@ -1,0 +1,45 @@
+<template>
+  <header class="main-header">
+    <div class="main-header__inner">
+
+      <MainLogo/>
+
+      <div class="main-header__search">
+        <!--          <GeneralSearch/>-->
+      </div>
+
+    </div>
+  </header>
+</template>
+
+<script>
+import MainLogo from "@/components/MainLogo";
+
+export default {
+  components: {MainLogo},
+  setup() {
+
+  }
+}
+</script>
+
+<style scoped lang="scss">
+@import 'src/assets/styles/vars';
+
+.main-header {
+  height: 100%;
+  padding: 0 20px;
+
+  &__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+  }
+
+  &__search {
+    max-width: 500px;
+    width: 100%;
+  }
+}
+</style>
