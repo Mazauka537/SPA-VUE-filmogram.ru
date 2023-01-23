@@ -20,6 +20,10 @@
 
   </div>
 
+  <div class="app__notifications">
+    <NotificationContainer/>
+  </div>
+
 </template>
 
 <script>
@@ -28,9 +32,12 @@ import {onMounted, ref} from "vue";
 import MainNav from "@/components/MainNav";
 import MainHeader from "@/components/MainHeader";
 import ViewAuth from "@/components/views/ViewAuth";
+import NotificationBlock from "@/components/NotificationBlock";
+import NotificationContainer from "@/components/NotificationContainer";
+import {useStore} from "vuex";
 
 export default {
-  components: {ViewAuth, MainHeader, MainNav},
+  components: {NotificationContainer, NotificationBlock, ViewAuth, MainHeader, MainNav},
   props: [],
   setup() {
     const elemNav = ref()
@@ -58,6 +65,15 @@ export default {
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  &__notifications {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 20px;
+    width: 350px;
+  }
 
   &__header {
     height: 60px;

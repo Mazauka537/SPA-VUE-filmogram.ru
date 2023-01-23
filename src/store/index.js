@@ -1,5 +1,6 @@
 import { createStore } from 'vuex'
 import {authModule} from "@/store/authModule";
+import {notificationModule} from "@/store/notificationModule";
 
 export default createStore({
   state: {
@@ -11,6 +12,7 @@ export default createStore({
   actions: {
   },
   modules: {
-    auth: authModule
+    auth: authModule,
+    notifications: notificationModule
   }
 })

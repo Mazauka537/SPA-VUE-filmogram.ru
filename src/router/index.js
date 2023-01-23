@@ -6,6 +6,11 @@ const routes = [
     path: '/auth',
     component: () => import('@/components/views/ViewAuth'),
   },
+  {
+    name: 'logout',
+    path: '/logout',
+    component: () => import('@/components/views/ViewLogout')
+  },
 ]
 
 const router = createRouter({

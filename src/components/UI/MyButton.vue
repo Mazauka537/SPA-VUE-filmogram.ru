@@ -1,5 +1,5 @@
 <template>
-  <button class="my-button" :disabled="load">
+  <button class="my-button" :disabled="load || disabled">
       <slot></slot>
       <div class="my-button__spin" v-if="load">
         <svg width="100%" height="100%" viewBox="0 0 48 48">
@@ -14,7 +14,8 @@
 <script>
 export default {
   props: {
-    load: Boolean
+    load: Boolean,
+    disabled: Boolean
   }
 }
 </script>

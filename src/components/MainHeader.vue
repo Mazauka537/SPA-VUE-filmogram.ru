@@ -8,15 +8,20 @@
         <!--          <GeneralSearch/>-->
       </div>
 
+      <div class="main-header__user">
+        <UserBtn v-if="$store.state.auth.user"/>
+      </div>
+
     </div>
   </header>
 </template>
 
 <script>
 import MainLogo from "@/components/MainLogo";
+import UserBtn from "@/components/UserBtn";
 
 export default {
-  components: {MainLogo},
+  components: {UserBtn, MainLogo},
   setup() {
 
   }

@@ -13,7 +13,12 @@
       <a class="form-login__forgot-link" @click.prevent="$emit('switchForm', 'restore')">Забыли пароль?</a>
     </div>
 
-    <MyButton text="Sign In" @click.prevent="form.submit" :load="form.isSending">Войти</MyButton>
+    <MyButton text="Sign In"
+              @click.prevent="form.submit"
+              :load="form.isSending"
+              :disabled="form.login.length === 0 || form.password.length === 0">
+      Войти
+    </MyButton>
 
     <div class="form-login__or">
       или
@@ -67,10 +72,19 @@ export default {
           router.push('/user/' + userData.user.id)
           break;
         case 422:
-
+          store.commit('notifications/addNotification', {
+            text: 'Введены не корректные данные, убедитесь что все поля заполнены'
+          })
           break;
         case 404:
-
+          store.commit('notifications/addNotification', {
+            text: 'Пользователя с таким логином или email не существует'
+          })
+          break;
+        case 400:
+          store.commit('notifications/addNotification', {
+            text: 'Введён неверный пароль'
+          })
           break;
       }
     }

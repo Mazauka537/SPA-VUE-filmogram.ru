@@ -1,0 +1,14 @@
+export default {
+  mounted (el, binding) {
+    const observer = new IntersectionObserver((entires, observer) => {
+      if (entires[0].isIntersecting) {
+        binding.value()
+      }
+    }, {
+      rootMargin: '0px',
+      threshold: 1.0
+    });
+
+    observer.observe(el)
+  }
+}

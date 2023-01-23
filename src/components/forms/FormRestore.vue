@@ -3,18 +3,19 @@
     <div class="form-restore__header">
       <MainLogo style="font-size: 60px"/>
       <div class="form-restore__desc">
-        enter your e-mail to recover your password
+        Введите email адрес на который был зарегестрирован аккаунт
       </div>
     </div>
 
     <MyInput type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
-              style="margin-top: 33px"/>
+             style="margin-top: 33px"/>
 
-    <MyButton text="Sign In" @click.prevent="form.submit" :load="form.isSending" style="margin-top: 35px" >Send Mail</MyButton>
+    <MyButton text="Sign In" @click.prevent="form.submit" :load="form.isSending" style="margin-top: 35px">Отпраить
+    </MyButton>
 
     <div class="form-restore__login">
-      Remember a password?
-      <a class="form-restore__login-link" @click.prevent="$emit('switchForm', 'login')">Login</a>
+      Вспомнили пароль?
+      <a class="form-restore__login-link" @click.prevent="$emit('switchForm', 'login')">Войти</a>
     </div>
   </form>
 </template>
@@ -25,6 +26,7 @@ import MyInput from '../UI/MyInput'
 import MainLogo from "@/components/MainLogo";
 import useRequestMaker from "@/composables/useRequestMaker";
 import useForm from "@/composables/useForm";
+import {useStore} from "vuex";
 
 export default {
   components: {
@@ -33,17 +35,29 @@ export default {
     MyButton,
   },
   setup(_, {emit}) {
+    const store = useStore()
     const requestMaker = useRequestMaker()
 
     const sendMailRequest = async () => {
-      emit('switchForm', 'confirmation')
 
-      let response = await requestMaker.fetch('restore', 'POST', {
+      let response = await requestMaker.fetch('restore/password', 'POST', {
         email: form.email,
       })
 
-      if (response.status !== 200) {
-        return
+      switch (response.status) {
+        case 200:
+          emit('switchForm', 'confirmation')
+          break;
+        case 404:
+          store.commit('notifications/addNotification', {
+            text: 'Пользователь с таким email не найден'
+          })
+          break;
+        case 422:
+          store.commit('notifications/addNotification', {
+            text: 'Введён не корректный email адрес'
+          })
+          break;
       }
     }
 

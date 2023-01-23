@@ -16,7 +16,13 @@
     <MyInput type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
               style="margin-top: 40px"/>
 
-    <MyButton text="Sign Up" @click.prevent="form.submit" style="margin-top: 45px" :load="form.isSending">Зарегистрироваться</MyButton>
+    <MyButton text="Sign Up"
+              @click.prevent="form.submit"
+              style="margin-top: 45px"
+              :load="form.isSending"
+              :disabled="form.name.length === 0 || form.login.length === 0 || form.email.length === 0 || form.password.length === 0">
+      Зарегистрироваться
+    </MyButton>
 
     <div class="form-register__or">
       или
@@ -72,10 +78,22 @@ export default {
           router.push('/profile')
           break;
         case 422:
-
+          store.commit('notifications/addNotification', {
+            text: 'Введены не корректные данные, убедитесь что все поля заполнены правильно'
+          })
           break;
         case 406:
-
+          let responseData = await response.json()
+          if (responseData.taken.contain('login')) {
+            store.commit('notifications/addNotification', {
+              text: 'Данный логин уже занят'
+            })
+          }
+          if (responseData.taken.contain('email')) {
+            store.commit('notifications/addNotification', {
+              text: 'Данный Email уже занят'
+            })
+          }
           break;
       }
     }
