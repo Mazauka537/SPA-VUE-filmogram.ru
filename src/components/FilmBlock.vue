@@ -1,46 +1,68 @@
 <template>
   <div class="film-block">
 
-    <div class="film-block__left">
-      <div class="film-block__poster">
-        <img :src="filmKp.posterUrlPreview" alt="poster">
-      </div>
-    </div>
+    <FilmTable>
+      <template #number><span class="film-block__number-section">{{ number }}</span></template>
 
-    <div class="film-block__mid">
-      <div class="film-block__name">
-        {{ filmKp.nameRu ?? filmKp.nameOriginal }}
-      </div>
-      <div class="film-block__original-name">
-        {{ filmKp.nameOriginal }}
-      </div>
-      <div class="film-block__countries">
-        {{ type }}, {{ filmKp.year }}, {{ countries }}
-      </div>
-      <div class="film-block__genres">
-        Жанры: {{ genres }}
-      </div>
-    </div>
+      <template #name>
+        <div class="film-block__name-section">
+          <div class="film-block__poster">
+            <img :src="filmKp.posterUrlPreview" alt="poster">
+          </div>
+          <div class="film-block__main-info">
+            <div class="film-block__name">
+              {{ filmKp.nameRu ?? filmKp.nameOriginal }}
+            </div>
+            <div class="film-block__original-name">
+              {{ filmKp.nameOriginal }}
+            </div>
+            <div class="film-block__type">
+              тип: {{ type }}
+            </div>
+            <div class="film-block__countries">
+              страна: {{ countries }}
+            </div>
+          </div>
+        </div>
+      </template>
 
-    <div class="film-block__right">
-      <div class="film-block__add-to-collection icon-playlist_add" @pointerdown.stop.prevent="$emit('addToCollection', filmKp.kinopoiskId)"></div>
-      <div class="film-block__rate" :class="'film-block__rate_' + rateColorKp" v-if="filmKp.ratingKinopoisk">
-        <sup>КП</sup>{{ filmKp.ratingKinopoisk }}
-      </div>
-      <div class="film-block__rate" style="margin-top: 10px;" :class="'film-block__rate_' + rateColorImdb"
-           v-if="filmKp.ratingImdb">
-        <sup>IMDb</sup>{{ filmKp.ratingImdb }}
-      </div>
-    </div>
+      <template #genre>
+        <div class="film-block__genres">
+          {{ genres }}
+        </div>
+      </template>
+
+      <template #year>
+        <div class="film-block__genres">
+          {{ filmKp.year }}
+        </div>
+      </template>
+
+      <template #rate>
+        <div class="film-block__rates">
+          <div class="film-block__rate" :class="'film-block__rate_' + rateColorKp" v-if="filmKp.ratingKinopoisk">
+            <sup>КП</sup>{{ filmKp.ratingKinopoisk }}
+          </div>
+          <div class="film-block__rate" style="margin-top: 10px;" :class="'film-block__rate_' + rateColorImdb"
+               v-if="filmKp.ratingImdb">
+            <sup>IMDb</sup>{{ filmKp.ratingImdb }}
+          </div>
+        </div>
+      </template>
+    </FilmTable>
 
   </div>
 </template>
 
 <script>
 import useFilmComputeds from "@/composables/useFilmComputeds";
+import FilmTable from "@/components/FilmTable";
 
 export default {
+  components: {FilmTable},
+
   props: {
+    number: Number,
     filmKp: Object
   },
   setup(props) {
@@ -62,22 +84,12 @@ export default {
 @import "src/assets/styles/vars";
 
 .film-block {
-  display: flex;
-  justify-content: stretch;
-  flex-wrap: nowrap;
 
-  &__left {
-
-  }
-
-  &__mid {
-    padding: 5px 20px;
-    flex-grow: 1;
-    overflow: hidden;
-  }
-
-  &__right {
-    text-align: right;
+  &__name-section {
+    display: flex;
+    justify-content: stretch;
+    align-items: center;
+    flex-wrap: nowrap;
   }
 
   &__poster {
@@ -90,6 +102,12 @@ export default {
     }
   }
 
+  &__main-info {
+    padding-left: 10px;
+    flex-grow: 1;
+    overflow: hidden;
+  }
+
   &__name, &__original-name, &__countries {
     white-space: nowrap;
     overflow: hidden;
@@ -98,36 +116,22 @@ export default {
 
   &__name {
     font-weight: 700;
+    color: $color-text-light;
   }
 
   &__original-name {
-    font-size: 13px;
-    margin-top: 5px;
+    margin-top: 3px;
+    color: $color-text-light;
+    font-weight: 300;
+  }
+
+  &__type {
+    margin-top: 15px;
+    font-size: 12px;
   }
 
   &__countries {
-    font-size: 13px;
-    margin-top: 10px;
-  }
-
-  &__genres {
-    font-size: 13px;
-    margin-top: 5px;
-  }
-
-  &__add-to-collection {
-    height: 30px;
-    width: 30px;
-    float: right;
-    font-size: 26px;
-    margin-bottom: 5px;
-    color: $color-placeholder;
-    cursor: pointer;
-    z-index: 4;
-
-    &:hover {
-
-    }
+    font-size: 12px;
   }
 
   &__rate {
@@ -135,26 +139,26 @@ export default {
     font-weight: 700;
 
     &_green {
-      color: #16CB1F;
+      color: #FFFFFF;
     }
 
     &_yellow {
-      color: #D0EC16;
+      color: #CCCCCC;
     }
 
     &_orange {
-      color: #E4A316;
+      color: #AAAAAA;
     }
 
     &_red {
-      color: #E42424;
+      color: #888888;
     }
 
     sup {
       font-size: 9px;
       font-weight: 300;
-      color: $color-placeholder;
-      padding-right: 2px;
+      color: $color-text;
+      padding-right: 3px;
     }
   }
 }

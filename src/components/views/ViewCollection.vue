@@ -38,11 +38,11 @@
 
           <FilmTableHead/>
 
-          <LoadableItemsContainer :loader="collectedFilmsLoader">
+          <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 5px;">
             <DragContainer @drop="changeOrder" :disable="!$store.getters['auth/isOwner'](collection.user_id)">
               <DragBlock v-for="(film, index) in sortedFilms" :key="film.id">
                 <div class="view-collection__film-block-wrapper" ref="filmBlocks" :data-film-id="film.id">
-                  <FilmBlockNumbered :film-kp="film.filmKp"
+                  <FilmBlock :film-kp="film.filmKp"
                                      :number="index + 1"
                                      @pointerdown="setSelectedFilm(film)"
                                      @addToCollection="addingToCollectionFilmId = film.filmKp.kinopoiskId; popUpAddToCollections.show()"/>
@@ -96,7 +96,6 @@ import PopUp from "@/components/PopUp";
 import SearchingFilmsBlock from "@/components/SearchingFilmsBlock";
 import DragBlock from "@/components/DragBlock";
 import DragContainer from "@/components/DragContainer";
-import FilmBlock from "@/components/FilmBlock";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import useRequestMaker from "@/composables/useRequestMaker";
 import usePopUp from "@/composables/usePopUp";
@@ -109,7 +108,7 @@ import useCollectedFilmsLoader from "@/composables/useCollectedFilmsLoader";
 import useDeleteFilmFromCollection from "@/composables/useDeleteFilmFromCollection";
 import useDeleteCollection from "@/composables/useDeleteCollection";
 import useChangeFilmOrder from "@/composables/useChangeFilmOrder";
-import FilmBlockNumbered from "@/components/FilmBlockNumbered";
+import FilmBlock from "@/components/FilmBlock";
 import FormEditCollection from "@/components/forms/FormEditCollection";
 import useLoadMoreFilmInfoMyDB from "@/composables/useLoadMoreFilmInfoMyDB";
 import AddToCollectionsBlock from "@/components/AddToCollectionsBlock";
@@ -125,7 +124,6 @@ export default {
     SplitPage,
     AddToCollectionsBlock,
     FormEditCollection,
-    FilmBlockNumbered,
     DialogConfirm,
     InfoBlockFilm,
     InfoBlockCollection,
@@ -308,6 +306,14 @@ export default {
     background: $color-bg-body;
     height: 100%;
     padding: 30px;
+  }
+
+  &__ctrl-panel {
+
+  }
+
+  &__film-block-wrapper {
+    padding: 5px 0;
   }
 }
 </style>

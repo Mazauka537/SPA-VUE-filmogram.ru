@@ -38,7 +38,7 @@ export default {
   &__number {
     width: 40px;
     text-align: right;
-    padding-right: 10px;
+    padding-right: 15px;
   }
 
   &__name {
@@ -47,17 +47,17 @@ export default {
   }
 
   &__genre {
-    width: 300px;
-    padding-right: 10px;
+    width: 400px;
+    padding-right: 50px;
   }
 
   &__year {
-    width: 300px;
+    width: 100px;
     padding-right: 10px;
   }
 
   &__rate {
-    width: 50px;
+    width: 100px;
     text-align: right;
   }
 

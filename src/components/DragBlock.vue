@@ -24,7 +24,6 @@ export default {
   border: none;
   background: transparent;
   text-align: left;
-  color: inherit;
 
   &__inner {
     width: 100%;
