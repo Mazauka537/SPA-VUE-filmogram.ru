@@ -35,8 +35,7 @@ export default {
 .my-search-input {
   height: 35px;
   width: 100%;
-  border: $border-main;
-  background: $color-bg;
+  background: $color-bg-input;
   border-radius: 50px;
   padding: 0 15px 0 40px;
 

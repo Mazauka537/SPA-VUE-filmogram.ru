@@ -2,20 +2,12 @@
 
   <div class="app">
 
-    <div class="app__header">
-      <MainHeader/>
+    <div class="app__nav" ref="elemNav">
+      <MainNav/>
     </div>
 
-    <div class="app__body">
-
-      <div class="app__nav" ref="elemNav">
-        <MainNav/>
-      </div>
-
-      <div class="app__pages">
-        <router-view/>
-      </div>
-
+    <div class="app__pages">
+      <router-view/>
     </div>
 
   </div>
@@ -63,7 +55,8 @@ export default {
 .app {
   font-size: 14px;
   display: flex;
-  flex-direction: column;
+  flex-wrap: nowrap;
+  overflow: hidden;
   height: 100%;
 
   &__notifications {
@@ -73,19 +66,6 @@ export default {
     z-index: 2;
     padding: 20px;
     width: 350px;
-  }
-
-  &__header {
-    height: 60px;
-    flex-shrink: 0;
-    background: $color-bg-side;
-  }
-
-  &__body {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow: hidden;
-    height: 100%;
   }
 
   &__nav {

@@ -21,8 +21,7 @@ export default {
   height: 100px;
   width: 100%;
   resize: none;
-  border: $border-main;
-  background: $color-bg;
+  background: $color-bg-input;
   padding: 7px 15px;
 
   &::placeholder {

@@ -1,0 +1,28 @@
+@import "src/assets/styles/vars";
+
+.profile-header {
+
+  &__left-btn, &__right-btn {
+    display: inline-block;
+    width: 50%;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+  }
+
+  &__left-btn {
+    border-right: 1px solid $color-main;
+  }
+}
+
+.profile-body {
+  padding: 20px;
+  margin-top: 20px;
+
+  &__item-block {
+    padding: 10px;
+    margin: 0 -10px;
+    display: block;
+  }
+}

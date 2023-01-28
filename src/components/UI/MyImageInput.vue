@@ -44,8 +44,7 @@ export default {
   display: block;
   height: 35px;
   width: 100%;
-  border: $border-main;
-  background: $color-bg;
+  background: $color-bg-input;
   padding: 5px 15px 0 15px;
   text-align: center;
   overflow-x: hidden;

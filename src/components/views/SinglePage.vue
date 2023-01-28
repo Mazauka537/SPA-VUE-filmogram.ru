@@ -1,5 +1,5 @@
 <template>
-  <div class="single-page" ref="page">
+  <div class="single-page" ref="elemPage">
     <slot></slot>
   </div>
 </template>
@@ -10,14 +10,14 @@ import SimpleScrollbar from "simple-scrollbar";
 
 export default {
   setup() {
-    const page = ref()
+    const elemPage = ref()
 
     onMounted(() => {
-      SimpleScrollbar.initEl(page.value)
+      SimpleScrollbar.initEl(elemPage.value)
     })
 
     return {
-      page,
+      elemPage,
     }
   }
 }

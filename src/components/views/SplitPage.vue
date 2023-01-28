@@ -32,12 +32,13 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/styles/vars";
 
 .split-page {
   display: flex;
+  height: 100%;
 
   &__left {
-    padding: 0 10px 0 0;
     flex-grow: 1;
     min-width: 0;
   }
@@ -45,7 +46,6 @@ export default {
   &__right {
     width: 300px;
     min-width: 240px;
-    padding: 0 0 0 10px;
   }
 }
 </style>

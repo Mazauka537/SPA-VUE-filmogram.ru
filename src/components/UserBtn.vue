@@ -66,6 +66,7 @@ export default {
 
   &__panel {
     position: absolute;
+    z-index: 2;
     top: 60px;
     right: 0;
     background: $color-bg-nav;
