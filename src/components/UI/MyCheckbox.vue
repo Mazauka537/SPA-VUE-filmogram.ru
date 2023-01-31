@@ -1,13 +1,14 @@
 <template>
   <div class="my-checkbox">
 
-    <div class="my-checkbox__input">
-      <svg class="my-checkbox__check" width="100%" height="100%" viewBox="0 0 70 70" v-if="checked">
-        <path d="M26.474,70c-2.176,0-4.234-1.018-5.557-2.764L3.049,43.639C0.725,40.57,1.33,36.2,4.399,33.875
-				c3.074-2.326,7.441-1.717,9.766,1.35l11.752,15.518L55.474,3.285c2.035-3.265,6.332-4.264,9.604-2.232
-				c3.268,2.034,4.266,6.334,2.23,9.602l-34.916,56.06c-1.213,1.949-3.307,3.175-5.6,3.279C26.685,69.998,26.58,70,26.474,70z"/>
-      </svg>
-    </div>
+    <svg class="my-checkbox__icon" width="100%" height="100%" viewBox="0 0 768 768" v-if="checked">
+      <path d="M543.104 200.032c-30.944-17.216-69.92-6.016-87.040 24.864l-118.816 213.824-68-68c-24.992-24.992-65.504-24.992-90.496 0s-24.992 65.504 0 90.496l128 128c12.096 12.128 28.416 18.784 45.248 18.784 2.944 0 5.92-0.192 8.864-0.64 19.872-2.784 37.312-14.72 47.072-32.288l160-288c17.184-30.912 6.048-69.856-24.832-87.040z"></path>
+    </svg>
+
+    <svg class="my-checkbox__icon" width="100%" height="100%" viewBox="0 0 768 768" v-else>
+      <path
+          d="M576 320h-128v-128c0-35.328-28.672-64-64-64s-64 28.672-64 64l2.272 128h-130.272c-35.328 0-64 28.672-64 64s28.672 64 64 64l130.272-2.272-2.272 130.272c0 35.328 28.672 64 64 64s64-28.672 64-64v-130.272l128 2.272c35.328 0 64-28.672 64-64s-28.672-64-64-64z"></path>
+    </svg>
 
   </div>
 </template>
@@ -28,42 +29,10 @@ export default {
   width: 17px;
   position: relative;
 
-  &__input {
+  &__icon {
     height: 100%;
     width: 100%;
-    border-radius: 2px;
-    background: $color-text;
-    cursor: pointer;
-    position: relative;
-  }
-
-  &__check {
-    position: absolute;
-    left: 1px;
-    top: 1px;
-    height: 13px;
-    width: 13px;
-    fill: $color-main;
-  }
-
-  &__spin {
-    top: 0;
-    left: 0;
-    position: absolute;
-    animation: rotate 1s infinite linear;
-
-    path {
-      fill: $color-placeholder;
-    }
-  }
-}
-
-@keyframes rotate {
-  from {
-    transform: scale(1.4) rotate(0);
-  }
-  to {
-    transform: scale(1.4) rotate(360deg);
+    fill: $color-text;
   }
 }
 </style>

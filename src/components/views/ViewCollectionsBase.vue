@@ -13,22 +13,15 @@
 <script>
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import CollectionBlock from "@/components/CollectionBlock";
-import {useRoute} from "vue-router/dist/vue-router";
 import useToggleSave from "@/composables/useToggleSave";
-import {onMounted, watch} from "vue";
 
 export default {
   components: {LoadableItemsContainer, CollectionBlock},
   props: {
     collectionsLoader: Object
   },
-  setup(props) {
-    const route = useRoute()
+  setup() {
     const {toggleSave} = useToggleSave()
-
-    watch(() => route.params.id, () => {
-      props.collectionsLoader.reset()
-    })
 
     return {
       toggleSave

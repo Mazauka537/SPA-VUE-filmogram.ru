@@ -1,74 +1,55 @@
 <template>
   <div class="user-block">
 
-    <div class="user-block__image">
-      <img :src="'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar" alt="avatar" v-if="user.avatar">
-      <img src="/user.jpg" alt="avatar" v-else>
+    <div class="user-block__avatar">
+      <img :src="user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg'"
+           alt="avatar">
     </div>
 
-    <div class="user-block__names">
-      <div class="user-block__login">
-        @{{ user.login }}
-      </div>
-      <div class="user-block__name">
-        {{ user.name }}
-      </div>
-    </div>
-
-    <div class="user-block__sub" v-if="!$store.getters['auth/isOwner'](user.id)">
-      <MyButtonMini @click.stop.prevent="toggleSubscription(user)" style="width: 110px" :white="user.isSubscribed">
-        <template v-if="user.isSubscribed">
-          Отписаться
-        </template>
-        <template v-else>
-          Подписаться
-        </template>
-      </MyButtonMini>
+    <div class="user-block__name">
+      {{ user.login }}
     </div>
 
   </div>
 </template>
 
 <script>
-import MyButtonMini from "@/components/UI/MyButtonMini";
-import useToggleSubscription from "@/composables/useToggleSubscription";
-
 export default {
-  components: {MyButtonMini},
   props: {
     user: Object
   },
   setup() {
-    const {toggleSubscription} = useToggleSubscription()
-
-    return {
-      toggleSubscription
-    }
   }
 }
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/styles/vars";
 
 .user-block {
-  display: flex;
-  align-items: center;
+  padding: 15px 15px 30px 15px;
+  background: $color-bg-side;
+  display: inline-block;
+  border-radius: 7px;
+  margin-right: 20px;
 
-  &__image {
+  &:hover {
+    background: $color-bg-input;
+  }
+
+  &__avatar {
 
     img {
-      height: 70px;
-      width: 70px;
+      height: 155px;
+      width: 155px;
       border-radius: 50%;
     }
   }
-  &__names {
-    flex-grow: 1;
-    min-width: 0;
-    padding: 0 20px;
-  }
-  &__sub {
 
+  &__name {
+    margin-top: 15px;
+    font-weight: 700;
+    color: $color-text-light
   }
 }
 

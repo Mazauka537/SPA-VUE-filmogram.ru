@@ -28,12 +28,12 @@ const routes = [
       {
         name: 'subscribers',
         path: 'subscribers',
-        component: () => import('@/components/views/ViewProfile')
+        component: () => import('@/components/views/ViewSubscribers')
       },
       {
         name: 'subscriptions',
         path: 'subscriptions',
-        component: () => import('@/components/views/ViewProfile')
+        component: () => import('@/components/views/ViewSubscriptions')
       }
     ]
   },

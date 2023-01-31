@@ -54,7 +54,7 @@ import FormChangeAvatar from "@/components/forms/FormChangeAvatar";
 import DialogConfirm from "@/components/DialogConfirm";
 import usePopUp from "@/composables/usePopUp";
 import {useRoute} from "vue-router";
-import {defineAsyncComponent, onMounted, watch} from "vue";
+import {onMounted, watch} from "vue";
 import useEditUser from "@/composables/useEditUser";
 import useGetUser from "@/composables/useGetUser";
 import SinglePage from "@/components/views/SinglePage";
@@ -62,8 +62,6 @@ import SinglePage from "@/components/views/SinglePage";
 export default {
   components: {
     SinglePage,
-    ProfileBodySubscribers: defineAsyncComponent(() => import('@/components/ProfileBodySubscribers')),
-    ProfileBodyCollections: defineAsyncComponent(() => import('@/components/ProfileBodyCollections')),
     FormChangeAvatar,
     FormNewCollection,
     DialogConfirm,

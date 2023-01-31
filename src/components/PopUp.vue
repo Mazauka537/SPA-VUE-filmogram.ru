@@ -1,7 +1,6 @@
 <template>
   <div class="pop-up" :class="{'pop-up_center': center}" @click="popUpController.hide" v-if="popUpController.visible">
     <div class="pop-up__inner panel" :class="{'pop-up__inner_center': center}" @click.stop>
-
       <slot></slot>
     </div>
   </div>
@@ -40,10 +39,11 @@ export default {
 
   &__inner {
     position: relative;
-    padding: 20px;
-    max-width: 500px;
+    max-width: 600px;
     width: 100%;
-    margin: 30px auto;
+    height: 100%;
+    overflow: hidden;
+    margin: 0 auto;
 
     &_center {
       margin: 0;

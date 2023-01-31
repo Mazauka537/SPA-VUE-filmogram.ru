@@ -20,16 +20,13 @@ export default {
 
 .my-button {
   position: relative;
-  background: $color-main;
   color: $color-text-light;
-  height: 24px;
-  padding: 0 20px;
+  padding: 7px 15px;
+  font-weight: 700;
   font-size: 12px;
   cursor: pointer;
-
-  &_white {
-    background: $color-text-light;
-    color: $color-text;
-  }
+  border: 2px solid $color-text-light;
+  border-radius: 100px;
+  background: transparent;
 }
 </style>
