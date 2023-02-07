@@ -18,11 +18,12 @@ export default {
 @import "src/assets/styles/vars";
 
 .my-textarea {
-  height: 100px;
+  height: 100%;
   width: 100%;
   resize: none;
   background: $color-bg-input;
   padding: 7px 15px;
+  border-radius: 3px;
 
   &::placeholder {
     color: $color-placeholder;

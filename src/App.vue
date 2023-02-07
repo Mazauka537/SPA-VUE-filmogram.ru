@@ -69,7 +69,7 @@ export default {
   }
 
   &__nav {
-    width: 240px;
+    width: 300px;
     background: $color-bg-nav;
   }
 

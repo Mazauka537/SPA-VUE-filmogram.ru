@@ -5,9 +5,9 @@
     </div>
 
     <MyInput type="text" placeholder="Email или Логин" icon-class="icon-person" v-model="form.login"
-              style="margin-top: 33px"/>
+             style="margin-top: 33px"/>
     <MyInput type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
-              style="margin-top: 40px"/>
+             style="margin-top: 40px"/>
 
     <div class="form-login__forgot">
       <a class="form-login__forgot-link" @click.prevent="$emit('switchForm', 'restore')">Забыли пароль?</a>
@@ -15,6 +15,8 @@
 
     <MyButton text="Sign In"
               @click.prevent="form.submit"
+              style="width: 100%;"
+              :white="true"
               :load="form.isSending"
               :disabled="form.login.length === 0 || form.password.length === 0">
       Войти

@@ -1,13 +1,6 @@
 <template>
   <div class="searching-films">
-    <div class="searching-films__header">
-      <div class="searching-films__title">
-        Поиск фильмов в коллекцию {{ collection.title }}
-      </div>
-      <div class="searching-films__close" @click="$emit('close')"></div>
-    </div>
 
-    <div class="searching-films__body">
       <MySearchInput v-model="searchString"/>
 
       <div class="searching-films__list" ref="elemList">
@@ -23,7 +16,6 @@
         </LoadableItemsContainer>
       </div>
 
-    </div>
   </div>
 </template>
 
@@ -78,63 +70,7 @@ export default {
 
 .searching-films {
   height: 100%;
-
-  &__header {
-    color: $color-text;
-    font-size: 16px;
-    padding: 15px 20px;
-    background: $color-bg-input;
-    position: relative;
-  }
-
-  &__title {
-    max-width: 500px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  &__close {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-
-    &:hover {
-      &:after, &:before {
-        background: $color-text-light;
-      }
-    }
-
-    &:after, &:before {
-      content: '';
-      display: block;
-      height: 2px;
-      width: 100%;
-      background: $color-text;
-      border-radius: 50px;
-      position: absolute;
-      left: 0;
-      top: 50%;
-    }
-
-    &:after {
-      transform: translateY(-50%) rotate(45deg);
-    }
-
-    &:before {
-      transform: translateY(-50%) rotate(-45deg);
-    }
-  }
-
-  &__body {
-    background: $color-bg-side;
-    padding: 20px;
-    height: 100%;
-  }
+  width: 100%;
 
   &__list {
     margin-top: 20px;

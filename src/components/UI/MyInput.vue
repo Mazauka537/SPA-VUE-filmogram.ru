@@ -27,6 +27,7 @@ export default {
   width: 100%;
   background: $color-bg-input;
   padding: 0 12px;
+  border-radius: 3px;
 
   &_with-icon {
     padding-left: 40px;

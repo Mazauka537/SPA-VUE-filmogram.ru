@@ -1,5 +1,5 @@
 <template>
-  <button class="my-button" :disabled="load || disabled">
+  <button class="my-button" :disabled="load || disabled" :class="{'my-button_white': white}">
       <slot></slot>
       <div class="my-button__spin" v-if="load">
         <svg width="100%" height="100%" viewBox="0 0 48 48">
@@ -15,7 +15,11 @@
 export default {
   props: {
     load: Boolean,
-    disabled: Boolean
+    disabled: Boolean,
+    white: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
@@ -25,13 +29,26 @@ export default {
 
 .my-button {
   position: relative;
-  background: $color-main;
   color: $color-text-light;
-  height: 35px;
-  width: 100%;
-  padding: 0;
-  cursor: pointer;
+  padding: 7px 15px;
   font-weight: 700;
+  font-size: 12px;
+  cursor: pointer;
+  border: 2px solid $color-text-light;
+  border-radius: 100px;
+  background: transparent;
+
+  &_white {
+    color: #000;
+    background: #FFF;
+    padding: 7px 28px;
+
+    .my-button__spin {
+      path {
+        fill: #000;
+      }
+    }
+  }
 
   &__spin {
     position: absolute;

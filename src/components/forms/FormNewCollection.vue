@@ -1,11 +1,18 @@
 <template>
   <form class="form-new-collection">
-    <div class="form-new-collection__title">Новая коллекция</div>
 
-    <MyInput type="text" placeholder="Название" v-model="form.title" style="margin-top: 30px;"/>
-    <MyTextarea placeholder="Описание" v-model="form.description" style="margin-top: 30px;"/>
+    <div class="form-new-collection__inputs">
+      <div class="form-new-collection__image">
+        <MyImageInput v-model="form.image"/>
+      </div>
+      <div class="form-new-collection__info">
+        <MyInput type="text" placeholder="Название" v-model="form.title"/>
+        <MyTextarea placeholder="Описание" v-model="form.description" style="margin-top: 15px; height: 130px;"/><!--
+   --></div>
+    </div>
 
-    <MyButton @click="form.submit" :load="form.isSending" style="margin-top: 30px; margin-bottom: 15px">Создать</MyButton>
+    <MyButton @click="form.submit" :load="form.isSending" :white="true" style="margin-top: 25px; width: 140px;">Создать
+    </MyButton>
 
   </form>
 </template>
@@ -17,9 +24,11 @@ import MyButton from "@/components/UI/MyButton";
 import useRequestMaker from "@/composables/useRequestMaker";
 import useForm from "@/composables/useForm";
 import {useRouter} from "vue-router/dist/vue-router";
+import MyImageInput from "@/components/UI/MyImageInput";
+import {ref} from "vue";
 
 export default {
-  components: {MyButton, MyTextarea, MyInput},
+  components: {MyImageInput, MyButton, MyTextarea, MyInput},
   setup() {
     const requestMaker = useRequestMaker()
     const router = useRouter()
@@ -27,7 +36,8 @@ export default {
     const createNewCollectionRequest = async () => {
       const response = await requestMaker.fetch('create/collection', 'POST', {
         title: form.title,
-        description: form.description
+        description: form.description,
+        image: form.image
       }, [200, 422, 401])
 
       switch (response.status) {
@@ -46,7 +56,8 @@ export default {
 
     const form = useForm({
       title: '',
-      description: ''
+      description: '',
+      image: ''
     }, createNewCollectionRequest)
 
     return {
@@ -57,15 +68,26 @@ export default {
 </script>
 
 <style scoped lang="scss">
+@import "src/assets/styles/vars";
 
-  .form-new-collection {
+.form-new-collection {
+  text-align: right;
+  width: 500px;
 
-    &__title {
-      text-align: center;
-      font-size: 16px;
-      font-weight: 600;
-      padding-top: 10px;
-    }
+  &__inputs {
+    text-align: left;
+    display: flex;
   }
+
+  &__image {
+    width: 180px;
+    height: 180px;
+  }
+
+  &__info {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+}
 
 </style>

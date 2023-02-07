@@ -7,7 +7,7 @@
                        @click="toggleSelect(collection.id)"/>
     </div>
     <div class="add-to-collections-block__save">
-      <MyButtonMini @click="$emit('save')">Сохранить</MyButtonMini>
+      <MyButton @click="$emit('save')">Сохранить</MyButton>
     </div>
   </div>
 </template>
@@ -19,10 +19,9 @@ import useRequestMaker from "@/composables/useRequestMaker";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import MyButton from "@/components/UI/MyButton";
-import MyButtonMini from "@/components/UI/MyButtonMini";
 
 export default {
-  components: {MyButtonMini, MyButton, CollectionCheck},
+  components: {MyButton, CollectionCheck},
   props: {
     filmId: Number
   },

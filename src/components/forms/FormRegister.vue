@@ -18,7 +18,8 @@
 
     <MyButton text="Sign Up"
               @click.prevent="form.submit"
-              style="margin-top: 45px"
+              style="margin-top: 45px; width: 100%;"
+              :white="true"
               :load="form.isSending"
               :disabled="form.name.length === 0 || form.login.length === 0 || form.email.length === 0 || form.password.length === 0">
       Зарегистрироваться
@@ -75,7 +76,7 @@ export default {
           localStorage.setItem('token', userData.token)
           store.commit('auth/setUser', userData.user)
 
-          router.push('/profile')
+          router.push('/user/' + userData.user.id)
           break;
         case 422:
           store.commit('notifications/addNotification', {

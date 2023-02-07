@@ -42,20 +42,20 @@
     </div>
 
     <div class="info-block-user__btns" v-if="$store.getters['auth/isOwner'](user.id)">
-      <MyButtonMini style="width: 100%;" @click="$emit('newCollection')">Создать коллекцию</MyButtonMini>
+      <MyButton style="width: 100%;" @click="$emit('newCollection')">Создать коллекцию</MyButton>
       <br>
-      <MyButtonMini style="width: 100%; margin-top: 5px" @click="$router.push('/logout')">Выйти с аккаунта
-      </MyButtonMini>
+      <MyButton style="width: 100%; margin-top: 5px" @click="$router.push('/logout')">Выйти с аккаунта
+      </MyButton>
     </div>
     <div class="info-block-user__btns" v-else>
-      <MyButtonMini @click="toggleSubscription(user)" :white="user.isSubscribed">
+      <MyButton @click="toggleSubscription(user)" :white="user.isSubscribed">
         <template v-if="user.isSubscribed">
           Отписаться
         </template>
         <template v-else>
           Подписаться
         </template>
-      </MyButtonMini>
+      </MyButton>
     </div>
 
     <LoadingPanel v-if="load"/>
@@ -64,13 +64,12 @@
 
 <script>
 import MyButton from "@/components/UI/MyButton";
-import MyButtonMini from "@/components/UI/MyButtonMini";
 import useEditNameInput from "@/composables/useEditNameInput";
 import useToggleSubscription from "@/composables/useToggleSubscription";
 import LoadingPanel from "@/components/LoadingPanel";
 
 export default {
-  components: {LoadingPanel, MyButtonMini, MyButton},
+  components: {LoadingPanel, MyButton},
   props: {
     user: Object,
     load: Boolean

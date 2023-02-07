@@ -16,7 +16,8 @@
               @click.prevent="form.submit"
               :load="form.isSending"
               :disabled="form.code.length === 0 || form.password.length === 0"
-              style="margin: 35px 0" >
+              style="margin-top: 35px; width: 100%;"
+              :white="true" >
       Сменить пароль
     </MyButton>
 

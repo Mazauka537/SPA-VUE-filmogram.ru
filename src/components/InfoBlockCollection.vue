@@ -14,18 +14,18 @@
       {{ collection.description }}
     </div>
     <div class="info-block-collection__delete" v-if="$store.getters['auth/isOwner'](collection.user_id)">
-      <MyButtonMini @click="$emit('edit')" style="width: 100px; margin-right: 20px;">Изменить</MyButtonMini>
-      <MyButtonMini @click="$emit('delete')" style="width: 100px">Удалить</MyButtonMini>
+      <MyButton @click="$emit('edit')" style="width: 100px; margin-right: 20px;">Изменить</MyButton>
+      <MyButton @click="$emit('delete')" style="width: 100px">Удалить</MyButton>
     </div>
   </div>
 </template>
 
 <script>
 import useFilmsCount from "@/composables/useFilmsCount";
-import MyButtonMini from "@/components/UI/MyButtonMini";
+import MyButton from "@/components/UI/MyButton";
 
 export default {
-  components: {MyButtonMini},
+  components: {MyButton},
   props: {
     collection: Object
   },

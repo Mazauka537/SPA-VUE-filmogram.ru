@@ -10,7 +10,12 @@
     <MyInput type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
              style="margin-top: 33px"/>
 
-    <MyButton text="Sign In" @click.prevent="form.submit" :load="form.isSending" style="margin-top: 35px">Отпраить
+    <MyButton text="Sign In"
+              @click.prevent="form.submit"
+              :load="form.isSending"
+              style="margin-top: 35px; width: 100%;"
+              :white="true">
+      Отпраить
     </MyButton>
 
     <div class="form-restore__login">

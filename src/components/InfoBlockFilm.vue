@@ -160,13 +160,12 @@
     <div class="info-block-film__delete"
          v-if="collection && $store.getters['auth/isOwner'](collection.user_id)"
          style="margin-top: 40px">
-      <MyButtonMini @click="$emit('delete')">Удалить</MyButtonMini>
+      <MyButton @click="$emit('delete')">Удалить</MyButton>
     </div>
   </div>
 </template>
 
 <script>
-import MyButtonMini from "@/components/UI/MyButtonMini";
 import MyButton from "@/components/UI/MyButton";
 import PersonsList from "@/components/PersonsList";
 import useFilmComputeds from "@/composables/useFilmComputeds";
@@ -174,7 +173,7 @@ import LoadingPanel from "@/components/LoadingPanel";
 import useFilmInfoComputeds from "@/composables/useFilmInfoComputeds";
 
 export default {
-  components: {LoadingPanel, PersonsList, MyButton, MyButtonMini},
+  components: {LoadingPanel, PersonsList, MyButton},
   props: {
     collection: Object,
     filmKp: Object

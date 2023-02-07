@@ -1,5 +1,5 @@
 <template>
-  <div class="user-block">
+  <router-link :to="'/user/' + user.id" class="user-block">
 
     <div class="user-block__avatar">
       <img :src="user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg'"
@@ -10,7 +10,7 @@
       {{ user.login }}
     </div>
 
-  </div>
+  </router-link>
 </template>
 
 <script>
