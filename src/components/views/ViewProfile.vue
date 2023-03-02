@@ -3,11 +3,12 @@
     <div class="view-profile">
       <div class="view-profile__header">
         <div class="view-profile__avatar">
-          <img :src="user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg'"
+          <img ref="elemAvatarImg"
+               :src="(user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg') + '?=1'"
                alt="avatar">
         </div>
         <div class="view-profile__user-info">
-          <div class="view-profile__user-name">{{ user.login }}</div>
+          <div class="view-profile__user-name">{{ user.name }}</div>
           <div class="view-profile__main-info">
             <router-link :to="'/user/' + user.id">{{ user.public_collections }} открытых коллекций</router-link>&nbsp;&bull;
             <router-link :to="'/user/' + user.id + '/subscribers'">{{ user.subscribers }} подписчиков</router-link>&nbsp;&bull;
@@ -36,11 +37,21 @@
           </button>
         </div>
 
-        <BlocksLine title="Открытые коллекции"
+        <BlocksLine :title="$store.getters['auth/isOwner'](user.id) ? 'Мои коллекции' : 'Открытые коллекции'"
                     style="margin-top: 30px;"
                     :link="'/user/' + user.id + '/collections'"
                     v-if="collections.length > 0">
           <template v-for="collection in collections">
+            <CollectionBlock :collection="collection"
+                             :class="'blocks-line__block'"/>
+          </template>
+        </BlocksLine>
+
+        <BlocksLine title="Сохраненные коллекции"
+                    style="margin-top: 30px;"
+                    :link="'/user/' + user.id + '/saves'"
+                    v-if="savedCollections.length > 0">
+          <template v-for="collection in savedCollections">
             <CollectionBlock :collection="collection"
                              :class="'blocks-line__block'"/>
           </template>
@@ -72,8 +83,8 @@
       <FormNewCollection style="margin-top: 30px;"/>
     </PopUp>
 
-    <PopUp :pop-up-controller="popUpChangeAvatar">
-      <FormEditUserData @avatarChanged="response => {changeAvatar(response); popUpChangeAvatar.hide()}"/>
+    <PopUp :pop-up-controller="popUpEditUserData" title="Данные профиля">
+      <FormEditUserData style="margin-top: 30px;" :user="user" @changed="onUserDataChanged"/>
     </PopUp>
 
   </SinglePage>
@@ -119,37 +130,47 @@ export default {
     const requestMaker = useRequestMaker()
     const route = useRoute()
     const popUpNewCollection = usePopUp()
-    const popUpChangeAvatar = usePopUp()
+    const popUpEditUserData = usePopUp()
     const {user, isUserLoading, getUser} = useGetUser()
     const {changeUserName, changeAvatar} = useEditUser(user)
     const {toggleSubscription} = useToggleSubscription()
 
     const moreBtnOptions = [{
-      text: 'Изменить сведения',
+      text: () => 'Изменить сведения',
       onClick: () => {
-        popUpChangeAvatar.show()
+        popUpEditUserData.show()
       }
     }]
 
     const collections = ref([])
+    const savedCollections = ref([])
     const subscribers = ref([])
     const subscriptions = ref([])
+    const elemAvatarImg = ref(undefined)
 
     watch(() => route.params.id, () => {
       user.value = undefined
       collections.value = []
+      savedCollections.value = []
       subscribers.value = []
       subscriptions.value = []
       getUser()
       getCollections()
+      getSavedCollections()
       getSubscribers()
       getSubscriptions()
     })
 
+    const onUserDataChanged = async () => {
+      await getUser()
+      elemAvatarImg.value.src += '1'
+      popUpEditUserData.hide()
+      console.log(elemAvatarImg.value)
+    }
+
     const getCollections = async () => {
       const response = await requestMaker.fetch('get/collections', 'GET', {
         user_id: route.params.id,
-        only_public: 1,
         page: 1
       }, [200, 422, 404])
 
@@ -157,7 +178,22 @@ export default {
         case 200:
           const responseData = await response.json()
           collections.value = responseData.items
-          collections.value.unshift(collections.value.pop())
+          if (collections.value.length > 0)
+            collections.value.unshift(collections.value.pop())
+          break;
+      }
+    }
+
+    const getSavedCollections = async () => {
+      const response = await requestMaker.fetch('get/saves', 'GET', {
+        user_id: route.params.id,
+        page: 1
+      }, [200, 422, 404])
+
+      switch (response.status) {
+        case 200:
+          const responseData = await response.json()
+          savedCollections.value = responseData.items
           break;
       }
     }
@@ -193,19 +229,23 @@ export default {
     onMounted(() => {
       getUser()
       getCollections()
+      getSavedCollections()
       getSubscribers()
       getSubscriptions()
     })
 
     return {
+      elemAvatarImg,
       moreBtnOptions,
       collections,
+      savedCollections,
       subscriptions,
       subscribers,
       user,
       isUserLoading,
       popUpNewCollection,
-      popUpChangeAvatar,
+      popUpEditUserData,
+      onUserDataChanged,
       changeUserName,
       changeAvatar,
       toggleSubscription,
@@ -237,6 +277,7 @@ export default {
       border-radius: 50%;
       height: 100%;
       width: 100%;
+      object-fit: cover;
       background: $color-bg-side;
     }
   }

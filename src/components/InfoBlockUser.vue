@@ -12,7 +12,7 @@
     </span>
 
     <div class="info-block-user__login">
-      @{{ user.login }}
+      @{{ user.name }}
     </div>
 
     <div class="info-block-user__name">

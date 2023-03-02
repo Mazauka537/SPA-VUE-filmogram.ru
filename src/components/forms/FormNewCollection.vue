@@ -26,12 +26,14 @@ import useForm from "@/composables/useForm";
 import {useRouter} from "vue-router/dist/vue-router";
 import MyImageInput from "@/components/UI/MyImageInput";
 import {ref} from "vue";
+import {useStore} from "vuex";
 
 export default {
   components: {MyImageInput, MyButton, MyTextarea, MyInput},
   setup() {
     const requestMaker = useRequestMaker()
     const router = useRouter()
+    const store = useStore()
 
     const createNewCollectionRequest = async () => {
       const response = await requestMaker.fetch('create/collection', 'POST', {
@@ -46,10 +48,14 @@ export default {
           router.push('/collection/' + responseData.id)
           break;
         case 422:
-
+          store.commit('notifications/addNotification', {
+            text: 'Введены не корректные данные, убедитесь что вы задали название коллекции и что изображение имеем формат png или jpeg'
+          })
           break;
         case 401:
-
+          store.commit('notifications/addNotification', {
+            text: 'Создавать коллекции могут только авторизированные пользователи'
+          })
           break;
       }
     }

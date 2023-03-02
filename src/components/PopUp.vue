@@ -55,7 +55,7 @@ export default {
     height: 100%;
     overflow: hidden;
     margin: 0 auto;
-    background: $color-bg-nav;
+    background: $color-bg-main;
     padding: 25px;
 
     &_center {
@@ -80,6 +80,7 @@ export default {
     color: $color-text-light;
     font-size: 20px;
     font-weight: 700;
+    padding-right: 30px;
   }
 
   &__close {

@@ -7,7 +7,7 @@
     </div>
 
     <div class="user-block__name">
-      {{ user.login }}
+      {{ user.name }}
     </div>
 
   </router-link>

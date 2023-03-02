@@ -1,25 +1,32 @@
 <template>
-  <label class="my-image-input">
-    <img class="my-image-input__image" :src="imagePreviewSrc ?? startingImageSrc ?? '/image.png'">
+  <div class="my-image-input">
+    <img class="my-image-input__image" :src="imagePreviewSrc ?? startingImage ?? '/image.png'">
 
     <div class="my-image-input__hover">
-      <span class="my-image-input__text">Выбрать фото</span>
+      <label class="my-image-input__btn" :class="{'my-image-input__btn_center': !isImageSelected}">
+        <span class="my-image-input__text">Выбрать фото</span>
+        <input class="my-image-input__input" ref="elemInput" type="file" accept="image/png,image/jpeg,image/gif" @input="updateInput">
+      </label>
+      <div class="my-image-input__btn" :class="{'my-image-input__btn_hidden': !isImageSelected}" @click="clearImage">
+        <span class="my-image-input__text">Удалить фото</span>
+      </div>
     </div>
 
-    <input class="my-image-input__input" type="file" accept="image/png,image/jpeg,image/gif" @input="updateInput">
-  </label>
+  </div>
 </template>
 
 <script>
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 
 export default {
   props: {
     startingImageSrc: String
   },
-  setup(_, {emit}) {
-
+  setup(props, {emit}) {
+    const isImageSelected = ref(!!props.startingImageSrc)
     const imagePreviewSrc = ref(undefined)
+    const startingImage = ref(props.startingImageSrc)
+    const elemInput = ref(undefined)
 
     const updateInput = e => {
       const file = e.target.files[0]
@@ -28,15 +35,28 @@ export default {
       fileReader.addEventListener('load', () => {
         emit('update:modelValue', fileReader.result)
         imagePreviewSrc.value = URL.createObjectURL(file)
+        isImageSelected.value = true
       })
 
       fileReader.readAsDataURL(file)
+    }
 
+    const clearImage = () => {
+      imagePreviewSrc.value = undefined
+      isImageSelected.value = false
+      startingImage.value = undefined
+      elemInput.value.value = null
+      emit('update:modelValue', undefined)
+      emit('clear')
     }
 
     return {
+      isImageSelected,
       imagePreviewSrc,
-      updateInput
+      startingImage,
+      updateInput,
+      clearImage,
+      elemInput
     }
   }
 }
@@ -47,7 +67,6 @@ export default {
 
 .my-image-input {
   cursor: pointer;
-  display: block;
   height: 100%;
   width: 100%;
   background: $color-bg-input;
@@ -77,14 +96,44 @@ export default {
     height: 100%;
     text-align: center;
     background: rgba($color-bg-nav, 0.5);
-    color: $color-text-light;
+    color: $color-text;
+  }
+
+  &__btn {
+    height: 50%;
+    position: relative;
+    display: block;
+
+    &_center {
+      height: 100%;
+
+      .my-image-input__text {
+        transform: translateY(-50%);
+      }
+    }
+
+    &_hidden {
+      display: none;
+    }
+
+    &:hover {
+      .my-image-input__text {
+        color: $color-text-light;
+      }
+    }
+
+    &:last-child {
+      .my-image-input__text {
+        transform: translateY(-100%);
+      }
+    }
   }
 
   &__text {
     position: absolute;
-    left: 50%;
+    width: 100%;
+    left: 0;
     top: 50%;
-    transform: translate(-50%, -50%);
   }
 
   &__input {

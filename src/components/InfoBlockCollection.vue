@@ -4,7 +4,7 @@
     <div class="info-block-collection__author">
       Автор:
       <router-link class="link" :to="'/user/' + collection.user_id">
-        @{{ collection.user.login }}
+        @{{ collection.user.name }}
       </router-link>
     </div>
     <div class="info-block-collection__films">

@@ -1,11 +1,21 @@
 <template>
   <form class="form-edit-collection">
-    <div class="form-edit-collection__title">Редактирование коллекции</div>
 
-    <MyInput type="text" placeholder="Название" v-model="form.title" style="margin-top: 30px;"/>
-    <MyTextarea placeholder="Описание" v-model="form.description" style="margin-top: 30px;"/>
+    <div class="form-edit-collection__inputs">
+      <div class="form-edit-collection__image">
+        <MyImageInput v-model="form.image"
+                      @clear="isImageDeleted = true"
+                      :starting-image-src="collection.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.image : undefined"/>
+      </div>
+      <div class="form-edit-collection__info">
+        <MyInput type="text" placeholder="Название" v-model="form.title"/>
+        <MyTextarea placeholder="Описание" v-model="form.description" style="margin-top: 15px; height: 130px;"/><!--
+   --></div>
+    </div>
 
-    <MyButton @click="form.submit" :load="form.isSending" style="margin-top: 30px; margin-bottom: 15px">Сохранить</MyButton>
+    <MyButton @click="form.submit" :load="form.isSending" :white="true" style="margin-top: 25px; width: 140px;">
+      Сохранить
+    </MyButton>
 
   </form>
 </template>
@@ -16,36 +26,55 @@ import MyTextarea from "@/components/UI/MyTextarea";
 import MyButton from "@/components/UI/MyButton";
 import useRequestMaker from "@/composables/useRequestMaker";
 import useForm from "@/composables/useForm";
+import MyImageInput from "@/components/UI/MyImageInput";
+import {ref} from "vue";
+import {useStore} from "vuex";
 
 export default {
-  components: {MyButton, MyTextarea, MyInput},
+  components: {MyImageInput, MyButton, MyTextarea, MyInput},
   props: {
     collection: Object
   },
   setup({collection}, {emit}) {
     const requestMaker = useRequestMaker()
+    const store = useStore()
 
     const createNewCollectionRequest = async () => {
       const response = await requestMaker.fetch('edit/collection', 'POST', {
         id: collection.id,
+        image: form.image,
         title: form.title,
-        description: form.description
-      }, [200, 422, 401])
+        description: form.description,
+        isImageDeleted: isImageDeleted.value
+      }, [200, 422, 403])
 
       switch (response.status) {
         case 200:
           const responseData = await response.json()
           emit('collectionEdited', responseData)
           break;
+        case 422:
+          store.commit('notifications/addNotification', {
+            text: 'Введены не корректные данные'
+          })
+          break;
+        case 403:
+          store.commit('notifications/addNotification', {
+            text: 'Только владелец коллекции может изменять её сведения'
+          })
+          break;
       }
     }
 
+    const isImageDeleted = ref(false)
     const form = useForm({
+      image: undefined,
       title: collection.title,
       description: collection.description
     }, createNewCollectionRequest)
 
     return {
+      isImageDeleted,
       form,
     }
   }
@@ -54,14 +83,24 @@ export default {
 
 <style scoped lang="scss">
 
-  .form-edit-collection {
+.form-edit-collection {
+  text-align: right;
+  width: 500px;
 
-    &__title {
-      text-align: center;
-      font-size: 16px;
-      font-weight: 600;
-      padding-top: 10px;
-    }
+  &__inputs {
+    text-align: left;
+    display: flex;
   }
+
+  &__image {
+    width: 180px;
+    height: 180px;
+  }
+
+  &__info {
+    flex-grow: 1;
+    margin-left: 15px;
+  }
+}
 
 </style>

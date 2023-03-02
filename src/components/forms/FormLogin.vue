@@ -4,7 +4,7 @@
       <MainLogo style="font-size: 60px"/>
     </div>
 
-    <MyInput type="text" placeholder="Email или Логин" icon-class="icon-person" v-model="form.login"
+    <MyInput type="text" placeholder="Email" icon-class="icon-person" v-model="form.email"
              style="margin-top: 33px"/>
     <MyInput type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
              style="margin-top: 40px"/>
@@ -18,7 +18,7 @@
               style="width: 100%;"
               :white="true"
               :load="form.isSending"
-              :disabled="form.login.length === 0 || form.password.length === 0">
+              :disabled="form.email.length === 0 || form.password.length === 0">
       Войти
     </MyButton>
 
@@ -61,7 +61,7 @@ export default {
 
     const loginRequest = async () => {
       let response = await requestMaker.fetch('login', 'POST', {
-        login: form.login,
+        email: form.email,
         password: form.password
       }, [200, 422, 404])
 
@@ -92,7 +92,7 @@ export default {
     }
 
     const form = useForm({
-      login: '',
+      email: '',
       password: '',
     }, loginRequest)
 

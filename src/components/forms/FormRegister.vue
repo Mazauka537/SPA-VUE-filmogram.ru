@@ -9,19 +9,17 @@
 
     <MyInput type="text" placeholder="Имя" icon-class="icon-person" v-model="form.name"
              style="margin-top: 33px"/>
-    <MyInput type="text" placeholder="Логин" icon-class="icon-person" v-model="form.login"
-             style="margin-top: 33px"/>
     <MyInput type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
-              style="margin-top: 40px"/>
+             style="margin-top: 40px"/>
     <MyInput type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
-              style="margin-top: 40px"/>
+             style="margin-top: 40px"/>
 
     <MyButton text="Sign Up"
               @click.prevent="form.submit"
               style="margin-top: 45px; width: 100%;"
               :white="true"
               :load="form.isSending"
-              :disabled="form.name.length === 0 || form.login.length === 0 || form.email.length === 0 || form.password.length === 0">
+              :disabled="form.name.length === 0 || form.email.length === 0 || form.password.length === 0">
       Зарегистрироваться
     </MyButton>
 
@@ -64,7 +62,6 @@ export default {
 
     const registerRequest = async () => {
       let response = await requestMaker.fetch('register', 'POST', {
-        login: form.login,
         name: form.name,
         email: form.email,
         password: form.password
@@ -84,23 +81,14 @@ export default {
           })
           break;
         case 406:
-          let responseData = await response.json()
-          if (responseData.taken.contain('login')) {
-            store.commit('notifications/addNotification', {
-              text: 'Данный логин уже занят'
-            })
-          }
-          if (responseData.taken.contain('email')) {
-            store.commit('notifications/addNotification', {
-              text: 'Данный Email уже занят'
-            })
-          }
+          store.commit('notifications/addNotification', {
+            text: 'Данный Email уже используется'
+          })
           break;
       }
     }
 
     const form = useForm({
-      login: '',
       name: '',
       email: '',
       password: ''
