@@ -4,7 +4,7 @@ export default function useFilmComputeds(props) {
 
   const genres = computed(() => {
     let genresStr = ''
-    props.filmKp.genres.forEach(genre => {
+    props.film.filmKp.genres.forEach(genre => {
       genresStr += genre.genre + ', '
     })
     return genresStr.slice(0, -2)
@@ -16,14 +16,14 @@ export default function useFilmComputeds(props) {
 
   const countries = computed(() => {
     let countriesStr = ''
-    props.filmKp.countries.forEach(country => {
+    props.film.filmKp.countries.forEach(country => {
       countriesStr += country.country + ', '
     })
     return countriesStr.slice(0, -2)
   })
 
   const type = computed(() => {
-    switch (props.filmKp.type) {
+    switch (props.film.filmKp.type) {
       case 'FILM':
         return 'Фильм'
       case 'TV_SERIES':
@@ -46,11 +46,11 @@ export default function useFilmComputeds(props) {
   }
 
   const rateColorKp = computed(() => {
-    return rateColor(props.filmKp.ratingKinopoisk)
+    return rateColor(props.film.filmKp.ratingKinopoisk)
   })
 
   const rateColorImdb = computed(() => {
-    return rateColor(props.filmKp.ratingImdb)
+    return rateColor(props.film.filmKp.ratingImdb)
   })
 
   return {

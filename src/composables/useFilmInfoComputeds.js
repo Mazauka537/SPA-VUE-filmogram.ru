@@ -13,7 +13,7 @@ export default function useFilmInfoComputeds(props) {
     return cashArr.join('')
   }
 
-  const _personsFilter = profession => props.filmKp.additionalInfo.persons.filter(person => person.enProfession === profession).slice(0, 7)
+  const _personsFilter = profession => props.film.filmKp.additionalInfo.persons.filter(person => person.enProfession === profession).slice(0, 7)
 
   const _computedTime = timeInMinutes => {
     if (!timeInMinutes) {
@@ -25,7 +25,7 @@ export default function useFilmInfoComputeds(props) {
   }
 
   const trailerUrl = computed(() => {
-    let trailer = props.filmKp.additionalInfo.videos.trailers.find(trailer => {
+    let trailer = props.film.filmKp.additionalInfo.videos.trailers.find(trailer => {
       return trailer.type === 'TRAILER' && trailer.site === 'youtube'
     })
 
@@ -33,34 +33,34 @@ export default function useFilmInfoComputeds(props) {
   })
 
   const episodesCount = computed(() => {
-    if (props.filmKp.additionalInfo.seasonsInfo.length === 0)
+    if (props.film.filmKp.additionalInfo.seasonsInfo.length === 0)
       return NaN
 
     let count = 0
-    props.filmKp.additionalInfo.seasonsInfo.forEach(seasonInfo => {
+    props.film.filmKp.additionalInfo.seasonsInfo.forEach(seasonInfo => {
       count += seasonInfo.episodesCount
     })
     return count
   })
 
   const seasonsCount = computed(() => {
-    return props.filmKp.additionalInfo.seasonsInfo.length !== 0 ? props.filmKp.additionalInfo.seasonsInfo.length : NaN
+    return props.film.filmKp.additionalInfo.seasonsInfo.length !== 0 ? props.film.filmKp.additionalInfo.seasonsInfo.length : NaN
   })
 
   const length = computed(() => {
-    return _computedTime(props.filmKp.filmLength)
+    return _computedTime(props.film.filmKp.filmLength)
   })
 
   const additionalLength = computed(() => {
-    return _computedTime(props.filmKp.additionalInfo.movieLength)
+    return _computedTime(props.film.filmKp.additionalInfo.movieLength)
   })
 
   const budget = computed(() => {
-    return _splitCash(props.filmKp.additionalInfo.budget.value) + props.filmKp.additionalInfo.budget?.currency
+    return _splitCash(props.film.filmKp.additionalInfo.budget.value) + props.film.filmKp.additionalInfo.budget?.currency
   })
 
   const fees = computed(() => {
-    return _splitCash(props.filmKp.additionalInfo.fees.world.value) + props.filmKp.additionalInfo.fees.world?.currency
+    return _splitCash(props.film.filmKp.additionalInfo.fees.world.value) + props.film.filmKp.additionalInfo.fees.world?.currency
   })
 
   const actors = computed(() => {

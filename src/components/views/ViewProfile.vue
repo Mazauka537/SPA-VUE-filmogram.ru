@@ -107,8 +107,8 @@ import useRequestMaker from "@/composables/useRequestMaker";
 import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
 import useToggleSubscription from "@/composables/useToggleSubscription";
-import MoreBtn from "@/components/MoreBtn";
-import ShareBtn from "@/components/ShareBtn";
+import MoreBtn from "@/components/UI/MoreBtn";
+import ShareBtn from "@/components/UI/ShareBtn";
 import FormEditUserData from "@/components/forms/FormEditUserData";
 
 export default {

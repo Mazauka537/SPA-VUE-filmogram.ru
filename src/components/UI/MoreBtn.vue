@@ -1,11 +1,11 @@
 <template>
-  <div class="more-btn" @click="showOptions" ref="elemMoreBtn">
+  <div class="more-btn" @pointerdown.stop="showOptions" ref="elemMoreBtn">
     <svg width="100%" height="100%" viewBox="0 0 768 768">
       <path
           d="M448 384c0-17.664-7.2-33.696-18.752-45.248s-27.584-18.752-45.248-18.752-33.696 7.2-45.248 18.752-18.752 27.584-18.752 45.248 7.2 33.696 18.752 45.248 27.584 18.752 45.248 18.752 33.696-7.2 45.248-18.752 18.752-27.584 18.752-45.248zM672 384c0-17.664-7.2-33.696-18.752-45.248s-27.584-18.752-45.248-18.752-33.696 7.2-45.248 18.752-18.752 27.584-18.752 45.248 7.2 33.696 18.752 45.248 27.584 18.752 45.248 18.752 33.696-7.2 45.248-18.752 18.752-27.584 18.752-45.248zM224 384c0-17.664-7.2-33.696-18.752-45.248s-27.584-18.752-45.248-18.752-33.696 7.2-45.248 18.752-18.752 27.584-18.752 45.248 7.2 33.696 18.752 45.248 27.584 18.752 45.248 18.752 33.696-7.2 45.248-18.752 18.752-27.584 18.752-45.248z"></path>
     </svg>
     <ul class="more-btn__options" v-if="isOptionsVisible">
-      <li class="more-btn__option" v-for="option in options" @click="option.onClick">{{ option.text() }}</li>
+      <li class="more-btn__option" v-for="option in options" @pointerdown="option.onClick">{{ option.text() }}</li>
     </ul>
   </div>
 </template>
@@ -46,7 +46,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/styles/vars";
+@import "../../assets/styles/vars";
 
 .more-btn {
   height: 100%;

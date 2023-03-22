@@ -2,19 +2,19 @@
   <div class="info-block-film">
 
     <div class="info-block-film__poster">
-      <img :src="filmKp.posterUrlPreview" alt="poster">
+      <img :src="film.filmKp.posterUrlPreview" alt="poster">
     </div>
 
     <div class="info-block-film__age">
-      {{ type }} <template v-if="filmKp.additionalInfo?.ageRating">{{ filmKp.additionalInfo.ageRating }}+</template>
+      {{ type }} <template v-if="film.filmKp.additionalInfo?.ageRating">{{ film.filmKp.additionalInfo.ageRating }}+</template>
     </div>
 
     <div class="info-block-film__name" style="margin-top: 5px">
-      {{ filmKp.nameRu }}
+      {{ film.filmKp.nameRu }}
     </div>
 
     <div class="info-block-film__original-name">
-      {{ filmKp.nameOriginal }}
+      {{ film.filmKp.nameOriginal }}
     </div>
 
     <div class="info-block-film__splitted" style="margin-top: 10px">
@@ -22,7 +22,7 @@
         Год:
       </div>
       <div class="info-block-film__splitted-right">
-        {{ filmKp.year }}
+        {{ film.filmKp.year }}
       </div>
     </div>
 
@@ -31,7 +31,7 @@
         Время:
       </div>
       <div class="info-block-film__splitted-right"
-           v-if="filmKp.additionalInfo && filmKp.additionalInfo !== 'loading...' && filmKp.additionalInfo !== '404'">
+           v-if="film.filmKp.additionalInfo && film.filmKp.additionalInfo !== 'loading...' && film.filmKp.additionalInfo !== '404'">
         {{ additionalLength }}
       </div>
       <div class="info-block-film__splitted-right"
@@ -58,19 +58,19 @@
     </div>
 
     <div class="info-block-film__load-more"
-         v-if="(!filmKp.additionalInfo && filmKp.additionalInfo !== '404') || filmKp.additionalInfo === 'loading...'"
+         v-if="(!film.filmKp.additionalInfo && film.filmKp.additionalInfo !== '404') || film.filmKp.additionalInfo === 'loading...'"
          style="margin-top: 20px">
-      <span class="info-block-film__more link" @click="$emit('loadMoreInfo', filmKp.kinopoiskId)"
-            v-if="filmKp.additionalInfo !== 'loading...'">
+      <span class="info-block-film__more link" @click="$emit('loadMoreInfo', film.filmKp.kinopoiskId)"
+            v-if="film.filmKp.additionalInfo !== 'loading...'">
         Больше информации
       </span>
-      <span class="info-block-film__loading" v-if="filmKp.additionalInfo === 'loading...'">
+      <span class="info-block-film__loading" v-if="film.filmKp.additionalInfo === 'loading...'">
         <LoadingPanel :size="30" :transparent="true"/>
       </span>
     </div>
 
     <div class="info-block-film__additional-info"
-         v-if="filmKp.additionalInfo && filmKp.additionalInfo !== 'loading...' && filmKp.additionalInfo !== '404'">
+         v-if="film.filmKp.additionalInfo && film.filmKp.additionalInfo !== 'loading...' && film.filmKp.additionalInfo !== '404'">
 
       <div class="info-block-film__splitted">
         <div class="info-block-film__splitted-left">
@@ -149,10 +149,10 @@
     </div>
 
     <div class="info-block-film__desc" style="margin-top: 20px">
-      {{ filmKp.description ?? filmKp.additionalInfo?.description }}
+      {{ film.filmKp.description ?? film.filmKp.additionalInfo?.description }}
     </div>
     <div class="info-block-film__link link" style="margin-top: 20px">
-      <a :href="filmKp.webUrl">
+      <a :href="film.filmKp.webUrl">
         Смотреть на Kinopoisk.ru
       </a>
     </div>
@@ -176,7 +176,7 @@ export default {
   components: {LoadingPanel, PersonsList, MyButton},
   props: {
     collection: Object,
-    filmKp: Object
+    film: Object
   },
   setup(props) {
     const {genresList, countries, type} = useFilmComputeds(props)

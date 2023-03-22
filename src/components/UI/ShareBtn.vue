@@ -33,7 +33,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/styles/vars";
+@import "../../assets/styles/vars";
 
 .share-btn {
   height: 100%;

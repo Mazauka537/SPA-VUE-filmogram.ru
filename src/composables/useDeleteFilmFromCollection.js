@@ -13,11 +13,13 @@ export default function useDeleteFilmFromCollection(collection, collectedFilmsLo
       return filmBlock.dataset.filmId === film.id.toString()
     })
 
-    deletingFilmBlock.style.height = deletingFilmBlock.offsetHeight + 'px'
+    deletingFilmBlock.style.height = (deletingFilmBlock.offsetHeight + 10) + 'px'
+    deletingFilmBlock.style.transition = 'all 0.2s'
+    deletingFilmBlock.style.overflow = 'hidden'
 
     setTimeout(() => {
-      deletingFilmBlock.style.height = 0;
-    }, 20)
+      deletingFilmBlock.style.height = 0
+    }, 300)
 
     deletingFilmBlock.ontransitionend = () => {
       collection.value.films_count = collection.value.films_count - 1

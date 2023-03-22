@@ -12,8 +12,14 @@
     <div class="film-table__year">
       <slot name="year"></slot>
     </div>
+    <div class="film-table__save">
+      <slot name="save"></slot>
+    </div>
     <div class="film-table__rate">
       <slot name="rate"></slot>
+    </div>
+    <div class="film-table__more">
+      <slot name="more"></slot>
     </div>
     <div class="film-table__grab">
       <slot name="grab"></slot>
@@ -56,9 +62,17 @@ export default {
     padding-right: 10px;
   }
 
+  &__save {
+    width: 50px;
+  }
+
   &__rate {
     width: 100px;
     text-align: right;
+  }
+
+  &__more {
+    width: 50px;
   }
 
   &__grab {

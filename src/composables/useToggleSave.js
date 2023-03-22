@@ -12,7 +12,7 @@ export default function useToggleSave() {
       collection_id: collection.id
     }, [201, 200, 404, 422, 401])
 
-    if (response.status !== 200 || response.status !== 201) {
+    if (response.status !== 200 && response.status !== 201) {
       collection.isInSaves = !collection.isInSaves
     }
 

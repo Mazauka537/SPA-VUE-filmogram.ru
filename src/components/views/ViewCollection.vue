@@ -25,7 +25,10 @@
 
             </div>
             <div class="view-collection__info">
-              <div class="view-collection__open">{{ collection.public ? 'Открытая коллеция' : 'Закрытая коллекция' }}</div>
+              <div class="view-collection__open">{{
+                  collection.public ? 'Открытая коллеция' : 'Закрытая коллекция'
+                }}
+              </div>
               <div class="view-collection__name" @click="selectedFilm = undefined">{{ collection.title }}</div>
               <div class="view-collection__main-info">
                 <router-link :to="'/user/' + collection.user_id" class="view-collection__owner">
@@ -51,12 +54,8 @@
               </MyButton>
               <button class="view-collection__save-btn"
                       v-if="!$store.getters['auth/isOwner'](collection.user.id)"
-                      :class="{'view-collection__save-btn_active': collection.isInSaves}"
                       @click="toggleSave(collection)">
-                <svg width="100%" height="100%" viewBox="0 0 768 768">
-                  <path
-                      d="M384 640c-6.24 0-12.512-1.824-17.952-5.504-7.2-4.832-176.256-119.36-228.672-171.872-58.592-58.592-65.376-120.864-65.376-162.624 0-94.848 77.152-172 172-172 57.664 0 108.736 28.512 140 72.192 31.264-43.68 82.336-72.192 140-72.192 94.848 0 172 77.152 172 172 0 41.76-6.784 104.032-65.376 162.624-52.512 52.512-221.536 167.040-228.672 171.872-5.44 3.68-11.712 5.504-17.952 5.504zM244 192c-59.552 0-108 48.448-108 108 0 34.976 5.536 76.288 46.624 117.376 38.784 38.784 156.256 120.8 201.376 151.872 45.12-31.072 162.592-113.088 201.376-151.872 41.088-41.088 46.624-82.4 46.624-117.376 0-59.552-48.448-108-108-108s-108 48.448-108 108c0 17.664-14.304 32-32 32s-32-14.336-32-32c0-59.552-48.448-108-108-108z"></path>
-                </svg>
+                <SaveBtn :active="collection.isInSaves"/>
               </button>
               <button class="view-collection__share-btn">
                 <ShareBtn :link="window.location.origin + '/collection/' + collection.id"/>
@@ -72,9 +71,12 @@
               <DragContainer @drop="changeOrder" :disable="!$store.getters['auth/isOwner'](collection.user_id)">
                 <DragBlock v-for="(film, index) in sortedFilms" :key="film.id">
                   <div class="view-collection__film-block-wrapper" ref="filmBlocks" :data-film-id="film.id">
-                    <FilmBlock :film-kp="film.filmKp"
+                    <FilmBlock :film="film"
+                               style="margin: 5px 0"
                                :number="index + 1"
+                               @save="toggleFavorite"
                                @pointerdown="setSelectedFilm(film)"
+                               @delete="deleteFilm(film)"
                                @addToCollection="addingToCollectionFilmId = film.filmKp.kinopoiskId; popUpAddToCollections.show()"/>
                   </div>
                 </DragBlock>
@@ -86,9 +88,8 @@
 
       <template #right>
         <InfoBlockFilm v-if="selectedFilm"
-                       :film-kp="selectedFilm.filmKp"
+                       :film="selectedFilm"
                        :collection="collection"
-                       @delete="() => deleteFilm(selectedFilm)"
                        @loadMoreInfo="loadMoreFilmInfo"/>
         <InfoBlockCollection v-else
                              :collection="collection"
@@ -147,13 +148,16 @@ import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections
 import SplitPage from "@/components/views/SplitPage";
 import FilmTable from "@/components/FilmTable";
 import FilmTableHead from "@/components/FilmTableHead";
-import MoreBtn from "@/components/MoreBtn";
-import ShareBtn from "@/components/ShareBtn";
+import MoreBtn from "@/components/UI/MoreBtn";
+import ShareBtn from "@/components/UI/ShareBtn";
 import useToggleCollectionPublic from "@/composables/useToggleCollectionPublic";
 import useToggleSave from "@/composables/useToggleSave";
+import SaveBtn from "@/components/UI/SaveBtn";
+import useToggleFavorite from "@/composables/useToggleFavorite";
 
 export default {
   components: {
+    SaveBtn,
     ShareBtn,
     MoreBtn,
     FilmTableHead,
@@ -204,6 +208,7 @@ export default {
       }
     }]
 
+
     const collectionEdited = (newCollection) => {
       collection.value = newCollection
       popUpEditCollection.hide()
@@ -229,6 +234,7 @@ export default {
     const {changeOrder} = useChangeFilmOrder(sortedFilms)
     const {toggleCollectionPublic} = useToggleCollectionPublic()
     const {toggleSave} = useToggleSave()
+    const {toggleFavorite} = useToggleFavorite()
     const {
       currentCollectionChanged,
       addingToCollectionFilmId,
@@ -261,6 +267,7 @@ export default {
       collectionEdited,
       currentCollectionChanged,
       toggleSave,
+      toggleFavorite,
       filmBlocks,
       setSelectedFilm,
       loadMoreFilmInfo,
@@ -400,7 +407,7 @@ export default {
   }
 
   &__film-block-wrapper {
-    padding: 5px 0;
+
   }
 }
 </style>

@@ -7,14 +7,14 @@
       <template #name>
         <div class="film-block__name-section">
           <div class="film-block__poster">
-            <img :src="filmKp.posterUrlPreview" alt="poster">
+            <img :src="film.filmKp.posterUrlPreview" alt="poster">
           </div>
           <div class="film-block__main-info">
             <div class="film-block__name">
-              {{ filmKp.nameRu ?? filmKp.nameOriginal }}
+              {{ film.filmKp.nameRu ?? film.filmKp.nameOriginal }}
             </div>
             <div class="film-block__original-name">
-              {{ filmKp.nameOriginal }}
+              {{ film.filmKp.nameOriginal }}
             </div>
             <div class="film-block__type">
               тип: {{ type }}
@@ -33,20 +33,32 @@
       </template>
 
       <template #year>
-        <div class="film-block__genres">
-          {{ filmKp.year }}
+        <div class="film-block__year">
+          {{ film.filmKp.year }}
+        </div>
+      </template>
+
+      <template #save>
+        <div class="film-block__save">
+          <SaveBtn :active="film.isInFavorite" @pointerdown.stop="$emit('save', film)"/>
         </div>
       </template>
 
       <template #rate>
         <div class="film-block__rates">
-          <div class="film-block__rate" :class="'film-block__rate_' + rateColorKp" v-if="filmKp.ratingKinopoisk">
-            <sup>КП</sup>{{ filmKp.ratingKinopoisk }}
+          <div class="film-block__rate" :class="'film-block__rate_' + rateColorKp" v-if="film.filmKp.ratingKinopoisk">
+            <sup>КП</sup>{{ film.filmKp.ratingKinopoisk }}
           </div>
           <div class="film-block__rate" style="margin-top: 10px;" :class="'film-block__rate_' + rateColorImdb"
-               v-if="filmKp.ratingImdb">
-            <sup>IMDb</sup>{{ filmKp.ratingImdb }}
+               v-if="film.filmKp.ratingImdb">
+            <sup>IMDb</sup>{{ film.filmKp.ratingImdb }}
           </div>
+        </div>
+      </template>
+
+      <template #more>
+        <div class="film-block__more">
+          <MoreBtn :options="moreBtnOptions"/>
         </div>
       </template>
     </FilmTable>
@@ -57,24 +69,39 @@
 <script>
 import useFilmComputeds from "@/composables/useFilmComputeds";
 import FilmTable from "@/components/FilmTable";
+import SaveBtn from "@/components/UI/SaveBtn";
+import MoreBtn from "@/components/UI/MoreBtn";
 
 export default {
-  components: {FilmTable},
+  components: {MoreBtn, SaveBtn, FilmTable},
 
   props: {
     number: Number,
-    filmKp: Object
+    film: Object
   },
-  setup(props) {
+  setup(props, {emit}) {
 
     const {genres, countries, type, rateColorKp, rateColorImdb} = useFilmComputeds(props)
+
+    const moreBtnOptions = [{
+      text: () => 'удалить из коллекции',
+      onClick: () => {
+        emit('delete')
+      }
+    }, {
+      text: () => 'добавить в коллекцию',
+      onClick: () => {
+        emit('addToCollection')
+      }
+    }]
 
     return {
       genres,
       countries,
       type,
       rateColorKp,
-      rateColorImdb
+      rateColorImdb,
+      moreBtnOptions
     }
   }
 }
@@ -134,6 +161,11 @@ export default {
     font-size: 12px;
   }
 
+  &__save {
+    height: 25px;
+    width: 25px;
+  }
+
   &__rate {
     font-size: 18px;
     font-weight: 700;
@@ -160,6 +192,12 @@ export default {
       color: $color-text;
       padding-right: 3px;
     }
+  }
+
+  &__more {
+    height: 25px;
+    width: 45px;
+    padding-left: 20px;
   }
 }
 </style>
