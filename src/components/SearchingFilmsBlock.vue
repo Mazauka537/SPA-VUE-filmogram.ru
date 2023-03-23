@@ -10,7 +10,7 @@
               <MyCheckbox :checked="film.isInCollection"/>
             </div>
             <div class="searching-films__film-block">
-              <FilmBlockMini :film-kp="film"/>
+              <FilmBlockMini :film-kp="film" @save="toggleFavorite" style="padding: 10px 10px 10px 0;"/>
             </div>
           </div>
         </LoadableItemsContainer>
@@ -29,6 +29,7 @@ import useFilmsLoader from "@/composables/useFilmsLoader";
 import FilmBlockMini from "@/components/FilmBlockMini";
 import {onMounted, ref} from "vue";
 import SimpleScrollbar from "simple-scrollbar";
+import useToggleFavorite from "@/composables/useToggleFavorite";
 
 export default {
   components: {FilmBlockMini, MyCheckbox, LoadableItemsContainer, MySearchInput},
@@ -50,6 +51,7 @@ export default {
       }, [201, 200, 401, 403, 422])
     }
 
+    const {toggleFavorite} = useToggleFavorite()
 
     onMounted(() => {
       SimpleScrollbar.initEl(elemList.value)
@@ -60,6 +62,7 @@ export default {
       searchString,
       filmsLoader,
       toggleFilm,
+      toggleFavorite
     }
   }
 }
@@ -80,7 +83,7 @@ export default {
   }
 
   &__film {
-    padding: 10px;
+    padding: 0 0 0 10px;
     display: flex;
     align-items: center;
     justify-content: stretch;

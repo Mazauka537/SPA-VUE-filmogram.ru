@@ -1,7 +1,9 @@
 <template>
   <div class="add-to-collections-block">
-    <div class="add-to-collections-block__header">Добавить в коллекцию</div>
-    <div class="add-to-collections-block__list">
+    <div class="add-to-collections-block__load" v-if="isCollectionsLoading">
+      <LoadingPanel :size="45"/>
+    </div>
+    <div class="add-to-collections-block__list" v-else>
       <CollectionCheck v-for="collection in collections"
                        :collection="collection"
                        @click="toggleSelect(collection.id)"/>
@@ -19,19 +21,21 @@ import useRequestMaker from "@/composables/useRequestMaker";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import MyButton from "@/components/UI/MyButton";
+import LoadingPanel from "@/components/LoadingPanel";
 
 export default {
-  components: {MyButton, CollectionCheck},
+  components: {LoadingPanel, MyButton, CollectionCheck},
   props: {
-    filmId: Number
+    film: Object
   },
-  setup({filmId}, {emit}) {
+  setup({film}, {emit}) {
     const loadCollections = async () => {
       const response = await requestMaker.fetch('get/all/collections', 'GET', {
         user_id: store.state.auth.user.id,
-        film_id: filmId
+        film_id: film.film_id
       }, [200])
 
+      isCollectionsLoading.value = false
       collections.value = await response.json()
     }
 
@@ -48,13 +52,20 @@ export default {
         emit('currentCollectionChanged')
       }
 
-      const response = await requestMaker.fetch('toggle/film', 'POST', {
-        collection_id: toggledCollection.id,
-        film_id: filmId
-      }, [201, 200])
+      if (toggledCollection.constant) {
+        emit('favoriteCollectionChanged', film)
+      }
+
+      if (!toggledCollection.constant) {
+        const response = await requestMaker.fetch('toggle/film', 'POST', {
+          collection_id: toggledCollection.id,
+          film_id: film.film_id
+        }, [201, 200])
+      }
     }
 
     const collections = ref([])
+    const isCollectionsLoading = ref(true)
 
     const requestMaker = useRequestMaker()
     const store = useStore()
@@ -65,6 +76,7 @@ export default {
     })
 
     return {
+      isCollectionsLoading,
       collections,
       toggleSelect
     }
@@ -76,10 +88,10 @@ export default {
 @import "src/assets/styles/vars";
 
 .add-to-collections-block {
+  padding-top: 10px;
 
-  &__header {
-    font-weight: 700;
-    padding-bottom: 20px;
+  &__load {
+    padding: 30px;
   }
 
   &__save {

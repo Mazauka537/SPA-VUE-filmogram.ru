@@ -63,11 +63,11 @@ export default {
   }
 
   &__save {
-    width: 50px;
+    width: 40px;
   }
 
   &__rate {
-    width: 100px;
+    width: 50px;
     text-align: right;
   }
 

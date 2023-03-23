@@ -9,7 +9,7 @@ export default function useToggleFavorite() {
     film.isInFavorite = !film.isInFavorite
 
     const response = await requestMaker.fetch('toggle/favorite', 'POST', {
-      film_id: film.filmKp.kinopoiskId
+      film_id: film.filmKp ? film.filmKp.kinopoiskId : film.kinopoiskId
     }, [201, 200, 404, 422, 401])
 
     if (response.status !== 200 && response.status !== 201) {

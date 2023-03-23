@@ -2,7 +2,6 @@
   <div class="collection-check">
     <div class="collection-check__name">
       {{ collection.title }}
-      <span class="collection-check__films-count">{{ collection.films_count }}</span>
     </div>
     <div class="collection-check__checkbox">
       <MyCheckbox :checked="collection.isFilmAdded"/>
@@ -26,14 +25,10 @@ export default {
 .collection-check {
   display: flex;
   justify-content: space-between;
-  padding: 20px 0;
+  padding: 15px 0;
 
   &__name {
 
-  }
-
-  &__films-count {
-    font-size: 14px;
   }
 
   &__checkbox {

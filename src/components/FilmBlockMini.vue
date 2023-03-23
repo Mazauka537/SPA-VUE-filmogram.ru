@@ -13,6 +13,10 @@
       </div>
     </div>
 
+    <div class="film-block-mini__save" :class="{'film-block-mini__save_visible': filmKp.isInFavorite}">
+      <SaveBtn :active="filmKp.isInFavorite" @click.stop="$emit('save', filmKp)"/>
+    </div>
+
     <div class="film-block-mini__year">
       {{ filmKp.year }}
     </div>
@@ -22,7 +26,9 @@
 
 <script>
 
+import SaveBtn from "@/components/UI/SaveBtn";
 export default {
+  components: {SaveBtn},
   props: {
     filmKp: Object
   },
@@ -41,6 +47,15 @@ export default {
   justify-content: stretch;
   align-items: center;
   flex-wrap: nowrap;
+
+  &:hover {
+    .film-block-mini {
+
+      &__save {
+        opacity: 1;
+      }
+    }
+  }
 
   &__poster {
     width: 60px;
@@ -75,6 +90,17 @@ export default {
     margin-top: 3px;
     color: $color-text-light;
     font-weight: 300;
+  }
+
+  &__save {
+    padding: 0 15px;
+    height: 20px;
+    width: 50px;
+    opacity: 0;
+
+    &_visible {
+      opacity: 1;
+    }
   }
 }
 </style>

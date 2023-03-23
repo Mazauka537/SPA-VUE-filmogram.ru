@@ -77,7 +77,7 @@
                                @save="toggleFavorite"
                                @pointerdown="setSelectedFilm(film)"
                                @delete="deleteFilm(film)"
-                               @addToCollection="addingToCollectionFilmId = film.filmKp.kinopoiskId; popUpAddToCollections.show()"/>
+                               @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
                   </div>
                 </DragBlock>
               </DragContainer>
@@ -109,9 +109,10 @@
           @no="popUpDeleteCollection.hide"/>
     </PopUp>
 
-    <PopUp :pop-up-controller="popUpAddToCollections">
-      <AddToCollectionsBlock :film-id="addingToCollectionFilmId"
+    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">
+      <AddToCollectionsBlock :film="addingToCollectionFilm"
                              @currentCollectionChanged="currentCollectionChanged"
+                             @favoriteCollectionChanged="favoriteCollectionChanged"
                              @save="popUpAddToCollections.hide"/>
     </PopUp>
 
@@ -144,7 +145,6 @@ import FilmBlock from "@/components/FilmBlock";
 import FormEditCollection from "@/components/forms/FormEditCollection";
 import useLoadMoreFilmInfoMyDB from "@/composables/useLoadMoreFilmInfoMyDB";
 import AddToCollectionsBlock from "@/components/AddToCollectionsBlock";
-import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections";
 import SplitPage from "@/components/views/SplitPage";
 import FilmTable from "@/components/FilmTable";
 import FilmTableHead from "@/components/FilmTableHead";
@@ -190,6 +190,7 @@ export default {
     const collection = ref(undefined)
     const selectedFilm = ref(undefined)
     const filmBlocks = ref(undefined)
+    const addingToCollectionFilm = ref(undefined)
 
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
@@ -222,6 +223,17 @@ export default {
       selectedFilm.value = film
     }
 
+    const currentCollectionChanged = () => {
+      popUpAddToCollections.onHide = () => {
+        collectedFilmsLoader.reset()
+        popUpAddToCollections.onHide = undefined
+      }
+    }
+
+    const favoriteCollectionChanged = (film) => {
+      toggleFavorite(film)
+    }
+
     const route = useRoute()
     const requestMaker = useRequestMaker()
     const {collectedFilmsLoader} = useCollectedFilmsLoader(collection)
@@ -235,11 +247,7 @@ export default {
     const {toggleCollectionPublic} = useToggleCollectionPublic()
     const {toggleSave} = useToggleSave()
     const {toggleFavorite} = useToggleFavorite()
-    const {
-      currentCollectionChanged,
-      addingToCollectionFilmId,
-      popUpAddToCollections
-    } = useAddingFilmToCollections(collectedFilmsLoader)
+    const popUpAddToCollections = usePopUp()
 
     watch(() => route.params.id, async () => {
       getCollection()
@@ -254,7 +262,7 @@ export default {
       moreBtnOptions,
       collection,
       selectedFilm,
-      addingToCollectionFilmId,
+      addingToCollectionFilm,
       collectedFilmsLoader,
       popUpAddFilms,
       popUpDeleteCollection,
@@ -266,6 +274,7 @@ export default {
       deleteCollection,
       collectionEdited,
       currentCollectionChanged,
+      favoriteCollectionChanged,
       toggleSave,
       toggleFavorite,
       filmBlocks,

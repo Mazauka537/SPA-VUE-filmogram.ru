@@ -39,7 +39,7 @@
       </template>
 
       <template #save>
-        <div class="film-block__save">
+        <div class="film-block__save" :class="{'film-block__save_visible': film.isInFavorite}">
           <SaveBtn :active="film.isInFavorite" @pointerdown.stop="$emit('save', film)"/>
         </div>
       </template>
@@ -112,6 +112,15 @@ export default {
 
 .film-block {
 
+  &:hover {
+    .film-block {
+
+      &__save, &__more {
+        opacity: 1;
+      }
+    }
+  }
+
   &__name-section {
     display: flex;
     justify-content: stretch;
@@ -164,6 +173,11 @@ export default {
   &__save {
     height: 25px;
     width: 25px;
+    opacity: 0;
+
+    &_visible {
+      opacity: 1;
+    }
   }
 
   &__rate {
@@ -198,6 +212,7 @@ export default {
     height: 25px;
     width: 45px;
     padding-left: 20px;
+    opacity: 0;
   }
 }
 </style>
