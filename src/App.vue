@@ -22,14 +22,12 @@
 import SimpleScrollbar from 'simple-scrollbar'
 import {onMounted, ref} from "vue";
 import MainNav from "@/components/MainNav";
-import MainHeader from "@/components/MainHeader";
 import ViewAuth from "@/components/views/ViewAuth";
 import NotificationBlock from "@/components/NotificationBlock";
 import NotificationContainer from "@/components/NotificationContainer";
-import {useStore} from "vuex";
 
 export default {
-  components: {NotificationContainer, NotificationBlock, ViewAuth, MainHeader, MainNav},
+  components: {NotificationContainer, NotificationBlock, ViewAuth, MainNav},
   props: [],
   setup() {
     const elemNav = ref()

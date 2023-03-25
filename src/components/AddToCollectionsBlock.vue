@@ -16,12 +16,13 @@
 
 <script>
 import CollectionCheck from "@/components/CollectionCheck";
-import {onMounted, ref} from "vue";
-import useRequestMaker from "@/composables/useRequestMaker";
+import {onMounted} from "vue";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import MyButton from "@/components/UI/MyButton";
 import LoadingPanel from "@/components/LoadingPanel";
+import useToggleFilm from "@/composables/useToggleFilm";
+import useLoadAllCollections from "@/composables/useLoadAllCollections";
 
 export default {
   components: {LoadingPanel, MyButton, CollectionCheck},
@@ -29,16 +30,6 @@ export default {
     film: Object
   },
   setup({film}, {emit}) {
-    const loadCollections = async () => {
-      const response = await requestMaker.fetch('get/all/collections', 'GET', {
-        user_id: store.state.auth.user.id,
-        film_id: film.film_id
-      }, [200])
-
-      isCollectionsLoading.value = false
-      collections.value = await response.json()
-    }
-
     const toggleSelect = async collectionId => {
       const toggledCollection = collections.value.find(collection => collection.id === collectionId)
       toggledCollection.isFilmAdded = !toggledCollection.isFilmAdded
@@ -57,22 +48,17 @@ export default {
       }
 
       if (!toggledCollection.constant) {
-        const response = await requestMaker.fetch('toggle/film', 'POST', {
-          collection_id: toggledCollection.id,
-          film_id: film.film_id
-        }, [201, 200])
+        toggleFilm(toggledCollection.id, film)
       }
     }
 
-    const collections = ref([])
-    const isCollectionsLoading = ref(true)
-
-    const requestMaker = useRequestMaker()
     const store = useStore()
     const route = useRoute()
+    const {toggleFilm} = useToggleFilm()
+    const {collections, isCollectionsLoading, loadCollections} = useLoadAllCollections()
 
     onMounted(() => {
-      loadCollections()
+      loadCollections(store.state.auth.user.id, film.film_id)
     })
 
     return {

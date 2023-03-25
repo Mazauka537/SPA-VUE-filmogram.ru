@@ -70,7 +70,7 @@
             <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;">
               <DragContainer @drop="changeOrder" :disable="!$store.getters['auth/isOwner'](collection.user_id)">
                 <DragBlock v-for="(film, index) in sortedFilms" :key="film.id">
-                  <div class="view-collection__film-block-wrapper" ref="filmBlocks" :data-film-id="film.id">
+                  <div class="view-collection__film-block-wrapper" ref="elemsFilmBlocks" :data-film-id="film.id">
                     <FilmBlock :film="film"
                                style="margin: 5px 0"
                                :number="index + 1"
@@ -130,14 +130,12 @@ import SearchingFilmsBlock from "@/components/SearchingFilmsBlock";
 import DragBlock from "@/components/DragBlock";
 import DragContainer from "@/components/DragContainer";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
-import useRequestMaker from "@/composables/useRequestMaker";
 import usePopUp from "@/composables/usePopUp";
 import {ref, computed, onMounted, watch} from "vue";
 import {useRoute} from "vue-router";
 import InfoBlockCollection from "@/components/InfoBlockCollection";
 import InfoBlockFilm from "@/components/InfoBlockFilm";
 import DialogConfirm from "@/components/DialogConfirm";
-import useCollectedFilmsLoader from "@/composables/useCollectedFilmsLoader";
 import useDeleteFilmFromCollection from "@/composables/useDeleteFilmFromCollection";
 import useDeleteCollection from "@/composables/useDeleteCollection";
 import useChangeFilmOrder from "@/composables/useChangeFilmOrder";
@@ -154,6 +152,10 @@ import useToggleCollectionPublic from "@/composables/useToggleCollectionPublic";
 import useToggleSave from "@/composables/useToggleSave";
 import SaveBtn from "@/components/UI/SaveBtn";
 import useToggleFavorite from "@/composables/useToggleFavorite";
+import useGetCollection from "@/composables/useGetCollection";
+import useFilmSelection from "@/composables/useFilmSelection";
+import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections";
+import useEditCollection from "@/composables/useEditCollection";
 
 export default {
   components: {
@@ -171,26 +173,29 @@ export default {
     FilmBlock, DragContainer, DragBlock, SearchingFilmsBlock, PopUp, MyButton, LoadableItemsContainer
   },
   setup() {
-    const getCollection = async () => {
-      const response = await requestMaker.fetch('get/collection', 'GET', {
-        id: route.params.id
-      }, [200, 422, 404])
+    const elemsFilmBlocks = ref(undefined)
 
-      switch (response.status) {
-        case 200:
-          collection.value = await response.json()
-          collectedFilmsLoader.reset()
-          break;
-        case 404:
+    const sortedFilms = computed(() => {
+      return collectedFilmsLoader.items.sort((filmA, filmB) => filmB.order - filmA.order)
+    })
 
-          break;
-      }
-    }
-
-    const collection = ref(undefined)
-    const selectedFilm = ref(undefined)
-    const filmBlocks = ref(undefined)
-    const addingToCollectionFilm = ref(undefined)
+    const route = useRoute()
+    const {selectedFilm, setSelectedFilm} = useFilmSelection()
+    const {collection, collectedFilmsLoader, getCollection} = useGetCollection()
+    const popUpAddFilms = usePopUp(() => collectedFilmsLoader.reset())
+    const popUpDeleteCollection = usePopUp()
+    const {loadMoreFilmInfo} = useLoadMoreFilmInfoMyDB(collectedFilmsLoader)
+    const {deleteFilm} = useDeleteFilmFromCollection(collection, collectedFilmsLoader, elemsFilmBlocks, setSelectedFilm)
+    const {deleteCollection} = useDeleteCollection(collection)
+    const {changeOrder} = useChangeFilmOrder(sortedFilms)
+    const {toggleCollectionPublic} = useToggleCollectionPublic()
+    const {toggleSave} = useToggleSave()
+    const {toggleFavorite} = useToggleFavorite()
+    const {addingToCollectionFilm,
+      popUpAddToCollections,
+      currentCollectionChanged,
+      favoriteCollectionChanged} = useAddingFilmToCollections(collectedFilmsLoader, toggleFavorite)
+    const {popUpEditCollection, collectionEdited} = useEditCollection(collection)
 
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
@@ -209,52 +214,12 @@ export default {
       }
     }]
 
-
-    const collectionEdited = (newCollection) => {
-      collection.value = newCollection
-      popUpEditCollection.hide()
-    }
-
-    const sortedFilms = computed(() => {
-      return collectedFilmsLoader.items.sort((filmA, filmB) => filmB.order - filmA.order)
+    watch(() => route.params.id, () => {
+      getCollection(route.params.id)
     })
 
-    const setSelectedFilm = (film) => {
-      selectedFilm.value = film
-    }
-
-    const currentCollectionChanged = () => {
-      popUpAddToCollections.onHide = () => {
-        collectedFilmsLoader.reset()
-        popUpAddToCollections.onHide = undefined
-      }
-    }
-
-    const favoriteCollectionChanged = (film) => {
-      toggleFavorite(film)
-    }
-
-    const route = useRoute()
-    const requestMaker = useRequestMaker()
-    const {collectedFilmsLoader} = useCollectedFilmsLoader(collection)
-    const popUpAddFilms = usePopUp(() => collectedFilmsLoader.reset())
-    const popUpDeleteCollection = usePopUp()
-    const popUpEditCollection = usePopUp()
-    const {loadMoreFilmInfo} = useLoadMoreFilmInfoMyDB(collectedFilmsLoader)
-    const {deleteFilm} = useDeleteFilmFromCollection(collection, collectedFilmsLoader, filmBlocks, setSelectedFilm)
-    const {deleteCollection} = useDeleteCollection(collection)
-    const {changeOrder} = useChangeFilmOrder(sortedFilms)
-    const {toggleCollectionPublic} = useToggleCollectionPublic()
-    const {toggleSave} = useToggleSave()
-    const {toggleFavorite} = useToggleFavorite()
-    const popUpAddToCollections = usePopUp()
-
-    watch(() => route.params.id, async () => {
-      getCollection()
-    })
-
-    onMounted(async () => {
-      await getCollection()
+    onMounted(() => {
+      getCollection(route.params.id)
     })
 
     return {
@@ -277,7 +242,7 @@ export default {
       favoriteCollectionChanged,
       toggleSave,
       toggleFavorite,
-      filmBlocks,
+      elemsFilmBlocks,
       setSelectedFilm,
       loadMoreFilmInfo,
       window

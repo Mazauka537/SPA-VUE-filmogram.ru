@@ -37,45 +37,7 @@
           </button>
         </div>
 
-        <BlocksLine :title="$store.getters['auth/isOwner'](user.id) ? 'Мои коллекции' : 'Открытые коллекции'"
-                    style="margin-top: 30px;"
-                    :link="'/user/' + user.id + '/collections'"
-                    v-if="collections.length > 0">
-          <template v-for="collection in collections">
-            <CollectionBlock :collection="collection"
-                             :class="'blocks-line__block'"/>
-          </template>
-        </BlocksLine>
-
-        <BlocksLine title="Сохраненные коллекции"
-                    style="margin-top: 30px;"
-                    :link="'/user/' + user.id + '/saves'"
-                    v-if="savedCollections.length > 0">
-          <template v-for="collection in savedCollections">
-            <CollectionBlock :collection="collection"
-                             :class="'blocks-line__block'"/>
-          </template>
-        </BlocksLine>
-
-        <BlocksLine title="Подписки"
-                    style="margin-top: 30px;"
-                    :link="'/user/' + user.id + '/subscriptions'"
-                    v-if="subscriptions.length > 0">
-          <template v-for="subscription in subscriptions">
-            <UserBlock :user="subscription"
-                       :class="'blocks-line__block'"/>
-          </template>
-        </BlocksLine>
-
-        <BlocksLine title="Подписчики"
-                    style="margin-top: 30px;"
-                    :link="'/user/' + user.id + '/subscribes'"
-                    v-if="subscribers.length > 0">
-          <template v-for="subscriber in subscribers">
-            <UserBlock :user="subscriber"
-                       :class="'blocks-line__block'"/>
-          </template>
-        </BlocksLine>
+        <ProfileBody :user="user"/>
       </div>
     </div>
 
@@ -91,7 +53,6 @@
 </template>
 
 <script>
-import InfoBlockUser from "@/components/InfoBlockUser";
 import PopUp from "@/components/PopUp";
 import FormNewCollection from "@/components/forms/FormNewCollection";
 import DialogConfirm from "@/components/DialogConfirm";
@@ -101,39 +62,31 @@ import {onMounted, ref, watch} from "vue";
 import useEditUser from "@/composables/useEditUser";
 import useGetUser from "@/composables/useGetUser";
 import SinglePage from "@/components/views/SinglePage";
-import BlocksLine from "@/components/BlocksLine";
 import MyButton from "@/components/UI/MyButton";
-import useRequestMaker from "@/composables/useRequestMaker";
-import CollectionBlock from "@/components/CollectionBlock";
-import UserBlock from "@/components/UserBlock";
 import useToggleSubscription from "@/composables/useToggleSubscription";
 import MoreBtn from "@/components/UI/MoreBtn";
 import ShareBtn from "@/components/UI/ShareBtn";
 import FormEditUserData from "@/components/forms/FormEditUserData";
+import ProfileBody from "@/components/ProfileBody";
 
 export default {
   components: {
+    ProfileBody,
     FormEditUserData,
     ShareBtn,
     MoreBtn,
-    UserBlock,
-    CollectionBlock,
     MyButton,
-    BlocksLine,
     SinglePage,
     FormNewCollection,
     DialogConfirm,
     PopUp,
-    InfoBlockUser,
   },
   setup() {
-    const requestMaker = useRequestMaker()
     const route = useRoute()
     const popUpNewCollection = usePopUp()
-    const popUpEditUserData = usePopUp()
-    const {user, isUserLoading, getUser} = useGetUser()
-    const {changeUserName, changeAvatar} = useEditUser(user)
     const {toggleSubscription} = useToggleSubscription()
+    const {user, isUserLoading, getUser} = useGetUser()
+    const {popUpEditUserData, changeUserName, changeAvatar} = useEditUser(user)
 
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
@@ -142,105 +95,26 @@ export default {
       }
     }]
 
-    const collections = ref([])
-    const savedCollections = ref([])
-    const subscribers = ref([])
-    const subscriptions = ref([])
     const elemAvatarImg = ref(undefined)
+
+    const onUserDataChanged = async () => {
+      await getUser(route.params.id)
+      elemAvatarImg.value.src += '1'
+      popUpEditUserData.hide()
+    }
 
     watch(() => route.params.id, () => {
       user.value = undefined
-      collections.value = []
-      savedCollections.value = []
-      subscribers.value = []
-      subscriptions.value = []
-      getUser()
-      getCollections()
-      getSavedCollections()
-      getSubscribers()
-      getSubscriptions()
+      getUser(route.params.id)
     })
 
-    const onUserDataChanged = async () => {
-      await getUser()
-      elemAvatarImg.value.src += '1'
-      popUpEditUserData.hide()
-      console.log(elemAvatarImg.value)
-    }
-
-    const getCollections = async () => {
-      const response = await requestMaker.fetch('get/collections', 'GET', {
-        user_id: route.params.id,
-        page: 1
-      }, [200, 422, 404])
-
-      switch (response.status) {
-        case 200:
-          const responseData = await response.json()
-          collections.value = responseData.items
-          if (collections.value.length > 0)
-            collections.value.unshift(collections.value.pop())
-          break;
-      }
-    }
-
-    const getSavedCollections = async () => {
-      const response = await requestMaker.fetch('get/saves', 'GET', {
-        user_id: route.params.id,
-        page: 1
-      }, [200, 422, 404])
-
-      switch (response.status) {
-        case 200:
-          const responseData = await response.json()
-          savedCollections.value = responseData.items
-          break;
-      }
-    }
-
-    const getSubscribers = async () => {
-      const response = await requestMaker.fetch('get/subscribers', 'GET', {
-        user_id: route.params.id,
-        page: 1
-      }, [200, 422, 404])
-
-      switch (response.status) {
-        case 200:
-          const responseData = await response.json()
-          subscribers.value = responseData.items
-          break;
-      }
-    }
-
-    const getSubscriptions = async () => {
-      const response = await requestMaker.fetch('get/subscriptions', 'GET', {
-        user_id: route.params.id,
-        page: 1
-      }, [200, 422, 404])
-
-      switch (response.status) {
-        case 200:
-          const responseData = await response.json()
-          subscriptions.value = responseData.items
-          break;
-      }
-    }
-
     onMounted(() => {
-      getUser()
-      getCollections()
-      getSavedCollections()
-      getSubscribers()
-      getSubscriptions()
+      getUser(route.params.id)
     })
 
     return {
       elemAvatarImg,
       moreBtnOptions,
-      collections,
-      savedCollections,
-      subscriptions,
-      subscribers,
       user,
       isUserLoading,
       popUpNewCollection,

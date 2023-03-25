@@ -5,7 +5,7 @@
 
       <div class="searching-films__list" ref="elemList">
         <LoadableItemsContainer :loader="filmsLoader">
-          <div class="searching-films__film" v-for="film in filmsLoader.items" @click="toggleFilm(film)">
+          <div class="searching-films__film" v-for="film in filmsLoader.items" @click="toggleFilm(collection.id, film)">
             <div class="searching-films__film-check">
               <MyCheckbox :checked="film.isInCollection"/>
             </div>
@@ -23,13 +23,12 @@
 import MySearchInput from "@/components/UI/MySearchInput";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import MyCheckbox from "@/components/UI/MyCheckbox";
-import useRequestMaker from "@/composables/useRequestMaker";
-import {useRoute} from "vue-router";
 import useFilmsLoader from "@/composables/useFilmsLoader";
 import FilmBlockMini from "@/components/FilmBlockMini";
 import {onMounted, ref} from "vue";
 import SimpleScrollbar from "simple-scrollbar";
 import useToggleFavorite from "@/composables/useToggleFavorite";
+import useToggleFilm from "@/composables/useToggleFilm";
 
 export default {
   components: {FilmBlockMini, MyCheckbox, LoadableItemsContainer, MySearchInput},
@@ -37,21 +36,11 @@ export default {
     collection: Object
   },
   setup() {
-    const route = useRoute()
-    const requestMaker = useRequestMaker()
     const {filmsLoader, searchString} = useFilmsLoader()
     const elemList = ref()
 
-    const toggleFilm = async film => {
-      film.isInCollection = !film.isInCollection
-
-      const response = await requestMaker.fetch('toggle/film', 'POST', {
-        collection_id: route.params.id,
-        film_id: film.kinopoiskId,
-      }, [201, 200, 401, 403, 422])
-    }
-
     const {toggleFavorite} = useToggleFavorite()
+    const {toggleFilm} = useToggleFilm()
 
     onMounted(() => {
       SimpleScrollbar.initEl(elemList.value)

@@ -39,7 +39,7 @@ export default {
     const requestMaker = useRequestMaker()
     const store = useStore()
 
-    const createNewCollectionRequest = async () => {
+    const editCollectionRequest = async () => {
       const response = await requestMaker.fetch('edit/collection', 'POST', {
         id: collection.id,
         image: form.image,
@@ -71,7 +71,7 @@ export default {
       image: undefined,
       title: collection.title,
       description: collection.description
-    }, createNewCollectionRequest)
+    }, editCollectionRequest)
 
     return {
       isImageDeleted,

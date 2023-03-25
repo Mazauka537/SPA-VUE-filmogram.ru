@@ -1,7 +1,10 @@
 import useRequestMaker from "@/composables/useRequestMaker";
+import usePopUp from "@/composables/usePopUp";
 
 export default function useEditUser(user) {
   const requestMaker = useRequestMaker()
+
+  const popUpEditUserData = usePopUp()
 
   const changeUserName = async userName => {
     user.value.name = userName
@@ -21,6 +24,7 @@ export default function useEditUser(user) {
   }
 
   return {
+    popUpEditUserData,
     changeAvatar,
     changeUserName
   }
