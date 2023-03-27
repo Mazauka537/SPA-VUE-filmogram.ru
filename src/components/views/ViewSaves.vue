@@ -1,15 +1,14 @@
 <template>
-  <div class="view-saves">
-    <ViewCollectionsBase :collections-loader="savesLoader"/>
-  </div>
+  <BlocksList title="Сохранненые коллекции" :items-loader="savesLoader"/>
 </template>
 
 <script>
-import ViewCollectionsBase from "@/components/views/ViewCollectionsBase";
+import BlocksList from "@/components/BlocksList";
+import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import useSavesLoader from "@/composables/useSavesLoader";
 
 export default {
-  components: {ViewCollectionsBase},
+  components: {LoadableItemsContainer, BlocksList},
   setup() {
     const {savesLoader} = useSavesLoader()
 
@@ -20,6 +19,6 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 
 </style>

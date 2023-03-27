@@ -12,30 +12,28 @@ const routes = [
     component: () => import('@/components/views/ViewLogout')
   },
   {
+    name: 'profile',
     path: '/user/:id(\\d+)',
     component: () => import('@/components/views/ViewProfile'),
-    children: [
-      {
-        name: 'profile',
-        path: '',
-        component: () => import('@/components/views/ViewCollections')
-      },
-      {
-        name: 'saves',
-        path: 'saves',
-        component: () => import('@/components/views/ViewSaves')
-      },
-      {
-        name: 'subscribers',
-        path: 'subscribers',
-        component: () => import('@/components/views/ViewSubscribers')
-      },
-      {
-        name: 'subscriptions',
-        path: 'subscriptions',
-        component: () => import('@/components/views/ViewSubscriptions')
-      }
-    ]
+  }, {
+    name: 'collections',
+    path: '/user/:id(\\d+)/collections',
+    component: () => import('@/components/views/ViewCollections')
+  },
+  {
+    name: 'saves',
+    path: '/user/:id(\\d+)/saves',
+    component: () => import('@/components/views/ViewSaves')
+  },
+  {
+    name: 'subscribers',
+    path: '/user/:id(\\d+)/subscribers',
+    component: () => import('@/components/views/ViewSubscribers')
+  },
+  {
+    name: 'subscriptions',
+    path: '/user/:id(\\d+)/subscriptions',
+    component: () => import('@/components/views/ViewSubscriptions')
   },
   {
     name: 'collection',

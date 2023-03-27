@@ -1,15 +1,14 @@
 <template>
-  <div class="view-subscribers">
-    <ViewUsersBase :users-loader="subscribersLoader"/>
-  </div>
+  <BlocksList title="Подписчики" :items-loader="subscribersLoader"/>
 </template>
 
 <script>
-import ViewUsersBase from "@/components/views/ViewUsersBase";
+import BlocksList from "@/components/BlocksList";
+import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import useSubscribersLoader from "@/composables/useSubscribersLoader";
 
 export default {
-  components: {ViewUsersBase},
+  components: {LoadableItemsContainer, BlocksList},
   setup() {
     const {subscribersLoader} = useSubscribersLoader()
 

@@ -1,15 +1,14 @@
 <template>
-  <div class="view-collections">
-    <ViewCollectionsBase :collections-loader="collectionsLoader"/>
-  </div>
+  <BlocksList title="Открытые коллекции" :items-loader="collectionsLoader"/>
 </template>
 
 <script>
+import BlocksList from "@/components/BlocksList";
+import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import useCollectionsLoader from "@/composables/useCollectionsLoader";
-import ViewCollectionsBase from "@/components/views/ViewCollectionsBase";
 
 export default {
-  components: {ViewCollectionsBase},
+  components: {LoadableItemsContainer, BlocksList},
   setup() {
     const {collectionsLoader} = useCollectionsLoader()
 
@@ -21,6 +20,5 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
 
 </style>
