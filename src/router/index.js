@@ -40,6 +40,11 @@ const routes = [
     path: '/collection/:id',
     component: () => import('@/components/views/ViewCollection')
   },
+  {
+    name: 'search',
+    path: '/search',
+    component: () => import('@/components/views/ViewSearch')
+  }
 ]
 
 const router = createRouter({
