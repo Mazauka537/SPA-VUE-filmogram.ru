@@ -1,7 +1,9 @@
 <template>
-  <div class="pop-up" :class="{'pop-up_center': center}" @click="popUpController.hide" v-if="popUpController.visible">
+  <div class="pop-up" :class="{'pop-up_center': center}"
+       @click="() => {if (closable) popUpController.hide()}"
+       v-if="popUpController.visible">
 
-    <div class="pop-up__inner panel" :class="{'pop-up__inner_center': center}" @click.stop>
+    <div class="pop-up__inner panel" :class="{'pop-up__inner_center': center}" @click="clickInnerHandler">
 
       <div class="pop-up__header">
         <div class="pop-up__title">
@@ -25,6 +27,21 @@ export default {
     center: {
       type: Boolean,
       default: true
+    },
+    closable: {
+      type: Boolean,
+      default: true
+    }
+  },
+  setup(props) {
+    const clickInnerHandler = e => {
+      if (props.closable) {
+        e.stopPropagation()
+      }
+    }
+
+    return {
+      clickInnerHandler
     }
   }
 }
@@ -53,7 +70,6 @@ export default {
     position: relative;
     max-width: 600px;
     height: 100%;
-    overflow: hidden;
     margin: 0 auto;
     background: $color-bg-main;
     padding: 25px;

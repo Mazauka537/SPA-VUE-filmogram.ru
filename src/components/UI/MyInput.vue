@@ -1,8 +1,6 @@
 <template>
-  <div class="my-input__wrapper" :class="iconClass">
-    <input class="my-input" :class="{'my-input_with-icon': iconClass}" :type="type" :placeholder="placeholder"
-           :value="modelValue" @input="e => $emit('update:modelValue', e.target.value)">
-  </div>
+  <input class="my-input" :class="{'my-input_with-icon': iconClass}" :type="type" :placeholder="placeholder"
+         :value="modelValue" @input="e => $emit('update:modelValue', e.target.value)">
 </template>
 
 <script>
@@ -14,7 +12,7 @@ export default {
       default: 'Text'
     },
     placeholder: String,
-    modelValue: String
+    modelValue: String | Number
   }
 }
 </script>
@@ -35,20 +33,6 @@ export default {
 
   &::placeholder {
     color: $color-placeholder;
-  }
-
-  &__wrapper {
-    position: relative;
-
-    &:before {
-      position: absolute;
-      color: $color-text;
-      font-size: 20px;
-      left: 12px;
-      top: 50%;
-      transform: translateY(-50%);
-      padding-bottom: 2.4px;
-    }
   }
 }
 </style>

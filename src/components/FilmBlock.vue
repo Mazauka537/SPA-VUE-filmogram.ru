@@ -71,15 +71,20 @@ import useFilmComputeds from "@/composables/useFilmComputeds";
 import FilmTable from "@/components/FilmTable";
 import SaveBtn from "@/components/UI/SaveBtn";
 import MoreBtn from "@/components/UI/MoreBtn";
+import {useRoute} from "vue-router/dist/vue-router";
+import {useStore} from "vuex";
 
 export default {
   components: {MoreBtn, SaveBtn, FilmTable},
 
   props: {
     number: Number,
-    film: Object
+    film: Object,
+    collection: Object
   },
   setup(props, {emit}) {
+    const route = useRoute()
+    const store = useStore()
 
     const {genres, countries, type, rateColorKp, rateColorImdb} = useFilmComputeds(props)
 
@@ -87,6 +92,9 @@ export default {
       text: () => 'удалить из коллекции',
       onClick: () => {
         emit('delete')
+      },
+      isInvisible: () => {
+        return route.name !== 'collection' || !store.getters['auth/isOwner'](props.collection.user_id)
       }
     }, {
       text: () => 'добавить в коллекцию',

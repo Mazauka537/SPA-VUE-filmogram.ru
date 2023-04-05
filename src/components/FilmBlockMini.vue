@@ -2,23 +2,23 @@
   <div class="film-block-mini">
 
     <div class="film-block-mini__poster">
-      <img :src="filmKp.posterUrlPreview" alt="poster">
+      <img :src="film.filmKp.posterUrlPreview" alt="poster">
     </div>
     <div class="film-block-mini__main-info">
       <div class="film-block-mini__name">
-        {{ filmKp.nameRu ?? filmKp.nameOriginal }}
+        {{ film.filmKp.nameRu ?? film.filmKp.nameOriginal }}
       </div>
       <div class="film-block-mini__original-name">
-        {{ filmKp.nameOriginal }}
+        {{ film.filmKp.nameOriginal }}
       </div>
     </div>
 
-    <div class="film-block-mini__save" :class="{'film-block-mini__save_visible': filmKp.isInFavorite}">
-      <SaveBtn :active="filmKp.isInFavorite" @click.stop="$emit('save', filmKp)"/>
+    <div class="film-block-mini__save" :class="{'film-block-mini__save_visible': film.isInFavorite}">
+      <SaveBtn :active="film.isInFavorite" @click.stop="$emit('save', film)"/>
     </div>
 
     <div class="film-block-mini__year">
-      {{ filmKp.year }}
+      {{ film.filmKp.year }}
     </div>
 
   </div>
@@ -30,12 +30,8 @@ import SaveBtn from "@/components/UI/SaveBtn";
 export default {
   components: {SaveBtn},
   props: {
-    filmKp: Object
+    film: Object
   },
-  setup(props) {
-
-    return {}
-  }
 }
 </script>
 

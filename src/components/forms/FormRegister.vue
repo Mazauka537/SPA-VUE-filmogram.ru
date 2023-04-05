@@ -7,11 +7,11 @@
       </div>
     </div>
 
-    <MyInput type="text" placeholder="Имя" icon-class="icon-person" v-model="form.name"
+    <MyInputIconic type="text" placeholder="Имя" icon-class="icon-person" v-model="form.name"
              style="margin-top: 33px"/>
-    <MyInput type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
+    <MyInputIconic type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
              style="margin-top: 40px"/>
-    <MyInput type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
+    <MyInputIconic type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
              style="margin-top: 40px"/>
 
     <MyButton text="Sign Up"
@@ -39,18 +39,18 @@
 </template>
 
 <script>
-import MyButton from '../UI/MyButton'
-import MyInput from '../UI/MyInput'
-import SocialsList from '../SocialsList'
+import MyButton from '@/components/UI/MyButton'
+import SocialsList from '@/components/SocialsList'
 import MainLogo from "@/components/MainLogo";
 import useRequestMaker from "@/composables/useRequestMaker";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router/dist/vue-router";
 import useForm from "@/composables/useForm";
+import MyInputIconic from "@/components/UI/MyInputIconic";
 
 export default {
   components: {
-    MyInput,
+    MyInputIconic,
     MyButton,
     SocialsList,
     MainLogo

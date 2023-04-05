@@ -5,7 +5,13 @@
           d="M448 384c0-17.664-7.2-33.696-18.752-45.248s-27.584-18.752-45.248-18.752-33.696 7.2-45.248 18.752-18.752 27.584-18.752 45.248 7.2 33.696 18.752 45.248 27.584 18.752 45.248 18.752 33.696-7.2 45.248-18.752 18.752-27.584 18.752-45.248zM672 384c0-17.664-7.2-33.696-18.752-45.248s-27.584-18.752-45.248-18.752-33.696 7.2-45.248 18.752-18.752 27.584-18.752 45.248 7.2 33.696 18.752 45.248 27.584 18.752 45.248 18.752 33.696-7.2 45.248-18.752 18.752-27.584 18.752-45.248zM224 384c0-17.664-7.2-33.696-18.752-45.248s-27.584-18.752-45.248-18.752-33.696 7.2-45.248 18.752-18.752 27.584-18.752 45.248 7.2 33.696 18.752 45.248 27.584 18.752 45.248 18.752 33.696-7.2 45.248-18.752 18.752-27.584 18.752-45.248z"></path>
     </svg>
     <ul class="more-btn__options" v-if="isOptionsVisible">
-      <li class="more-btn__option" v-for="option in options" @pointerdown="option.onClick">{{ option.text() }}</li>
+      <template v-for="option in options">
+        <li v-if="option.isInvisible ? !option.isInvisible() : true"
+            class="more-btn__option"
+            @pointerdown="option.onClick">
+          {{ option.text() }}
+        </li>
+      </template>
     </ul>
   </div>
 </template>
@@ -23,18 +29,26 @@ export default {
 
     const showOptions = () => {
       isOptionsVisible.value = !isOptionsVisible.value
+      window.addEventListener('click', hideOptions)
     }
 
     const hideOptions = e => {
-      const isTargetInMoreBtn = !!Array.from(e.path).find(element => element === elemMoreBtn.value)
+      let isTargetInMoreBtn = false
 
-      if (!isTargetInMoreBtn)
+      let node = e.target
+      while (node !== document.body) {
+        if (node === elemMoreBtn.value) {
+          isTargetInMoreBtn = true
+          break;
+        }
+        node = node.parentNode
+      }
+
+      if (!isTargetInMoreBtn) {
+        window.removeEventListener('click', hideOptions)
         isOptionsVisible.value = false
+      }
     }
-
-    onMounted(() => {
-      window.addEventListener('click', hideOptions)
-    })
 
     return {
       elemMoreBtn,
@@ -55,6 +69,7 @@ export default {
 
   svg {
     fill: $color-text-light;
+    cursor: pointer;
   }
 
   &__options {

@@ -8,7 +8,7 @@ export default function useToggleFilm() {
 
     const response = requestMaker.fetch('toggle/film', 'POST', {
       collection_id: collectionId,
-      film_id: film.filmKp ? film.filmKp.kinopoiskId : film.kinopoiskId,
+      film_id: film.film_id
     }, [201, 200, 401, 403, 422])
   }
 

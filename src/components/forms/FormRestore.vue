@@ -7,7 +7,7 @@
       </div>
     </div>
 
-    <MyInput type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
+    <MyInputIconic type="email" placeholder="Email" icon-class="icon-mail" v-model="form.email"
              style="margin-top: 33px"/>
 
     <MyButton text="Sign In"
@@ -26,17 +26,17 @@
 </template>
 
 <script>
-import MyButton from '../UI/MyButton'
-import MyInput from '../UI/MyInput'
+import MyButton from '@/components/UI/MyButton'
 import MainLogo from "@/components/MainLogo";
 import useRequestMaker from "@/composables/useRequestMaker";
 import useForm from "@/composables/useForm";
 import {useStore} from "vuex";
+import MyInputIconic from "@/components/UI/MyInputIconic";
 
 export default {
   components: {
+    MyInputIconic,
     MainLogo,
-    MyInput,
     MyButton,
   },
   setup(_, {emit}) {

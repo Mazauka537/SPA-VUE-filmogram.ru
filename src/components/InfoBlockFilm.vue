@@ -1,167 +1,173 @@
 <template>
   <div class="info-block-film">
+    <ScrollableBlock>
+      <div class="info-block-film__inner">
 
-    <div class="info-block-film__poster">
-      <img :src="film.filmKp.posterUrlPreview" alt="poster">
-    </div>
+        <div class="info-block-film__poster">
+          <img :src="film.filmKp.posterUrlPreview" alt="poster">
+        </div>
 
-    <div class="info-block-film__age">
-      {{ type }} <template v-if="film.filmKp.additionalInfo?.ageRating">{{ film.filmKp.additionalInfo.ageRating }}+</template>
-    </div>
+        <div class="info-block-film__age">
+          {{ type }}
+          <template v-if="film.filmKp.additionalInfo?.ageRating">{{ film.filmKp.additionalInfo.ageRating }}+</template>
+        </div>
 
-    <div class="info-block-film__name" style="margin-top: 5px">
-      {{ film.filmKp.nameRu }}
-    </div>
+        <div class="info-block-film__name" style="margin-top: 5px">
+          {{ film.filmKp.nameRu }}
+        </div>
 
-    <div class="info-block-film__original-name">
-      {{ film.filmKp.nameOriginal }}
-    </div>
+        <div class="info-block-film__original-name">
+          {{ film.filmKp.nameOriginal }}
+        </div>
 
-    <div class="info-block-film__splitted" style="margin-top: 10px">
-      <div class="info-block-film__splitted-left">
-        Год:
-      </div>
-      <div class="info-block-film__splitted-right">
-        {{ film.filmKp.year }}
-      </div>
-    </div>
+        <div class="info-block-film__splitted" style="margin-top: 10px">
+          <div class="info-block-film__splitted-left">
+            Год:
+          </div>
+          <div class="info-block-film__splitted-right">
+            {{ film.filmKp.year }}
+          </div>
+        </div>
 
-    <div class="info-block-film__splitted">
-      <div class="info-block-film__splitted-left">
-        Время:
-      </div>
-      <div class="info-block-film__splitted-right"
-           v-if="film.filmKp.additionalInfo && film.filmKp.additionalInfo !== 'loading...' && film.filmKp.additionalInfo !== '404'">
-        {{ additionalLength }}
-      </div>
-      <div class="info-block-film__splitted-right"
-           v-else>
-        {{ length }}
-      </div>
-    </div>
+        <div class="info-block-film__splitted">
+          <div class="info-block-film__splitted-left">
+            Время:
+          </div>
+          <div class="info-block-film__splitted-right"
+               v-if="film.filmKp.additionalInfo && film.filmKp.additionalInfo !== 'loading...' && film.filmKp.additionalInfo !== '404'">
+            {{ additionalLength }}
+          </div>
+          <div class="info-block-film__splitted-right"
+               v-else>
+            {{ length }}
+          </div>
+        </div>
 
-    <div class="info-block-film__splitted">
-      <div class="info-block-film__splitted-left">
-        Страны:
-      </div>
-      <div class="info-block-film__splitted-right">
-        {{ countries }}
-      </div>
-    </div>
+        <div class="info-block-film__splitted">
+          <div class="info-block-film__splitted-left">
+            Страны:
+          </div>
+          <div class="info-block-film__splitted-right">
+            {{ countries }}
+          </div>
+        </div>
 
-    <div class="info-block-film__splitted">
-      <div class="info-block-film__splitted-left">
-        Жанры:
-      </div>
-      <div class="info-block-film__splitted-right" v-html="genresList">
-      </div>
-    </div>
+        <div class="info-block-film__splitted">
+          <div class="info-block-film__splitted-left">
+            Жанры:
+          </div>
+          <div class="info-block-film__splitted-right" v-html="genresList">
+          </div>
+        </div>
 
-    <div class="info-block-film__load-more"
-         v-if="(!film.filmKp.additionalInfo && film.filmKp.additionalInfo !== '404') || film.filmKp.additionalInfo === 'loading...'"
-         style="margin-top: 20px">
-      <span class="info-block-film__more link" @click="$emit('loadMoreInfo', film.filmKp.kinopoiskId)"
+        <div class="info-block-film__load-more"
+             v-if="(!film.filmKp.additionalInfo && film.filmKp.additionalInfo !== '404') || film.filmKp.additionalInfo === 'loading...'"
+             style="margin-top: 20px">
+      <span class="info-block-film__more link" @click="$emit('loadMoreInfo', film)"
             v-if="film.filmKp.additionalInfo !== 'loading...'">
         Больше информации
       </span>
-      <span class="info-block-film__loading" v-if="film.filmKp.additionalInfo === 'loading...'">
+          <span class="info-block-film__loading" v-if="film.filmKp.additionalInfo === 'loading...'">
         <LoadingPanel :size="30" :transparent="true"/>
       </span>
-    </div>
-
-    <div class="info-block-film__additional-info"
-         v-if="film.filmKp.additionalInfo && film.filmKp.additionalInfo !== 'loading...' && film.filmKp.additionalInfo !== '404'">
-
-      <div class="info-block-film__splitted">
-        <div class="info-block-film__splitted-left">
-          Бюджет:
         </div>
-        <div class="info-block-film__splitted-right">
-          {{ budget }}
-        </div>
-      </div>
 
-      <div class="info-block-film__splitted">
-        <div class="info-block-film__splitted-left">
-          Сборы:
-        </div>
-        <div class="info-block-film__splitted-right">
-          {{ fees }}
-        </div>
-      </div>
+        <div class="info-block-film__additional-info"
+             v-if="film.filmKp.additionalInfo && film.filmKp.additionalInfo !== 'loading...' && film.filmKp.additionalInfo !== '404'">
 
-      <div class="info-block-film__serial" v-if="seasonsCount">
-        <div class="info-block-film__splitted">
-          <div class="info-block-film__splitted-left">
-            Сезонов:
+          <div class="info-block-film__splitted">
+            <div class="info-block-film__splitted-left">
+              Бюджет:
+            </div>
+            <div class="info-block-film__splitted-right">
+              {{ budget }}
+            </div>
           </div>
-          <div class="info-block-film__splitted-right">
-            {{ seasonsCount }}
+
+          <div class="info-block-film__splitted">
+            <div class="info-block-film__splitted-left">
+              Сборы:
+            </div>
+            <div class="info-block-film__splitted-right">
+              {{ fees }}
+            </div>
+          </div>
+
+          <div class="info-block-film__serial" v-if="seasonsCount">
+            <div class="info-block-film__splitted">
+              <div class="info-block-film__splitted-left">
+                Сезонов:
+              </div>
+              <div class="info-block-film__splitted-right">
+                {{ seasonsCount }}
+              </div>
+            </div>
+
+            <div class="info-block-film__splitted">
+              <div class="info-block-film__splitted-left">
+                Серий:
+              </div>
+              <div class="info-block-film__splitted-right">
+                {{ episodesCount }}
+              </div>
+            </div>
+          </div>
+
+          <div class="info-block-film__splitted" style="margin-top: 10px">
+            <div class="info-block-film__splitted-left">
+              Актеры:
+            </div>
+            <div class="info-block-film__splitted-right">
+              <PersonsList :persons="actors"/>
+            </div>
+          </div>
+
+          <div class="info-block-film__splitted" style="margin-top: 10px">
+            <div class="info-block-film__splitted-left">
+              Продюсеры:
+            </div>
+            <div class="info-block-film__splitted-right">
+              <PersonsList :persons="producers"/>
+            </div>
+          </div>
+
+          <div class="info-block-film__splitted" style="margin-top: 10px">
+            <div class="info-block-film__splitted-left">
+              Сценаристы:
+            </div>
+            <div class="info-block-film__splitted-right">
+              <PersonsList :persons="writers"/>
+            </div>
+          </div>
+
+          <div class="infi-block-film__trailer" style="margin-top: 20px" v-if="trailerUrl">
+            <iframe width="100%"
+                    height="auto"
+                    :src="trailerUrl"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
           </div>
         </div>
 
-        <div class="info-block-film__splitted">
-          <div class="info-block-film__splitted-left">
-            Серий:
-          </div>
-          <div class="info-block-film__splitted-right">
-            {{ episodesCount }}
-          </div>
+        <div class="info-block-film__desc" style="margin-top: 20px">
+          {{ film.filmKp.description ?? film.filmKp.additionalInfo?.description }}
         </div>
+        <div class="info-block-film__link link" style="margin-top: 20px">
+          <a :href="film.filmKp.webUrl">
+            Смотреть на Kinopoisk.ru
+          </a>
+        </div>
+
+        <div class="info-block-film__delete"
+             v-if="collection && $store.getters['auth/isOwner'](collection.user_id)"
+             style="margin-top: 40px">
+          <MyButton @click="$emit('delete')">Удалить</MyButton>
+        </div>
+
       </div>
-
-      <div class="info-block-film__splitted" style="margin-top: 10px">
-        <div class="info-block-film__splitted-left">
-          Актеры:
-        </div>
-        <div class="info-block-film__splitted-right">
-          <PersonsList :persons="actors"/>
-        </div>
-      </div>
-
-      <div class="info-block-film__splitted" style="margin-top: 10px">
-        <div class="info-block-film__splitted-left">
-          Продюсеры:
-        </div>
-        <div class="info-block-film__splitted-right">
-          <PersonsList :persons="producers"/>
-        </div>
-      </div>
-
-      <div class="info-block-film__splitted" style="margin-top: 10px">
-        <div class="info-block-film__splitted-left">
-          Сценаристы:
-        </div>
-        <div class="info-block-film__splitted-right">
-          <PersonsList :persons="writers"/>
-        </div>
-      </div>
-
-      <div class="infi-block-film__trailer" style="margin-top: 20px" v-if="trailerUrl">
-        <iframe width="100%"
-                height="auto"
-                :src="trailerUrl"
-                title="YouTube video player"
-                frameborder="0"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowfullscreen></iframe>
-      </div>
-    </div>
-
-    <div class="info-block-film__desc" style="margin-top: 20px">
-      {{ film.filmKp.description ?? film.filmKp.additionalInfo?.description }}
-    </div>
-    <div class="info-block-film__link link" style="margin-top: 20px">
-      <a :href="film.filmKp.webUrl">
-        Смотреть на Kinopoisk.ru
-      </a>
-    </div>
-
-    <div class="info-block-film__delete"
-         v-if="collection && $store.getters['auth/isOwner'](collection.user_id)"
-         style="margin-top: 40px">
-      <MyButton @click="$emit('delete')">Удалить</MyButton>
-    </div>
+    </ScrollableBlock>
   </div>
 </template>
 
@@ -171,9 +177,10 @@ import PersonsList from "@/components/PersonsList";
 import useFilmComputeds from "@/composables/useFilmComputeds";
 import LoadingPanel from "@/components/LoadingPanel";
 import useFilmInfoComputeds from "@/composables/useFilmInfoComputeds";
+import ScrollableBlock from "@/components/ScrollableBlock";
 
 export default {
-  components: {LoadingPanel, PersonsList, MyButton},
+  components: {ScrollableBlock, LoadingPanel, PersonsList, MyButton},
   props: {
     collection: Object,
     film: Object
@@ -209,6 +216,13 @@ export default {
 @import "src/assets/styles/vars";
 
 .info-block-film {
+  position: fixed;
+  right: 0;
+  top: 0;
+  max-width: 300px;
+  min-width: 240px;
+  width: 100%;
+  height: 100vh;
   text-align: center;
 
   &__poster {

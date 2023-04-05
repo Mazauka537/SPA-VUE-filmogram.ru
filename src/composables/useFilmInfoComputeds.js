@@ -56,11 +56,11 @@ export default function useFilmInfoComputeds(props) {
   })
 
   const budget = computed(() => {
-    return _splitCash(props.film.filmKp.additionalInfo.budget.value) + props.film.filmKp.additionalInfo.budget?.currency
+    return _splitCash(props.film.filmKp.additionalInfo.budget?.value) + props.film.filmKp.additionalInfo.budget?.currency
   })
 
   const fees = computed(() => {
-    return _splitCash(props.film.filmKp.additionalInfo.fees.world.value) + props.film.filmKp.additionalInfo.fees.world?.currency
+    return _splitCash(props.film.filmKp.additionalInfo.fees.world?.value) + props.film.filmKp.additionalInfo.fees.world?.currency
   })
 
   const actors = computed(() => {

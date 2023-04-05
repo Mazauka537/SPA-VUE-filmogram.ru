@@ -30,6 +30,8 @@ export default function useFilmComputeds(props) {
         return 'Сериал'
       case 'MINI_SERIES':
         return 'Мини-сериал'
+      case 'TV_SHOW':
+        return 'ТВ шоу'
     }
   })
 

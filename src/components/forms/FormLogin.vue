@@ -4,9 +4,9 @@
       <MainLogo style="font-size: 60px"/>
     </div>
 
-    <MyInput type="text" placeholder="Email" icon-class="icon-person" v-model="form.email"
+    <MyInputIconic type="text" placeholder="Email" icon-class="icon-person" v-model="form.email"
              style="margin-top: 33px"/>
-    <MyInput type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
+    <MyInputIconic type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
              style="margin-top: 40px"/>
 
     <div class="form-login__forgot">
@@ -38,19 +38,19 @@
 </template>
 
 <script>
-import MyButton from '../UI/MyButton'
-import MyInput from '../UI/MyInput'
+import MyButton from '@/components/UI/MyButton'
 import MainLogo from "@/components/MainLogo";
 import SocialsList from "@/components/SocialsList";
 import useRequestMaker from "@/composables/useRequestMaker";
 import useForm from "@/composables/useForm";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router/dist/vue-router";
+import MyInputIconic from "@/components/UI/MyInputIconic";
 
 export default {
   components: {
+    MyInputIconic,
     MainLogo,
-    MyInput,
     MyButton,
     SocialsList,
   },

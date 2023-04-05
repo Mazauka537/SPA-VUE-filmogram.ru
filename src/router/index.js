@@ -14,8 +14,19 @@ const routes = [
   {
     name: 'profile',
     path: '/user/:id(\\d+)',
-    component: () => import('@/components/views/ViewProfile'),
-  }, {
+    component: () => import('@/components/views/ViewProfile')
+  },
+  {
+    name: 'search',
+    path: '/search',
+    component: () => import('@/components/views/ViewSearch')
+  },
+  {
+    name: 'collection',
+    path: '/collection/:id',
+    component: () => import('@/components/views/ViewCollection')
+  },
+  {
     name: 'collections',
     path: '/user/:id(\\d+)/collections',
     component: () => import('@/components/views/ViewCollections')
@@ -36,14 +47,9 @@ const routes = [
     component: () => import('@/components/views/ViewSubscriptions')
   },
   {
-    name: 'collection',
-    path: '/collection/:id',
-    component: () => import('@/components/views/ViewCollection')
-  },
-  {
-    name: 'search',
-    path: '/search',
-    component: () => import('@/components/views/ViewSearch')
+    name: 'tests',
+    path: '/tests',
+    component: () => import('@/components/views/ViewTests')
   }
 ]
 
