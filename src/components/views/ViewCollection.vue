@@ -252,6 +252,7 @@ export default {
 .view-collection {
   background: $color-bg-header;
   height: 100%;
+  padding-right: 300px;
 
   &__header {
     display: flex;

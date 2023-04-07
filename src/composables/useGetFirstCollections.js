@@ -16,8 +16,6 @@ export default function useGetFirstCollections() {
       case 200:
         const responseData = await response.json()
         collections.value = responseData.items
-        if (collections.value.length > 0)
-          collections.value.unshift(collections.value.pop())
         break;
     }
   }

@@ -4,8 +4,8 @@
 
 <script>
 import BlocksList from "@/components/BlocksList";
-import {watch} from "vue";
 import useSearchedUsersLoader from "@/composables/useSearchedUsersLoader";
+import {watch} from "vue";
 
 export default {
   components: {BlocksList},

@@ -1,42 +1,32 @@
 <template>
-  <BlocksLine :title="$store.getters['auth/isOwner'](user.id) ? 'Мои коллекции' : 'Открытые коллекции'"
+  <BlocksLine v-if="collections.length > 0"
               style="margin-top: 30px;"
+              :title="$store.getters['auth/isOwner'](user.id) ? 'Мои коллекции' : 'Открытые коллекции'"
               :link="'/user/' + user.id + '/collections'"
-              v-if="collections.length > 0">
-    <template v-for="collection in collections">
-      <CollectionBlock :collection="collection"
-                       :class="'blocks-line__block'"/>
-    </template>
+              :items="collections"
+              :is-users="false">
   </BlocksLine>
 
-  <BlocksLine title="Сохраненные коллекции"
+  <BlocksLine v-if="savedCollections.length > 0"
               style="margin-top: 30px;"
+              title="Сохраненные коллекции"
               :link="'/user/' + user.id + '/saves'"
-              v-if="savedCollections.length > 0">
-    <template v-for="collection in savedCollections">
-      <CollectionBlock :collection="collection"
-                       :class="'blocks-line__block'"/>
-    </template>
+              :items="savedCollections"
+              :is-users="false">
   </BlocksLine>
 
-  <BlocksLine title="Подписки"
+  <BlocksLine v-if="subscriptions.length > 0"
               style="margin-top: 30px;"
+              title="Подписки"
               :link="'/user/' + user.id + '/subscriptions'"
-              v-if="subscriptions.length > 0">
-    <template v-for="subscription in subscriptions">
-      <UserBlock :user="subscription"
-                 :class="'blocks-line__block'"/>
-    </template>
+              :items="subscriptions">
   </BlocksLine>
 
-  <BlocksLine title="Подписчики"
+  <BlocksLine v-if="subscribers.length > 0"
               style="margin-top: 30px;"
+              title="Подписчики"
               :link="'/user/' + user.id + '/subscribes'"
-              v-if="subscribers.length > 0">
-    <template v-for="subscriber in subscribers">
-      <UserBlock :user="subscriber"
-                 :class="'blocks-line__block'"/>
-    </template>
+              :items="subscribers">
   </BlocksLine>
 </template>
 

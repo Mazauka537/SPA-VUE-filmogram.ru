@@ -1,6 +1,7 @@
 export default {
   mounted (el, binding) {
     const observer = new IntersectionObserver((entires, observer) => {
+      console.log('intersected')
       if (entires[entires.length - 1].isIntersecting) {
         binding.value()
       }

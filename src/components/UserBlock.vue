@@ -31,7 +31,6 @@ export default {
   background: $color-bg-side;
   display: inline-block;
   border-radius: 7px;
-  margin-right: 20px;
 
   &:hover {
     background: $color-bg-input;
@@ -40,8 +39,8 @@ export default {
   &__avatar {
 
     img {
-      height: 155px;
-      width: 155px;
+      height: 150px;
+      width: 150px;
       border-radius: 50%;
     }
   }

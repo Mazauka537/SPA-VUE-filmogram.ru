@@ -1,14 +1,17 @@
 <template>
-  <BlocksList title="Сохранненые коллекции" :items-loader="savesLoader"/>
+  <BlocksPage>
+    <BlocksList title="Сохранненые коллекции" :items-loader="savesLoader" :is-users="false"/>
+  </BlocksPage>
 </template>
 
 <script>
 import BlocksList from "@/components/BlocksList";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import useSavesLoader from "@/composables/useSavesLoader";
+import BlocksPage from "@/components/BlocksPage";
 
 export default {
-  components: {LoadableItemsContainer, BlocksList},
+  components: {BlocksPage, LoadableItemsContainer, BlocksList},
   setup() {
     const {savesLoader} = useSavesLoader()
 

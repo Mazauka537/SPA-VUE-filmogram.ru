@@ -1,14 +1,17 @@
 <template>
-  <BlocksList title="Открытые коллекции" :items-loader="collectionsLoader"/>
+  <BlocksPage>
+    <BlocksList title="Открытые коллекции" :items-loader="collectionsLoader" :is-users="false"/>
+  </BlocksPage>
 </template>
 
 <script>
 import BlocksList from "@/components/BlocksList";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import useCollectionsLoader from "@/composables/useCollectionsLoader";
+import BlocksPage from "@/components/BlocksPage";
 
 export default {
-  components: {LoadableItemsContainer, BlocksList},
+  components: {BlocksPage, LoadableItemsContainer, BlocksList},
   setup() {
     const {collectionsLoader} = useCollectionsLoader()
 
