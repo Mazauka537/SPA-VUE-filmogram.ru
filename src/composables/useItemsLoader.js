@@ -14,6 +14,7 @@ export default function useItemsLoader(request) {
   }
 
   const loadMore = async () => {
+    isLoading.value = true
     let response = await request()
     page.value++
     return response

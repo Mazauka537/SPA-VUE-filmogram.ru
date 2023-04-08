@@ -1,21 +1,21 @@
 <template>
   <div class="searched-films">
-    <FilmTableHead/>
-    <ScrollableBlock>
-      <LoadableItemsContainer :loader="searchedFilmsLoader">
-        <div class="searched-films__film-block" v-for="(film, index) in searchedFilmsLoader.items" :key="film.film_id">
-          <FilmBlock :film="film"
-                     :number="index + 1"
-                     @save="toggleFavorite"
-                     @pointerdown="selectedFilm = film"
-                     @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
-        </div>
-      </LoadableItemsContainer>
 
-    </ScrollableBlock>
+    <FilmTableHead/>
+    <LoadableItemsContainer :loader="searchedFilmsLoader">
+      <div class="searched-films__film-block" v-for="(film, index) in searchedFilmsLoader.items" :key="film.film_id">
+        <FilmBlock :film="film"
+                   :number="index + 1"
+                   @save="toggleFavorite"
+                   @pointerdown="selectedFilm = film"
+                   @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
+      </div>
+    </LoadableItemsContainer>
+
   </div>
 
-  <div class="searched-films__filter-btn" :class="{'searched-films__filter-btn_filtered': isFiltered}" @click="popUpFilter.show">
+  <div class="searched-films__filter-btn" :class="{'searched-films__filter-btn_filtered': isFiltered}"
+       @click="popUpFilter.show">
     <svg width="100%" height="100%" viewBox="0 0 768 768">
       <path
           d="M136.5 180q19.5 24 43.5 55.5t48.75 63 45 58.5 33 42.75l12.75 15.75v192q0 13.5 9.75 23.25t23.25 9.75h63q13.5 0 23.25-9.75t9.75-23.25v-192l12.75-15.75t33-42.75 45-58.5 48.75-63 43.5-55.5q9-10.5 7.5-22.5t-10.5-21-22.5-9h-444q-13.5 0-22.5 9t-10.5 21 7.5 22.5z"></path>
@@ -31,8 +31,7 @@
   <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">
     <AddToCollectionsBlock :film="addingToCollectionFilm"
                            @currentCollectionChanged="currentCollectionChanged"
-                           @favoriteCollectionChanged="favoriteCollectionChanged"
-                           @save="popUpAddToCollections.hide"/>
+                           @favoriteCollectionChanged="favoriteCollectionChanged"/>
   </PopUp>
 
   <PopUp :pop-up-controller="popUpFilter" :closable="false" title="Фильтр поиска фильмов">

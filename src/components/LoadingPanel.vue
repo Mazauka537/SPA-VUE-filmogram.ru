@@ -32,7 +32,6 @@ export default {
   height: 100%;
   left: 0;
   top: 0;
-  background: rgba($color-bg-nav, 0.4);
 
   &_transparent {
     background: transparent;

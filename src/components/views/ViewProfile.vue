@@ -1,5 +1,5 @@
 <template>
-  <SinglePage v-if="user">
+  <ScrollableBlock v-if="user">
     <div class="view-profile">
       <div class="view-profile__header">
         <div class="view-profile__avatar">
@@ -40,16 +40,16 @@
         <ProfileBody :user="user"/>
       </div>
     </div>
+  </ScrollableBlock>
 
-    <PopUp :pop-up-controller="popUpNewCollection" title="Создание новой коллекции">
-      <FormNewCollection style="margin-top: 30px;"/>
-    </PopUp>
+  <PopUp :pop-up-controller="popUpNewCollection" title="Создание новой коллекции">
+    <FormNewCollection style="margin-top: 30px;"/>
+  </PopUp>
 
-    <PopUp :pop-up-controller="popUpEditUserData" title="Данные профиля">
-      <FormEditUserData style="margin-top: 30px;" :user="user" @changed="onUserDataChanged"/>
-    </PopUp>
+  <PopUp :pop-up-controller="popUpEditUserData" title="Данные профиля">
+    <FormEditUserData style="margin-top: 30px;" :user="user" @changed="onUserDataChanged"/>
+  </PopUp>
 
-  </SinglePage>
 </template>
 
 <script>
@@ -61,22 +61,22 @@ import {useRoute} from "vue-router";
 import {onMounted, ref, watch} from "vue";
 import useEditUser from "@/composables/useEditUser";
 import useGetUser from "@/composables/useGetUser";
-import SinglePage from "@/components/views/SinglePage";
 import MyButton from "@/components/UI/MyButton";
 import useToggleSubscription from "@/composables/useToggleSubscription";
 import MoreBtn from "@/components/UI/MoreBtn";
 import ShareBtn from "@/components/UI/ShareBtn";
 import FormEditUserData from "@/components/forms/FormEditUserData";
 import ProfileBody from "@/components/ProfileBody";
+import ScrollableBlock from "@/components/ScrollableBlock";
 
 export default {
   components: {
+    ScrollableBlock,
     ProfileBody,
     FormEditUserData,
     ShareBtn,
     MoreBtn,
     MyButton,
-    SinglePage,
     FormNewCollection,
     DialogConfirm,
     PopUp,

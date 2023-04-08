@@ -1,9 +1,9 @@
 <template>
   <div class="block-list">
 
-    <div class="block-list__title">{{ title }}</div>
-
     <LoadableItemsContainer :loader="itemsLoader">
+      <div class="block-list__title">{{ title }}</div>
+
       <div class="block-list__blocks">
         <div class="block-list__block"
              v-for="item in itemsLoader.items"
@@ -26,7 +26,7 @@
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
-import {computed} from "vue";
+import {computed, ref} from "vue";
 import EmptyBlock from "@/components/EmptyBlock";
 
 export default {
@@ -44,8 +44,11 @@ export default {
       return 8 - (props.itemsLoader.items.length % 8)
     })
 
+    const elemScrollableBlock = ref(undefined)
+
     return {
-      missingBlocksCount
+      missingBlocksCount,
+      elemScrollableBlock
     }
   }
 }
@@ -55,6 +58,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .block-list {
+  height: 100%;
 
   &__title {
     font-size: 22px;

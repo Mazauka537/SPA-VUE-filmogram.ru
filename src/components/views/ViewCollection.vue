@@ -107,8 +107,7 @@
     <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">
       <AddToCollectionsBlock :film="addingToCollectionFilm"
                              @currentCollectionChanged="currentCollectionChanged"
-                             @favoriteCollectionChanged="favoriteCollectionChanged"
-                             @save="popUpAddToCollections.hide"/>
+                             @favoriteCollectionChanged="favoriteCollectionChanged"/>
     </PopUp>
 
     <PopUp :pop-up-controller="popUpEditCollection" title="Изменение сведений">

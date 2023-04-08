@@ -8,9 +8,6 @@
                        :collection="collection"
                        @click="toggleSelect(collection.id)"/>
     </div>
-    <div class="add-to-collections-block__save">
-      <MyButton @click="$emit('save')">Сохранить</MyButton>
-    </div>
   </div>
 </template>
 
@@ -74,7 +71,6 @@ export default {
 @import "src/assets/styles/vars";
 
 .add-to-collections-block {
-  padding-top: 10px;
 
   &__load {
     padding: 30px;

@@ -1,9 +1,9 @@
 export default {
   mounted (el, binding) {
-    const observer = new IntersectionObserver((entires, observer) => {
-      console.log('intersected')
-      if (entires[entires.length - 1].isIntersecting) {
-        binding.value()
+    const observer = new IntersectionObserver((entries, observer) => {
+      console.log(entries)
+      if (entries[entries.length - 1].isIntersecting) {
+        binding.value(entries[entries.length - 1])
       }
     }, {
       rootMargin: '0px',
