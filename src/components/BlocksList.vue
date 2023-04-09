@@ -1,7 +1,7 @@
 <template>
   <div class="block-list">
 
-    <LoadableItemsContainer :loader="itemsLoader">
+    <LoadableItemsContainerWithOwnScroll :loader="itemsLoader">
       <div class="block-list__title">{{ title }}</div>
 
       <div class="block-list__blocks">
@@ -17,20 +17,20 @@
           <EmptyBlock/>
         </div>
       </div>
-    </LoadableItemsContainer>
+    </LoadableItemsContainerWithOwnScroll>
 
   </div>
 </template>
 
 <script>
-import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
 import {computed, ref} from "vue";
 import EmptyBlock from "@/components/EmptyBlock";
+import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
 
 export default {
-  components: {EmptyBlock, UserBlock, CollectionBlock, LoadableItemsContainer},
+  components: {LoadableItemsContainerWithOwnScroll, EmptyBlock, UserBlock, CollectionBlock},
   props: {
     isUsers: {
       type: Boolean,

@@ -6,6 +6,25 @@
   margin: 0;
   box-sizing: border-box;
   outline: none;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(#999, 0.1) transparent;
+}
+
+*:hover::-webkit-scrollbar-thumb {
+  background: rgba(#999, 0.1);
+}
+
+*::-webkit-scrollbar {
+  height: 6px;
+  width: 6px;
+}
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+*::-webkit-scrollbar-thumb {
+  background: transparent;
+  border-radius: 5px;
+  width: 6px;
 }
 
 body {

@@ -2,7 +2,7 @@
   <div class="searched-films">
 
     <FilmTableHead/>
-    <LoadableItemsContainer :loader="searchedFilmsLoader">
+    <LoadableItemsContainerWithOwnScroll :loader="searchedFilmsLoader">
       <div class="searched-films__film-block" v-for="(film, index) in searchedFilmsLoader.items" :key="film.film_id">
         <FilmBlock :film="film"
                    :number="index + 1"
@@ -10,7 +10,7 @@
                    @pointerdown="selectedFilm = film"
                    @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
       </div>
-    </LoadableItemsContainer>
+    </LoadableItemsContainerWithOwnScroll>
 
   </div>
 
@@ -43,7 +43,6 @@
 import BlocksList from "@/components/BlocksList";
 import {computed, ref, watch} from "vue";
 import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
-import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import FilmBlock from "@/components/FilmBlock";
 import FilmTableHead from "@/components/FilmTableHead";
 import InfoBlockFilm from "@/components/InfoBlockFilm";
@@ -55,13 +54,15 @@ import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections
 import ScrollableBlock from "@/components/ScrollableBlock";
 import FormFilmsFilter from "@/components/forms/FormFilmsFilter";
 import usePopUp from "@/composables/usePopUp";
+import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
 
 export default {
   components: {
+    LoadableItemsContainerWithOwnScroll,
     FormFilmsFilter,
     ScrollableBlock,
     AddToCollectionsBlock,
-    PopUp, InfoBlockFilm, FilmTableHead, FilmBlock, LoadableItemsContainer, BlocksList
+    PopUp, InfoBlockFilm, FilmTableHead, FilmBlock, BlocksList
   },
   props: {
     searchString: String
@@ -146,7 +147,7 @@ export default {
     padding: 10px 12px;
     font-size: 13px;
     color: $color-text-light;
-    background: $color-bg-search-item;
+    background: $color-bg-search-type;
     border-radius: 100px;
     cursor: pointer;
     z-index: 3;

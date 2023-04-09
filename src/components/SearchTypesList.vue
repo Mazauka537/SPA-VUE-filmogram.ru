@@ -46,14 +46,14 @@ export default {
     padding: 7px 11px;
     font-size: 13px;
     color: $color-text-light;
-    background: $color-bg-search-item;
+    background: $color-bg-search-type;
     border-radius: 100px;
     margin-right: 12px;
     cursor: pointer;
 
     &_active {
       background: $color-text-light;
-      color: $color-bg-search-item;
+      color: $color-bg-search-type;
     }
   }
 }

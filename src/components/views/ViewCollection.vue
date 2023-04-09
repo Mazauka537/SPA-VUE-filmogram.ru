@@ -1,7 +1,7 @@
 <template>
   <template v-if="collection">
 
-    <ScrollableBlock>
+    <ScrollableBlock ref="scrollableBlock">
 
       <div class="view-collection">
 
@@ -66,7 +66,7 @@
 
           <FilmTableHead/>
 
-          <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;">
+          <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;" :scrollable-block="scrollableBlock">
             <DragContainer @drop="changeOrder" :disable="!$store.getters['auth/isOwner'](collection.user_id)">
               <DragBlock v-for="(film, index) in sortedFilms" :key="film.id">
                 <div class="view-collection__film-block-wrapper" ref="elemsFilmBlocks" :data-film-id="film.id">
@@ -166,6 +166,7 @@ export default {
   },
   setup() {
     const elemsFilmBlocks = ref(undefined)
+    const scrollableBlock = ref(undefined)
 
     const sortedFilms = computed(() => {
       return collectedFilmsLoader.items.sort((filmA, filmB) => filmB.order - filmA.order)
@@ -218,6 +219,7 @@ export default {
 
     return {
       defaultPoster: 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/746160.jpg',
+      scrollableBlock,
       moreBtnOptions,
       collection,
       selectedFilm,
@@ -338,7 +340,6 @@ export default {
 
   &__body {
     background: $color-bg-body;
-    height: 100%;
     padding: 30px 30px 130px 30px;
   }
 

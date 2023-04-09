@@ -4,7 +4,7 @@
       <MySearchInput v-model="searchString"/>
 
       <div class="searching-films__list" ref="elemList">
-        <LoadableItemsContainer :loader="filmsLoader">
+        <LoadableItemsContainerWithOwnScroll :loader="filmsLoader">
           <div class="searching-films__film" v-for="film in filmsLoader.items" @click="toggleFilm(collection.id, film)">
             <div class="searching-films__film-check">
               <MyCheckbox :checked="film.isInCollection"/>
@@ -13,7 +13,7 @@
               <FilmBlockMini :film="film" @save="toggleFavorite" style="padding: 10px 10px 10px 0;"/>
             </div>
           </div>
-        </LoadableItemsContainer>
+        </LoadableItemsContainerWithOwnScroll>
       </div>
 
   </div>
@@ -21,7 +21,6 @@
 
 <script>
 import MySearchInput from "@/components/UI/MySearchInput";
-import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import MyCheckbox from "@/components/UI/MyCheckbox";
 import useFilmsLoader from "@/composables/useFilmsLoader";
 import FilmBlockMini from "@/components/FilmBlockMini";
@@ -29,9 +28,10 @@ import {onMounted, ref} from "vue";
 import SimpleScrollbar from "simple-scrollbar";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import useToggleFilm from "@/composables/useToggleFilm";
+import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
 
 export default {
-  components: {FilmBlockMini, MyCheckbox, LoadableItemsContainer, MySearchInput},
+  components: {LoadableItemsContainerWithOwnScroll, FilmBlockMini, MyCheckbox, MySearchInput},
   props: {
     collection: Object
   },
