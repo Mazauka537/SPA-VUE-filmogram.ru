@@ -1,7 +1,7 @@
 <template>
   <div class="form-films-filter">
 
-    <MySelect :options="orderOptions" v-model="form.order" style="margin-top: 45px;"/>
+    <MySelect :options="orderOptions" v-model="form.order" style="margin-top: 20px;"/>
     <MySelect :options="typeOptions" v-model="form.type" style="margin-top: 30px;"/>
     <MySelect :options="genreOptions" v-model="form.genre" style="margin-top: 30px;"/>
 
@@ -126,6 +126,8 @@ export default {
 <style scoped lang="scss">
 
 .form-films-filter {
+  width: 100%;
+  max-width: 400px;
 
   &__input-line {
     display: flex;

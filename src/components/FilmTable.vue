@@ -43,6 +43,7 @@ export default {
 
   &__number {
     width: 40px;
+    flex-shrink: 0;
     text-align: right;
     padding-right: 15px;
   }
@@ -53,30 +54,36 @@ export default {
   }
 
   &__genre {
-    width: 400px;
+    width: 350px;
+    flex-shrink: 0;
     padding-right: 50px;
   }
 
   &__year {
     width: 100px;
+    flex-shrink: 0;
     padding-right: 10px;
   }
 
   &__save {
     width: 40px;
+    flex-shrink: 0;
   }
 
   &__rate {
-    width: 50px;
+    width: 70px;
+    flex-shrink: 0;
     text-align: right;
   }
 
   &__more {
     width: 50px;
+    flex-shrink: 0;
   }
 
   &__grab {
     width: 50px;
+    flex-shrink: 0;
   }
 }
 </style>

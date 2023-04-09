@@ -56,6 +56,7 @@ export default {
   &__poster {
     width: 60px;
     height: 90px;
+    flex-shrink: 0;
 
     img {
       width: 100%;
@@ -92,11 +93,17 @@ export default {
     padding: 0 15px;
     height: 20px;
     width: 50px;
+    flex-shrink: 0;
     opacity: 0;
 
     &_visible {
       opacity: 1;
     }
+  }
+
+  &__year {
+    width: 40px;
+    flex-shrink: 0;
   }
 }
 </style>

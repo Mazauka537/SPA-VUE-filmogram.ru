@@ -43,7 +43,6 @@ export default {
     }
 
     const isIntersectionInVision = () => {
-      console.log(props.scrollableBlock)
       const elemScrollableBlock = props.scrollableBlock.elemScrollableBlock.querySelector('.ss-content')
       const rectScrollBlock = elemScrollableBlock.getBoundingClientRect()
       const rectIntersection = elemIntersection.value.getBoundingClientRect()

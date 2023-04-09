@@ -86,7 +86,7 @@ export default {
 
 .form-edit-user-data {
   text-align: right;
-  width: 500px;
+  max-width: 500px;
 
   &__inputs {
     display: flex;
@@ -98,6 +98,7 @@ export default {
     height: 180px;
     border-radius: 50%;
     overflow: hidden;
+    flex-shrink: 0;
   }
 
   &__info {

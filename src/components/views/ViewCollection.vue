@@ -94,8 +94,8 @@
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
 
-    <PopUp :pop-up-controller="popUpAddFilms" :center="false" :title="'Поиск фильмов в коллекцию ' + collection.title">
-      <SearchingFilmsBlock :collection="collection" @close="popUpAddFilms.hide" style="margin-top: 30px;"/>
+    <PopUp :pop-up-controller="popUpAddFilms" :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title">
+      <SearchingFilmsBlock :collection="collection" @close="popUpAddFilms.hide"/>
     </PopUp>
 
     <PopUp :pop-up-controller="popUpDeleteCollection" :title="'Удалить коллекцию &quot' + collection.title + '&quot?'">
@@ -265,6 +265,7 @@ export default {
   &__preview {
     height: 240px;
     width: 240px;
+    flex-shrink: 0;
 
     img {
       vertical-align: middle;

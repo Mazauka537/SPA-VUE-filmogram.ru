@@ -3,7 +3,7 @@
 
       <MySearchInput v-model="searchString"/>
 
-      <div class="searching-films__list" ref="elemList">
+      <div class="searching-films__list">
         <LoadableItemsContainerWithOwnScroll :loader="filmsLoader">
           <div class="searching-films__film" v-for="film in filmsLoader.items" @click="toggleFilm(collection.id, film)">
             <div class="searching-films__film-check">
@@ -24,8 +24,6 @@ import MySearchInput from "@/components/UI/MySearchInput";
 import MyCheckbox from "@/components/UI/MyCheckbox";
 import useFilmsLoader from "@/composables/useFilmsLoader";
 import FilmBlockMini from "@/components/FilmBlockMini";
-import {onMounted, ref} from "vue";
-import SimpleScrollbar from "simple-scrollbar";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import useToggleFilm from "@/composables/useToggleFilm";
 import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
@@ -37,17 +35,11 @@ export default {
   },
   setup() {
     const {filmsLoader, searchString} = useFilmsLoader()
-    const elemList = ref()
 
     const {toggleFavorite} = useToggleFavorite()
     const {toggleFilm} = useToggleFilm()
 
-    onMounted(() => {
-      SimpleScrollbar.initEl(elemList.value)
-    })
-
     return {
-      elemList,
       searchString,
       filmsLoader,
       toggleFilm,
@@ -63,11 +55,11 @@ export default {
 .searching-films {
   height: 100%;
   width: 100%;
+  max-width: 600px;
 
   &__list {
     margin-top: 20px;
-    padding-right: 5px;
-    padding-bottom: 100px;
+    padding-bottom: 35px;
     height: 100%;
   }
 
@@ -85,10 +77,12 @@ export default {
 
   &__film-check {
     width: 30px;
+    flex-shrink: 0;
   }
 
   &__film-block {
-    width: 100%;
+    flex-grow: 1;
+    min-width: 0;
     overflow: hidden;
   }
 }

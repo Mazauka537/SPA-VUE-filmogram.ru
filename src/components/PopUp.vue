@@ -3,7 +3,7 @@
        @click="() => {if (closable) popUpController.hide()}"
        v-if="popUpController.visible">
 
-    <div class="pop-up__inner panel" @click="clickInnerHandler">
+    <div class="pop-up__inner panel" :class="{'pop-up__inner_fullscreen': fullScreen}" @click="clickInnerHandler">
 
       <div class="pop-up__header">
         <div class="pop-up__title">
@@ -33,6 +33,10 @@ export default {
     closable: {
       type: Boolean,
       default: true
+    },
+    fullScreen: {
+      type: Boolean,
+      default: false
     }
   },
   setup(props) {
@@ -73,6 +77,14 @@ export default {
 
     display: flex;
     flex-direction: column;
+
+    &_fullscreen {
+      height: 100%;
+
+      .pop-up__body {
+        overflow-y: hidden;
+      }
+    }
   }
 
   &__header {

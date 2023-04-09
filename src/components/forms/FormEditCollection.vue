@@ -85,7 +85,8 @@ export default {
 
 .form-edit-collection {
   text-align: right;
-  width: 500px;
+  width: 100%;
+  max-width: 500px;
 
   &__inputs {
     text-align: left;
@@ -95,6 +96,7 @@ export default {
   &__image {
     width: 180px;
     height: 180px;
+    flex-shrink: 0;
   }
 
   &__info {

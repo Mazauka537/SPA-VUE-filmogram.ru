@@ -146,6 +146,7 @@ export default {
   &__avatar {
     height: 230px;
     width: 230px;
+    flex-shrink: 0;
 
     img {
       border-radius: 50%;

@@ -2,15 +2,18 @@
   <div class="searched-films">
 
     <FilmTableHead/>
-    <LoadableItemsContainerWithOwnScroll :loader="searchedFilmsLoader">
-      <div class="searched-films__film-block" v-for="(film, index) in searchedFilmsLoader.items" :key="film.film_id">
-        <FilmBlock :film="film"
-                   :number="index + 1"
-                   @save="toggleFavorite"
-                   @pointerdown="selectedFilm = film"
-                   @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
-      </div>
-    </LoadableItemsContainerWithOwnScroll>
+
+    <div class="searched-films__films">
+      <LoadableItemsContainerWithOwnScroll :loader="searchedFilmsLoader">
+        <div class="searched-films__film-block" v-for="(film, index) in searchedFilmsLoader.items" :key="film.film_id">
+          <FilmBlock :film="film"
+                     :number="index + 1"
+                     @save="toggleFavorite"
+                     @pointerdown="selectedFilm = film"
+                     @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
+        </div>
+      </LoadableItemsContainerWithOwnScroll>
+    </div>
 
   </div>
 
@@ -135,6 +138,10 @@ export default {
 .searched-films {
   padding-right: 300px;
   height: 100%;
+
+  &__films {
+    padding-right: 18px;
+  }
 
   &__film-block {
     padding: 5px 0;
