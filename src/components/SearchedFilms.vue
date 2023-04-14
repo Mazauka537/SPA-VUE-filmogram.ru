@@ -141,6 +141,7 @@ export default {
 
   &__films {
     padding-right: 18px;
+    height: 100%;
   }
 
   &__film-block {

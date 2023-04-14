@@ -41,7 +41,7 @@ export default {
 .collection-block {
   padding: 15px 15px 30px 15px;
   background: $color-bg-side;
-  display: block;
+  display: inline-block;
   border-radius: 7px;
 
   &:hover {

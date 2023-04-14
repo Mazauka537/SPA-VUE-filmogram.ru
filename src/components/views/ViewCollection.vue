@@ -90,7 +90,6 @@
 
     <InfoBlockFilm v-if="selectedFilm"
                    :film="selectedFilm"
-                   :collection="collection"
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
 

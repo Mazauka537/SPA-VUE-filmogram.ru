@@ -160,12 +160,6 @@
           </a>
         </div>
 
-        <div class="info-block-film__delete"
-             v-if="collection && $store.getters['auth/isOwner'](collection.user_id)"
-             style="margin-top: 40px">
-          <MyButton @click="$emit('delete')">Удалить</MyButton>
-        </div>
-
       </div>
     </ScrollableBlock>
   </div>
@@ -182,7 +176,6 @@ import ScrollableBlock from "@/components/ScrollableBlock";
 export default {
   components: {ScrollableBlock, LoadingPanel, PersonsList, MyButton},
   props: {
-    collection: Object,
     film: Object
   },
   setup(props) {

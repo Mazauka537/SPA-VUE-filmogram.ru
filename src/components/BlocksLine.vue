@@ -2,11 +2,11 @@
   <div class="blocks-line">
     <div class="blocks-line__header">
       <span class="blocks-line__title">{{ title }}</span>
-      <router-link class="blocks-line__link" :to="link">Показать все</router-link>
+      <router-link v-if="link" class="blocks-line__link" :to="link">Показать все</router-link>
     </div>
     <div class="blocks-line__blocks">
       <div class="blocks-line__block"
-           v-for="item in items.slice(0, 8)"
+           v-for="item in items.slice(0, maxItemsCount)"
            :key="item.id">
         <UserBlock v-if="isUsers" :user="item"/>
         <CollectionBlock v-else :collection="item"/>
@@ -38,13 +38,16 @@ export default {
     items: Array
   },
   setup(props) {
+    const maxItemsCount = 12;
+
     const missingBlocksCount = computed(() => {
-      let count = 8 - (props.items.slice(0, 8).length % 8)
-      return count === 8 ? 0 : count
+      let count = maxItemsCount - (props.items.slice(0, maxItemsCount).length % maxItemsCount)
+      return count === maxItemsCount ? 0 : count
     })
 
     return {
-      missingBlocksCount
+      missingBlocksCount,
+      maxItemsCount
     }
   }
 }
@@ -54,6 +57,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .blocks-line {
+  padding-right: 18px;
 
   &__header {
 
