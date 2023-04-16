@@ -11,10 +11,6 @@
               <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
                    :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image">
             </template>
-            <template v-else-if="collection.image">
-              <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
-                   :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image">
-            </template>
             <template v-else>
               <img :src="sortedFilms[3] ? sortedFilms[3].filmKp.posterUrlPreview : defaultPoster">
               <img :src="sortedFilms[2] ? sortedFilms[2].filmKp.posterUrlPreview : defaultPoster">

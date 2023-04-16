@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <BlocksLine v-if="searchedItems.collections.length > 0"
+      <BlocksLineShort v-if="searchedItems.collections.length > 0"
                   style="margin-top: 30px;"
                   :is-users="false"
                   title="Коллекции"
@@ -53,9 +53,12 @@ import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
 import BestBlocks from "@/components/BestBlocks";
+import BlocksLineShort from "@/components/BlocksLineShort";
 
 export default {
-  components: {BestBlocks, UserBlock, CollectionBlock, InfoBlockFilm, FilmBlockMini, BlocksLine, ScrollableBlock},
+  components: {
+    BlocksLineShort,
+    BestBlocks, UserBlock, CollectionBlock, InfoBlockFilm, FilmBlockMini, BlocksLine, ScrollableBlock},
 
   props: {
     searchString: String

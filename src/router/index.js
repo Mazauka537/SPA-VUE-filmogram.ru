@@ -12,6 +12,11 @@ const routes = [
     component: () => import('@/components/views/ViewLogout')
   },
   {
+    name: 'home',
+    path: '/',
+    component: () => import('@/components/views/ViewHome')
+  },
+  {
     name: 'profile',
     path: '/user/:id(\\d+)',
     component: () => import('@/components/views/ViewProfile')
@@ -25,6 +30,11 @@ const routes = [
     name: 'collection',
     path: '/collection/:id',
     component: () => import('@/components/views/ViewCollection')
+  },
+  {
+    name: 'default-collection',
+    path: '/default/collection/:id',
+    component: () => import('@/components/views/ViewDefaultCollectionSuspense')
   },
   {
     name: 'collections',
@@ -45,6 +55,25 @@ const routes = [
     name: 'subscriptions',
     path: '/user/:id(\\d+)/subscriptions',
     component: () => import('@/components/views/ViewSubscriptions')
+  },
+  {
+    name: 'settings',
+    path: '/settings',
+    component: () => import('@/components/views/ViewSettings'),
+    children: [
+      {
+        path: 'profile',
+        component: () => import('@/components/SettingsWindows/SWProfile')
+      },
+      {
+        path: 'notices',
+        component: () => import('@/components/SettingsWindows/SWNotices')
+      },
+      {
+        path: 'password',
+        component: () => import('@/components/SettingsWindows/SWPassword')
+      },
+    ]
   },
   {
     name: 'tests',

@@ -9,7 +9,8 @@ export default function useGetFirstCollections() {
   const getCollections = async (userId) => {
     const response = await requestMaker.fetch('get/collections', 'GET', {
       user_id: userId,
-      page: 1
+      page: 1,
+      limit: 11
     }, [200, 422, 404])
 
     switch (response.status) {

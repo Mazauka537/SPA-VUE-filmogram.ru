@@ -38,7 +38,7 @@ export default {
     items: Array
   },
   setup(props) {
-    const maxItemsCount = 11;
+    const maxItemsCount = 9;
 
     const missingBlocksCount = computed(() => {
       let count = maxItemsCount - (props.items.slice(0, maxItemsCount).length % maxItemsCount)
@@ -85,31 +85,19 @@ export default {
 
   &__block {
     padding: 15px 7px;
+
+    &:nth-child(11) {
+      display: none;
+    }
+
+    &:nth-child(10) {
+      display: none;
+    }
   }
 
 }
 
 @media screen and (max-width: 2420px) {
-  .blocks-line {
-    &__block {
-      &:nth-child(11) {
-        display: none;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 2230px) {
-  .blocks-line {
-    &__block {
-      &:nth-child(10) {
-        display: none;
-      }
-    }
-  }
-}
-
-@media screen and (max-width: 2040px) {
   .blocks-line {
     &__block {
       &:nth-child(9) {
@@ -119,7 +107,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1850px) {
+@media screen and (max-width: 2230px) {
   .blocks-line {
     &__block {
       &:nth-child(8) {
@@ -129,7 +117,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1650px) {
+@media screen and (max-width: 2040px) {
   .blocks-line {
     &__block {
       &:nth-child(7) {
@@ -139,7 +127,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1460px) {
+@media screen and (max-width: 1850px) {
   .blocks-line {
     &__block {
       &:nth-child(6) {
@@ -149,10 +137,30 @@ export default {
   }
 }
 
-@media screen and (max-width: 1260px) {
+@media screen and (max-width: 1650px) {
   .blocks-line {
     &__block {
       &:nth-child(5) {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .blocks-line {
+    &__block {
+      &:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1260px) {
+  .blocks-line {
+    &__block {
+      &:nth-child(3) {
         display: none;
       }
     }
