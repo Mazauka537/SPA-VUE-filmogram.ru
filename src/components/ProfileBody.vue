@@ -15,6 +15,7 @@
               :is-users="false">
   </BlocksLine>
 
+  <div id="media-del">
   <BlocksLine v-if="subscriptions.length > 0"
               style="margin-top: 30px;"
               title="Подписки"
@@ -28,6 +29,7 @@
               :link="'/user/' + user.id + '/subscribes'"
               :items="subscribers">
   </BlocksLine>
+  </div>
 </template>
 
 <script>
@@ -89,4 +91,9 @@ export default {
 
 <style scoped>
 
+@media screen and (max-width: 560px) {
+  #media-del {
+    display: none;
+  }
+}
 </style>

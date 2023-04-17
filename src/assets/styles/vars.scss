@@ -13,7 +13,12 @@ $color-bg-main: #121212;
 $color-bg-side: #181818;
 $color-bg-input: #333333;
 $color-bg-button: #FFFFFF;
-$color-bg-header: linear-gradient(to bottom,#545454, #2A2A2A 350px, $color-bg-main 500px);
+$color-bg-header: linear-gradient(to bottom, #545454, #2A2A2A 350px, $color-bg-main 500px);
 $color-bg-body: rgba($color-bg-main, 0.3);
 
 $font-size-nav: 14px;
+
+
+//media
+$color-bg-header-media: linear-gradient(to bottom, #545454, #2A2A2A 100px, $color-bg-main 200px);
+$color-bg-nav-media: linear-gradient(to bottom, #121212, #000 50%, #000 100%);

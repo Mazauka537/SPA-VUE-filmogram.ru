@@ -10,7 +10,10 @@
         <div class="view-profile__user-info">
           <div class="view-profile__user-name">{{ user.name }}</div>
           <div class="view-profile__main-info">
-            <router-link :to="'/user/' + user.id">{{ user.public_collections }} открытых коллекций</router-link>&nbsp;&bull;
+            <router-link :to="'/user/' + user.id" id="collections-count">{{ user.public_collections }} открытых
+              коллекций
+            </router-link>
+            <span id="collections-count-space">&nbsp;&bull;&nbsp;</span>
             <router-link :to="'/user/' + user.id + '/subscribers'">{{ user.subscribers }} подписчиков</router-link>&nbsp;&bull;
             <router-link :to="'/user/' + user.id + '/subscriptions'">{{ user.subscriptions }} подписок</router-link>
           </div>
@@ -19,16 +22,16 @@
 
       <div class="view-profile__body">
         <div class="view-profile__ctrl-panel">
-          <MyButton v-if="!$store.getters['auth/isOwner'](user.id)"
-                    @click="toggleSubscription(user)"
-                    style="margin-right: 25px;">
+          <span v-if="!$store.getters['auth/isOwner'](user.id)" class="view-profile__btn">
+          <MyButton @click="toggleSubscription(user)">
             {{ user.isSubscribed ? 'Отписаться' : 'Подписаться' }}
           </MyButton>
-          <MyButton v-else
-                    @click="popUpNewCollection.show"
-                    style="margin-right: 25px;">
+          </span>
+          <span v-else class="view-profile__btn">
+          <MyButton @click="popUpNewCollection.show">
             Создать коллецию
           </MyButton>
+          </span>
           <button class="view-profile__share-btn">
             <ShareBtn :link="window.location.origin + '/user/' + user.id"/>
           </button>
@@ -41,6 +44,8 @@
       </div>
     </div>
   </ScrollableBlock>
+
+  <router-view :pop-up-contriller="popUpNewCollection" title="Создание новой коллекции"></router-view>
 
   <PopUp :pop-up-controller="popUpNewCollection" title="Создание новой коллекции">
     <FormNewCollection style="margin-top: 30px;"/>
@@ -189,6 +194,10 @@ export default {
     }
   }
 
+  &__btn {
+    margin-right: 25px;
+  }
+
   &__more-btn, &__share-btn {
     display: inline-block;
     height: 40px;
@@ -202,6 +211,68 @@ export default {
 
   &__share-btn {
     margin-right: 20px;
+  }
+}
+
+@media screen and (max-width: 1260px) {
+  .view-profile {
+
+    &__avatar {
+      height: 180px;
+      width: 180px;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .view-profile {
+    background: $color-bg-header-media;
+
+    &__header {
+      padding: 15px 15px 0 15px;
+      align-items: center;
+    }
+
+    &__avatar {
+      height: 100px;
+      width: 100px;
+    }
+
+    &__user-info {
+      padding-left: 15px;
+    }
+
+    &__user-name {
+      font-size: 26px;
+      color: $color-text-light;
+      font-weight: 700;
+      padding: 0 0 5px 0;
+    }
+
+    &__body {
+      background: none;
+      padding: 15px;
+    }
+
+    &__btn {
+      margin-right: 15px;
+    }
+
+    &__more-btn, &__share-btn {
+      height: 36px;
+      width: 36px;
+    }
+
+    &__share-btn {
+      margin-right: 10px;
+    }
+  }
+
+  #collections-count {
+    display: none;
+  }
+  #collections-count-space {
+    display: none;
   }
 }
 </style>

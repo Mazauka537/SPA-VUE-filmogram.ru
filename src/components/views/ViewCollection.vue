@@ -376,4 +376,42 @@ export default {
 
   }
 }
+
+@media screen and (max-width: 1260px) {
+  .view-collection {
+
+    &__preview {
+      height: 180px;
+      width: 180px;
+
+      img:nth-child(4) {
+        width: 120px;
+        height: 180px;
+        margin-left: -136px;
+      }
+
+      img:nth-child(3) {
+        width: 108px;
+        height: 162px;
+        margin-left: -123px;
+      }
+
+      img:nth-child(2) {
+        width: 96px;
+        height: 144px;
+        margin-left: -111px;
+      }
+
+      img:nth-child(1) {
+        width: 84px;
+        height: 126px;
+        margin-left: 80px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+
+}
 </style>

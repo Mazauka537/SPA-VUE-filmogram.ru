@@ -19,8 +19,6 @@
 </template>
 
 <script>
-import SimpleScrollbar from 'simple-scrollbar'
-import {onMounted, ref} from "vue";
 import MainNav from "@/components/MainNav";
 import ViewAuth from "@/components/views/ViewAuth";
 import NotificationBlock from "@/components/NotificationBlock";
@@ -28,18 +26,6 @@ import NotificationContainer from "@/components/NotificationContainer";
 
 export default {
   components: {NotificationContainer, NotificationBlock, ViewAuth, MainNav},
-  props: [],
-  setup() {
-    const elemNav = ref()
-
-    onMounted(() => {
-      SimpleScrollbar.initEl(elemNav.value)
-    })
-
-    return {
-      elemNav,
-    }
-  }
 }
 
 </script>
@@ -76,6 +62,31 @@ export default {
     flex-grow: 1;
     min-width: 0;
     background: $color-bg-main;
+  }
+}
+
+@media screen and (max-width: 970px) {
+  .app {
+
+    &__nav {
+      width: 200px;
+      min-width: 200px;
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .app {
+
+    &__nav {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      height: 50px;
+      z-index: 4;
+      background: $color-bg-nav-media;
+    }
   }
 }
 </style>
