@@ -89,25 +89,25 @@
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
 
-    <PopUp :pop-up-controller="popUpAddFilms" :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title">
-      <SearchingFilmsBlock :collection="collection" @close="popUpAddFilms.hide"/>
-    </PopUp>
+<!--    <PopUp :pop-up-controller="popUpAddFilms" :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title">-->
+<!--      <SearchingFilmsBlock :collection="collection" @close="popUpAddFilms.hide"/>-->
+<!--    </PopUp>-->
 
-    <PopUp :pop-up-controller="popUpDeleteCollection" :title="'Удалить коллекцию &quot' + collection.title + '&quot?'">
-      <DialogConfirm
-          @yes="deleteCollection"
-          @no="popUpDeleteCollection.hide"/>
-    </PopUp>
+<!--    <PopUp :pop-up-controller="popUpDeleteCollection" :title="'Удалить коллекцию &quot' + collection.title + '&quot?'">-->
+<!--      <DialogConfirm-->
+<!--          @yes="deleteCollection"-->
+<!--          @no="popUpDeleteCollection.hide"/>-->
+<!--    </PopUp>-->
 
-    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">
-      <AddToCollectionsBlock :film="addingToCollectionFilm"
-                             @currentCollectionChanged="currentCollectionChanged"
-                             @favoriteCollectionChanged="favoriteCollectionChanged"/>
-    </PopUp>
+<!--    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">-->
+<!--      <AddToCollectionsBlock :film="addingToCollectionFilm"-->
+<!--                             @currentCollectionChanged="currentCollectionChanged"-->
+<!--                             @favoriteCollectionChanged="favoriteCollectionChanged"/>-->
+<!--    </PopUp>-->
 
-    <PopUp :pop-up-controller="popUpEditCollection" title="Изменение сведений">
-      <FormEditCollection style="margin-top: 30px;" :collection="collection" @collectionEdited="collectionEdited"/>
-    </PopUp>
+<!--    <PopUp :pop-up-controller="popUpEditCollection" title="Изменение сведений">-->
+<!--      <FormEditCollection style="margin-top: 30px;" :collection="collection" @collectionEdited="collectionEdited"/>-->
+<!--    </PopUp>-->
 
   </template>
 </template>

@@ -28,7 +28,7 @@
           </MyButton>
           </span>
           <span v-else class="view-profile__btn">
-          <MyButton @click="popUpNewCollection.show">
+          <MyButton @click="$router.push('/user/' + $route.params.id + '/new/collection')">
             Создать коллецию
           </MyButton>
           </span>
@@ -45,15 +45,15 @@
     </div>
   </ScrollableBlock>
 
-  <router-view :pop-up-contriller="popUpNewCollection" title="Создание новой коллекции"></router-view>
+  <router-view/>
 
-  <PopUp :pop-up-controller="popUpNewCollection" title="Создание новой коллекции">
-    <FormNewCollection style="margin-top: 30px;"/>
-  </PopUp>
+  <!--  <PopUp :pop-up-controller="popUpNewCollection" title="Создание новой коллекции">-->
+  <!--    <FormNewCollection style="margin-top: 30px;"/>-->
+  <!--  </PopUp>-->
 
-  <PopUp :pop-up-controller="popUpEditUserData" title="Данные профиля">
-    <FormEditUserData style="margin-top: 30px;" :user="user" @changed="onUserDataChanged"/>
-  </PopUp>
+  <!--  <PopUp :pop-up-controller="popUpEditUserData" title="Данные профиля">-->
+  <!--    <FormEditUserData style="margin-top: 30px;" :user="user" @changed="onUserDataChanged"/>-->
+  <!--  </PopUp>-->
 
 </template>
 

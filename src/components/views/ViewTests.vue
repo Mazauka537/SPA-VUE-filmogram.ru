@@ -16,8 +16,11 @@ import {ref} from "vue";
 
 export default {
   components: {MySelect},
-
-  setup() {
+  props: {
+    title: String
+  },
+  setup(props) {
+    console.log(props.title)
     const selectedValue = ref(undefined)
 
     const options = [
