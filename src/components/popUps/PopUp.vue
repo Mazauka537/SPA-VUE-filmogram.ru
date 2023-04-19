@@ -145,4 +145,26 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 560px) {
+  .pop-up {
+    display: block;
+
+    &__inner {
+      border-radius: 0;
+      height: 100%;
+      width: 100%;
+    }
+
+    &__title {
+      text-align: center;
+      padding: 0 30px;
+    }
+
+    &__close {
+      right: auto;
+      left: 20px;
+    }
+  }
+}
 </style>

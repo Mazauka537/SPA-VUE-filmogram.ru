@@ -30,7 +30,7 @@
                          :number="index + 1"
                          @save="toggleFavorite"
                          @pointerdown="setSelectedFilm(film)"
-                         @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
+                         @addToCollection="addingToCollectionFilm = film; $router.push({path: '/default/collection/' + $route.params.id, query: {popUp: 'addFilmToCollection'}})"/>
             </div>
           </LoadableItemsContainer>
         </div>
@@ -43,18 +43,18 @@
                    :film="selectedFilm"
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
-<!--    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">-->
-<!--      <AddToCollectionsBlock :film="addingToCollectionFilm"-->
-<!--                             @currentCollectionChanged="currentCollectionChanged"-->
-<!--                             @favoriteCollectionChanged="favoriteCollectionChanged"/>-->
-<!--    </PopUp>-->
+    <PopUpsContainer>
+      <PopUpAddFilmToCollections v-else-if="$route.query.popUp === 'addFilmToCollection'"
+                                 :film="addingToCollectionFilm"
+                                 @favoriteCollectionChanged="toggleFavorite"/>
+    </PopUpsContainer>
 
   </template>
 </template>
 
 <script>
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
-import {ref} from "vue";
+import {defineAsyncComponent, ref} from "vue";
 import {useRoute} from "vue-router";
 import InfoBlockFilm from "@/components/InfoBlockFilm";
 import FilmBlock from "@/components/FilmBlock";
@@ -65,9 +65,12 @@ import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import ScrollableBlock from "@/components/ScrollableBlock";
 import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
 import useGetCollectionData from "@/composables/useGetCollectionData";
+import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 
 export default {
   components: {
+    PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
+    PopUpsContainer,
     ScrollableBlock,
     FilmTableHead,
     InfoBlockFilm,
@@ -76,6 +79,7 @@ export default {
   async setup() {
     const route = useRoute()
 
+    const addingToCollectionFilm = ref(undefined)
     const scrollableBlock = ref(undefined)
     const collection = ref(undefined)
 
@@ -89,6 +93,7 @@ export default {
     const {searchedFilmsLoader} = useSearchedFilmsLoader(collection)
 
     return {
+      addingToCollectionFilm,
       collection,
       searchedFilmsLoader,
       scrollableBlock,
