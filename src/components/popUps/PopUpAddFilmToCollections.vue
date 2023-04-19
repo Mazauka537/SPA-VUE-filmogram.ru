@@ -1,28 +1,31 @@
 <template>
-  <div class="add-to-collections-block">
-    <div class="add-to-collections-block__load" v-if="isCollectionsLoading">
-      <LoadingPanel :size="45"/>
+  <PopUp title="Добавить в коллекцию" @close="$emit('close', isCurrentCollectionToggled)">
+    <div class="add-to-collections-block">
+      <div class="add-to-collections-block__load" v-if="isCollectionsLoading">
+        <LoadingPanel :size="45"/>
+      </div>
+      <div class="add-to-collections-block__list" v-else>
+        <CollectionCheck v-for="collection in collections"
+                         :collection="collection"
+                         @click="toggleSelect(collection.id)"/>
+      </div>
     </div>
-    <div class="add-to-collections-block__list" v-else>
-      <CollectionCheck v-for="collection in collections"
-                       :collection="collection"
-                       @click="toggleSelect(collection.id)"/>
-    </div>
-  </div>
+  </PopUp>
 </template>
 
 <script>
 import CollectionCheck from "@/components/CollectionCheck";
-import {onMounted} from "vue";
+import {onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import MyButton from "@/components/UI/MyButton";
 import LoadingPanel from "@/components/LoadingPanel";
 import useToggleFilm from "@/composables/useToggleFilm";
 import useLoadAllCollections from "@/composables/useLoadAllCollections";
+import PopUp from "@/components/popUps/PopUp";
 
 export default {
-  components: {LoadingPanel, MyButton, CollectionCheck},
+  components: {PopUp, LoadingPanel, MyButton, CollectionCheck},
   props: {
     film: Object
   },
@@ -37,7 +40,7 @@ export default {
       }
 
       if (route.name === 'collection' && +route.params.id === toggledCollection.id) {
-        emit('currentCollectionChanged')
+        isCurrentCollectionToggled.value = !isCurrentCollectionToggled.value
       }
 
       if (toggledCollection.constant) {
@@ -53,6 +56,7 @@ export default {
     const route = useRoute()
     const {toggleFilm} = useToggleFilm()
     const {collections, isCollectionsLoading, loadCollections} = useLoadAllCollections()
+    const isCurrentCollectionToggled = ref(false)
 
     onMounted(() => {
       loadCollections(store.state.auth.user.id, film.film_id)
@@ -61,7 +65,8 @@ export default {
     return {
       isCollectionsLoading,
       collections,
-      toggleSelect
+      toggleSelect,
+      isCurrentCollectionToggled
     }
   }
 }

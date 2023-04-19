@@ -8,7 +8,7 @@ export const authModule = {
   }),
   getters: {
     isOwner: state => userId => {
-      return state.user?.id === userId
+      return state.user?.id === +userId
     }
   },
   mutations: {

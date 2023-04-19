@@ -1,6 +1,6 @@
 <template>
   <div class="my-select">
-    <button class="my-select__btn" :class="{'my-select__btn_colored': selectedName}" @click.stop="showOptions">
+    <button class="my-select__btn" :class="{'my-select__btn_colored': selectedName}" @click.stop.prevent="showOptions">
       {{ selectedName ?? placeholder }}
       <svg width="100%" height="100%" viewBox="0 0 768 768" v-if="!isOptionsVisible">
         <path d="M223.5 319.5h321l-160.5 160.5z"></path>

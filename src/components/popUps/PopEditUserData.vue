@@ -1,30 +1,32 @@
 <template>
-  <form class="form-edit-user-data">
+  <PopUp title="Данные профиля">
+    <form class="form-edit-user-data">
 
-    <div class="form-edit-user-data__inputs">
+      <div class="form-edit-user-data__inputs">
 
-      <div class="form-edit-user-data__avatar">
-        <MyImageInput v-model="form.image"
-                      @clear="isImageDeleted = true"
-                      :starting-image-src="user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : undefined"/>
+        <div class="form-edit-user-data__avatar">
+          <MyImageInput v-model="form.image"
+                        @clear="isImageDeleted = true"
+                        :starting-image-src="$store.state.auth.user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + $store.state.auth.user.avatar : undefined"/>
+        </div>
+
+        <div class="form-edit-user-data__info">
+
+          <MyInput type="text" placeholder="Имя" v-model="form.name"/>
+
+          <MyButton @click="form.submit"
+                    :load="form.isSending"
+                    :white="true"
+                    style="margin-top: 30px;">
+            Сохранить
+          </MyButton>
+
+        </div>
+
       </div>
 
-      <div class="form-edit-user-data__info">
-
-        <MyInput type="text" placeholder="Имя" v-model="form.name"/>
-
-        <MyButton @click="form.submit"
-                  :load="form.isSending"
-                  :white="true"
-                  style="margin-top: 30px;">
-          Сохранить
-        </MyButton>
-
-      </div>
-
-    </div>
-
-  </form>
+    </form>
+  </PopUp>
 </template>
 
 <script>
@@ -35,12 +37,10 @@ import useRequestMaker from "@/composables/useRequestMaker";
 import {useStore} from "vuex";
 import MyInput from "@/components/UI/MyInput";
 import {ref} from "vue";
+import PopUp from "@/components/popUps/PopUp";
 
 export default {
-  components: {MyInput, MyButton, MyImageInput},
-  props: {
-    user: Object
-  },
+  components: {PopUp, MyInput, MyButton, MyImageInput},
   setup(_, {emit}) {
     const editUserDataRequest = async () => {
       const response = await requestMaker.fetch('edit/user/data', 'POST', {
@@ -51,7 +51,7 @@ export default {
 
       switch (response.status) {
         case 200:
-          emit('changed')
+          emit('userDataChanged')
           break;
         case 422:
           store.commit('notifications/addNotification', {
@@ -87,6 +87,7 @@ export default {
 .form-edit-user-data {
   text-align: right;
   max-width: 500px;
+  margin-top: 30px;
 
   &__inputs {
     display: flex;

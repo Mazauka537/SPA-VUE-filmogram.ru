@@ -24,6 +24,10 @@ const routes = [
       {
         path: 'new/collection',
         component: () => import('@/components/popUps/PopUpNewCollection')
+      },
+      {
+        path: 'edit/data',
+        component: () => import('@/components/popUps/PopEditUserData')
       }
     ]
   },
@@ -35,7 +39,7 @@ const routes = [
   {
     name: 'collection',
     path: '/collection/:id',
-    component: () => import('@/components/views/ViewCollection')
+    component: () => import('@/components/views/ViewCollection'),
   },
   {
     name: 'default-collection',
@@ -66,20 +70,6 @@ const routes = [
     name: 'settings',
     path: '/settings',
     component: () => import('@/components/views/ViewSettings'),
-    children: [
-      {
-        path: 'profile',
-        component: () => import('@/components/SettingsWindows/SWProfile')
-      },
-      {
-        path: 'notices',
-        component: () => import('@/components/SettingsWindows/SWNotices')
-      },
-      {
-        path: 'password',
-        component: () => import('@/components/SettingsWindows/SWPassword')
-      },
-    ]
   },
   {
     name: 'tests',

@@ -9,7 +9,8 @@
           <div class="view-collection__preview">
             <template v-if="collection.image">
               <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
-                   :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image">
+                   ref="elemPreviewImg"
+                   :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image + '?=1'">
             </template>
             <template v-else>
               <img :src="sortedFilms[3] ? sortedFilms[3].filmKp.posterUrlPreview : defaultPoster">
@@ -42,7 +43,7 @@
 
         <div class="view-collection__body">
           <div class="view-collection__ctrl-panel" v-if="!collection.constant">
-            <MyButton @click="popUpAddFilms.show"
+            <MyButton @click="$router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilms'}})"
                       v-if="$store.getters['auth/isOwner'](collection.user_id)"
                       style="margin-right: 25px;">
               Дополнить
@@ -62,7 +63,8 @@
 
           <FilmTableHead/>
 
-          <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;" :scrollable-block="scrollableBlock">
+          <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;"
+                                  :scrollable-block="scrollableBlock">
             <DragContainer @drop="changeOrder" :disable="!$store.getters['auth/isOwner'](collection.user_id)">
               <DragBlock v-for="(film, index) in sortedFilms" :key="film.id">
                 <div class="view-collection__film-block-wrapper" ref="elemsFilmBlocks" :data-film-id="film.id">
@@ -73,7 +75,7 @@
                              @save="toggleFavorite"
                              @pointerdown="setSelectedFilm(film)"
                              @delete="deleteFilm(film)"
-                             @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
+                             @addToCollection="addingToCollectionFilm = film; $router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilmToCollections'}})"/>
                 </div>
               </DragBlock>
             </DragContainer>
@@ -89,47 +91,35 @@
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
 
-<!--    <PopUp :pop-up-controller="popUpAddFilms" :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title">-->
-<!--      <SearchingFilmsBlock :collection="collection" @close="popUpAddFilms.hide"/>-->
-<!--    </PopUp>-->
-
-<!--    <PopUp :pop-up-controller="popUpDeleteCollection" :title="'Удалить коллекцию &quot' + collection.title + '&quot?'">-->
-<!--      <DialogConfirm-->
-<!--          @yes="deleteCollection"-->
-<!--          @no="popUpDeleteCollection.hide"/>-->
-<!--    </PopUp>-->
-
-<!--    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">-->
-<!--      <AddToCollectionsBlock :film="addingToCollectionFilm"-->
-<!--                             @currentCollectionChanged="currentCollectionChanged"-->
-<!--                             @favoriteCollectionChanged="favoriteCollectionChanged"/>-->
-<!--    </PopUp>-->
-
-<!--    <PopUp :pop-up-controller="popUpEditCollection" title="Изменение сведений">-->
-<!--      <FormEditCollection style="margin-top: 30px;" :collection="collection" @collectionEdited="collectionEdited"/>-->
-<!--    </PopUp>-->
+    <PopUpsContainer>
+      <PopUpEditCollection v-if="$route.query.popUp === 'editCollection'"
+                           :collection="collection"
+                           @collectionEdited="onCollectionEdited"/>
+      <PopUpDeleteCollection v-else-if="$route.query.popUp === 'deleteCollection'"
+                             :collection="collection"/>
+      <PopUpAddFilms v-else-if="$route.query.popUp === 'addFilms'"
+                     :collection="collection"
+                     @close="collectedFilmsLoader.reset()"/>
+      <PopUpAddFilmToCollections v-else-if="$route.query.popUp === 'addFilmToCollection'"
+                                 :film="addingToCollectionFilm"
+                                 @favoriteCollectionChanged="toggleFavorite"
+                                 @close="onCurrentCollectionChanged"/>
+    </PopUpsContainer>
 
   </template>
 </template>
 
 <script>
 import MyButton from "@/components/UI/MyButton";
-import PopUp from "@/components/PopUp";
-import SearchingFilmsBlock from "@/components/SearchingFilmsBlock";
 import DragBlock from "@/components/DragBlock";
 import DragContainer from "@/components/DragContainer";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
-import usePopUp from "@/composables/usePopUp";
 import {ref, computed, onMounted, watch} from "vue";
 import {useRoute} from "vue-router";
 import InfoBlockFilm from "@/components/InfoBlockFilm";
-import DialogConfirm from "@/components/DialogConfirm";
 import useDeleteFilmFromCollection from "@/composables/useDeleteFilmFromCollection";
-import useDeleteCollection from "@/composables/useDeleteCollection";
 import useChangeFilmOrder from "@/composables/useChangeFilmOrder";
 import FilmBlock from "@/components/FilmBlock";
-import FormEditCollection from "@/components/forms/FormEditCollection";
-import AddToCollectionsBlock from "@/components/AddToCollectionsBlock";
 import FilmTable from "@/components/FilmTable";
 import FilmTableHead from "@/components/FilmTableHead";
 import MoreBtn from "@/components/UI/MoreBtn";
@@ -140,62 +130,73 @@ import SaveBtn from "@/components/UI/SaveBtn";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import useGetCollection from "@/composables/useGetCollection";
 import useFilmSelection from "@/composables/useFilmSelection";
-import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections";
-import useEditCollection from "@/composables/useEditCollection";
 import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import ScrollableBlock from "@/components/ScrollableBlock";
+import {useRouter} from "vue-router/dist/vue-router";
+import {defineAsyncComponent} from "vue";
+import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 
 export default {
   components: {
+    PopUpsContainer,
+    PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
+    PopUpAddFilms: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilms')),
+    PopUpEditCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpEditCollection')),
+    PopUpDeleteCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpDeleteCollection')),
     ScrollableBlock,
     SaveBtn,
     ShareBtn,
     MoreBtn,
     FilmTableHead,
     FilmTable,
-    AddToCollectionsBlock,
-    FormEditCollection,
-    DialogConfirm,
     InfoBlockFilm,
-    FilmBlock, DragContainer, DragBlock, SearchingFilmsBlock, PopUp, MyButton, LoadableItemsContainer
+    FilmBlock, DragContainer, DragBlock, MyButton, LoadableItemsContainer
   },
   setup() {
     const elemsFilmBlocks = ref(undefined)
     const scrollableBlock = ref(undefined)
+    const elemPreviewImg = ref(undefined)
+
+    const addingToCollectionFilm = ref(undefined)
 
     const sortedFilms = computed(() => {
       return collectedFilmsLoader.items.sort((filmA, filmB) => filmB.order - filmA.order)
     })
 
     const route = useRoute()
+    const router = useRouter()
     const {selectedFilm, setSelectedFilm} = useFilmSelection()
     const {collection, collectedFilmsLoader, getCollection} = useGetCollection()
-    const popUpAddFilms = usePopUp(() => collectedFilmsLoader.reset())
-    const popUpDeleteCollection = usePopUp()
     const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
     const {deleteFilm} = useDeleteFilmFromCollection(collection, collectedFilmsLoader, elemsFilmBlocks, setSelectedFilm)
-    const {deleteCollection} = useDeleteCollection(collection)
     const {changeOrder} = useChangeFilmOrder(sortedFilms)
     const {toggleCollectionPublic} = useToggleCollectionPublic()
     const {toggleSave} = useToggleSave()
     const {toggleFavorite} = useToggleFavorite()
-    const {
-      addingToCollectionFilm,
-      popUpAddToCollections,
-      currentCollectionChanged,
-      favoriteCollectionChanged
-    } = useAddingFilmToCollections(collectedFilmsLoader, toggleFavorite)
-    const {popUpEditCollection, collectionEdited} = useEditCollection(collection)
+
+    const onCollectionEdited = (newCollection) => {
+      collection.value = newCollection
+      if (elemPreviewImg.value) {
+        elemPreviewImg.value.src += '1'
+      }
+      router.back()
+    }
+
+    const onCurrentCollectionChanged = (isCurrentCollectionToggled) => {
+      if (isCurrentCollectionToggled) {
+        collectedFilmsLoader.reset()
+      }
+    }
 
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
       onClick: () => {
-        popUpEditCollection.show()
+        router.push({path: '/collection/' + route.params.id, query: {popUp: 'editCollection'}})
       }
     }, {
       text: () => 'Удалить коллекцию',
       onClick: () => {
-        popUpDeleteCollection.show()
+        router.push({path: '/collection/' + route.params.id, query: {popUp: 'deleteCollection'}})
       }
     }, {
       text: () => collection.value.public ? 'Сделать приватной' : 'Сделать общедоступной',
@@ -214,23 +215,18 @@ export default {
 
     return {
       defaultPoster: 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/746160.jpg',
+      elemPreviewImg,
+      onCollectionEdited,
+      onCurrentCollectionChanged,
       scrollableBlock,
       moreBtnOptions,
       collection,
       selectedFilm,
       addingToCollectionFilm,
       collectedFilmsLoader,
-      popUpAddFilms,
-      popUpDeleteCollection,
-      popUpEditCollection,
-      popUpAddToCollections,
       sortedFilms,
       changeOrder,
       deleteFilm,
-      deleteCollection,
-      collectionEdited,
-      currentCollectionChanged,
-      favoriteCollectionChanged,
       toggleSave,
       toggleFavorite,
       elemsFilmBlocks,

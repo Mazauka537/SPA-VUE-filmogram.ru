@@ -28,7 +28,7 @@
           </MyButton>
           </span>
           <span v-else class="view-profile__btn">
-          <MyButton @click="$router.push('/user/' + $route.params.id + '/new/collection')">
+          <MyButton @click="$router.push({ path: '/user/' + $route.params.id, query: {popUp: 'newCollection'}})">
             Создать коллецию
           </MyButton>
           </span>
@@ -43,60 +43,55 @@
         <ProfileBody :user="user"/>
       </div>
     </div>
+
   </ScrollableBlock>
 
-  <router-view/>
-
-  <!--  <PopUp :pop-up-controller="popUpNewCollection" title="Создание новой коллекции">-->
-  <!--    <FormNewCollection style="margin-top: 30px;"/>-->
-  <!--  </PopUp>-->
-
-  <!--  <PopUp :pop-up-controller="popUpEditUserData" title="Данные профиля">-->
-  <!--    <FormEditUserData style="margin-top: 30px;" :user="user" @changed="onUserDataChanged"/>-->
-  <!--  </PopUp>-->
+  <PopUpsContainer>
+    <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
+    <PopEditUserData v-else-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
+  </PopUpsContainer>
 
 </template>
 
 <script>
-import PopUp from "@/components/PopUp";
-import FormNewCollection from "@/components/forms/FormNewCollection";
-import DialogConfirm from "@/components/DialogConfirm";
-import usePopUp from "@/composables/usePopUp";
 import {useRoute} from "vue-router";
 import {onMounted, ref, watch} from "vue";
-import useEditUser from "@/composables/useEditUser";
 import useGetUser from "@/composables/useGetUser";
 import MyButton from "@/components/UI/MyButton";
 import useToggleSubscription from "@/composables/useToggleSubscription";
 import MoreBtn from "@/components/UI/MoreBtn";
 import ShareBtn from "@/components/UI/ShareBtn";
-import FormEditUserData from "@/components/forms/FormEditUserData";
 import ProfileBody from "@/components/ProfileBody";
 import ScrollableBlock from "@/components/ScrollableBlock";
+import {useRouter} from "vue-router/dist/vue-router";
+import {useStore} from "vuex";
+import LoadingPanel from "@/components/LoadingPanel";
+import {defineAsyncComponent} from "vue";
+import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 
 export default {
   components: {
+    PopUpsContainer,
+    PopEditUserData: defineAsyncComponent(() => import('@/components/popUps/PopEditUserData')),
+    PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
+    LoadingPanel,
     ScrollableBlock,
     ProfileBody,
-    FormEditUserData,
     ShareBtn,
     MoreBtn,
     MyButton,
-    FormNewCollection,
-    DialogConfirm,
-    PopUp,
   },
   setup() {
     const route = useRoute()
-    const popUpNewCollection = usePopUp()
+    const router = useRouter()
+    const store = useStore()
     const {toggleSubscription} = useToggleSubscription()
     const {user, isUserLoading, getUser} = useGetUser()
-    const {popUpEditUserData, changeUserName, changeAvatar} = useEditUser(user)
 
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
       onClick: () => {
-        popUpEditUserData.show()
+        router.push({ path: '/user/' + route.params.id, query: {popUp: 'editUser'}})
       }
     }]
 
@@ -104,8 +99,9 @@ export default {
 
     const onUserDataChanged = async () => {
       await getUser(route.params.id)
+      store.commit('auth/setUser', user.value)
       elemAvatarImg.value.src += '1'
-      popUpEditUserData.hide()
+      router.back()
     }
 
     watch(() => route.params.id, () => {
@@ -122,11 +118,7 @@ export default {
       moreBtnOptions,
       user,
       isUserLoading,
-      popUpNewCollection,
-      popUpEditUserData,
       onUserDataChanged,
-      changeUserName,
-      changeAvatar,
       toggleSubscription,
       window
     }

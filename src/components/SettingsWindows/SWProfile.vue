@@ -83,14 +83,12 @@ import {useStore} from "vuex";
 import useForm from "@/composables/useForm";
 import MyButton from "@/components/UI/MyButton";
 import useRequestMaker from "@/composables/useRequestMaker";
-import PopUp from "@/components/PopUp";
-import usePopUp from "@/composables/usePopUp";
 import SWRow from "@/components/SWRow";
 import MyImageInput from "@/components/UI/MyImageInput";
 import {ref} from "vue";
 
 export default {
-  components: {MyImageInput, SWRow, PopUp, MyButton, MyInput},
+  components: {MyImageInput, SWRow, MyButton, MyInput},
   setup() {
     const editUserDataRequest = async () => {
       const response = await requestMaker.fetch('edit/user/data', 'POST', {

@@ -10,7 +10,7 @@
       </div>
 
       <div class="view-search__body">
-        <SearchedAll v-if="searchType === 'all'" :search-string="searchString" @setLoading="value => {isSearching = value}"/>
+        <SearchedAll v-if="searchType === 'all'" :search-string="searchString" @setLoading="value => isSearching = value"/>
         <SearchedCollections v-if="searchType === 'collections'" :search-string="searchString"/>
         <SearchedUsers v-if="searchType === 'users'" :search-string="searchString"/>
         <SearchedFilms v-if="searchType === 'films'" :search-string="searchString"/>

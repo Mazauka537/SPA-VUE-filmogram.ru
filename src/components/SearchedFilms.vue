@@ -10,7 +10,7 @@
                      :number="index + 1"
                      @save="toggleFavorite"
                      @pointerdown="selectedFilm = film"
-                     @addToCollection="addingToCollectionFilm = film; popUpAddToCollections.show()"/>
+                     @addToCollection="addingToCollectionFilm = film; $router.push({path: '/search', query: {popUp: 'addFilmToCollection'}})"/>
         </div>
       </LoadableItemsContainerWithOwnScroll>
     </div>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="searched-films__filter-btn" :class="{'searched-films__filter-btn_filtered': isFiltered}"
-       @click="popUpFilter.show">
+       @click="$router.push({path: '/search', query: {popUp: 'filter'}})">
     <svg width="100%" height="100%" viewBox="0 0 768 768">
       <path
           d="M136.5 180q19.5 24 43.5 55.5t48.75 63 45 58.5 33 42.75l12.75 15.75v192q0 13.5 9.75 23.25t23.25 9.75h63q13.5 0 23.25-9.75t9.75-23.25v-192l12.75-15.75t33-42.75 45-58.5 48.75-63 43.5-55.5q9-10.5 7.5-22.5t-10.5-21-22.5-9h-444q-13.5 0-22.5 9t-10.5 21 7.5 22.5z"></path>
@@ -31,46 +31,46 @@
                  :film="selectedFilm"
                  @loadMoreInfo="loadAdditionalFilmInfo"/>
 
-  <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">
-    <AddToCollectionsBlock :film="addingToCollectionFilm"
-                           @currentCollectionChanged="currentCollectionChanged"
-                           @favoriteCollectionChanged="favoriteCollectionChanged"/>
-  </PopUp>
-
-  <PopUp :pop-up-controller="popUpFilter" :closable="false" title="Фильтр поиска фильмов">
-    <FormFilmsFilter @filtered="setFilter" :initial-filter="filmsFilter"/>
-  </PopUp>
+  <PopUpsContainer>
+    <PopUpFilter v-if="$route.query.popUp === 'filter'"
+                 :initial-filter="filmsFilter"
+                 @filtered="setFilter"/>
+    <PopUpAddFilmToCollections v-else-if="$route.query.popUp === 'addFilmToCollection'"
+                               :film="addingToCollectionFilm"
+                               @favoriteCollectionChanged="toggleFavorite"/>
+  </PopUpsContainer>
 </template>
 
 <script>
 import BlocksList from "@/components/BlocksList";
-import {computed, ref, watch} from "vue";
+import {computed, defineAsyncComponent, ref, watch} from "vue";
 import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
 import FilmBlock from "@/components/FilmBlock";
 import FilmTableHead from "@/components/FilmTableHead";
 import InfoBlockFilm from "@/components/InfoBlockFilm";
 import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import useToggleFavorite from "@/composables/useToggleFavorite";
-import PopUp from "@/components/PopUp";
-import AddToCollectionsBlock from "@/components/AddToCollectionsBlock";
-import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections";
 import ScrollableBlock from "@/components/ScrollableBlock";
-import FormFilmsFilter from "@/components/forms/FormFilmsFilter";
-import usePopUp from "@/composables/usePopUp";
 import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
+import {useRouter} from "vue-router/dist/vue-router";
+import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 
 export default {
   components: {
+    PopUpFilter: defineAsyncComponent(() => import('@/components/popUps/PopUpFilter')),
+    PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
+    PopUpsContainer,
     LoadableItemsContainerWithOwnScroll,
-    FormFilmsFilter,
     ScrollableBlock,
-    AddToCollectionsBlock,
-    PopUp, InfoBlockFilm, FilmTableHead, FilmBlock, BlocksList
+    InfoBlockFilm, FilmTableHead, FilmBlock, BlocksList
   },
   props: {
     searchString: String
   },
   setup(props) {
+    const router = useRouter()
+
+    const addingToCollectionFilm = ref(undefined)
     const selectedFilm = ref(undefined)
     const filmsFilter = ref({
       order: 'NUM_VOTE',
@@ -85,17 +85,10 @@ export default {
     const {toggleFavorite} = useToggleFavorite()
     const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
     const {searchedFilmsLoader, callback} = useSearchedFilmsLoader(filmsFilter)
-    const popUpFilter = usePopUp()
-    const {
-      addingToCollectionFilm,
-      popUpAddToCollections,
-      currentCollectionChanged,
-      favoriteCollectionChanged
-    } = useAddingFilmToCollections(searchedFilmsLoader, toggleFavorite)
 
     const setFilter = (filter) => {
       filmsFilter.value = filter
-      popUpFilter.hide()
+      router.back()
       searchedFilmsLoader.reset()
     }
 
@@ -115,15 +108,11 @@ export default {
     })
 
     return {
+      addingToCollectionFilm,
       toggleFavorite,
       searchedFilmsLoader,
       selectedFilm,
       loadAdditionalFilmInfo,
-      addingToCollectionFilm,
-      popUpAddToCollections,
-      currentCollectionChanged,
-      favoriteCollectionChanged,
-      popUpFilter,
       setFilter,
       filmsFilter,
       isFiltered

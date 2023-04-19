@@ -1,6 +1,6 @@
 <template>
   <div class="pop-up"
-       @click="() => {if (closable) $router.back()}">
+       @click="() => {if (closable) {$router.back(); $emit('close')}}">
 
     <div class="pop-up__inner panel" :class="{'pop-up__inner_fullscreen': fullScreen}" @click="clickInnerHandler">
 
@@ -8,7 +8,7 @@
         <div class="pop-up__title">
           {{ title }}
         </div>
-        <div class="pop-up__close" @click="$router.back()"></div>
+        <div class="pop-up__close" @click="$router.back(); $emit('close')"></div>
       </div>
 
       <div class="pop-up__body">
@@ -28,7 +28,6 @@ export default {
 
   props: {
     title: String,
-    popUpController: Object,
     closable: {
       type: Boolean,
       default: true
@@ -53,7 +52,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/styles/vars";
+@import "../../assets/styles/vars";
 
 .pop-up {
   position: fixed;

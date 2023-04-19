@@ -1,18 +1,21 @@
 <template>
-  <PopUp title="Создание новой коллекции">
-    <form class="form-new-collection">
+  <PopUp title="Изменение сведений">
+    <form class="form-edit-collection">
 
-      <div class="form-new-collection__inputs">
-        <div class="form-new-collection__image">
-          <MyImageInput v-model="form.image"/>
+      <div class="form-edit-collection__inputs">
+        <div class="form-edit-collection__image">
+          <MyImageInput v-model="form.image"
+                        @clear="isImageDeleted = true"
+                        :starting-image-src="collection.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.image : undefined"/>
         </div>
-        <div class="form-new-collection__info">
+        <div class="form-edit-collection__info">
           <MyInput type="text" placeholder="Название" v-model="form.title"/>
           <MyTextarea placeholder="Описание" v-model="form.description" style="margin-top: 15px; height: 130px;"/><!--
    --></div>
       </div>
 
-      <MyButton @click="form.submit" :load="form.isSending" :white="true" style="margin-top: 25px; width: 140px;">Создать
+      <MyButton @click="form.submit" :load="form.isSending" :white="true" style="margin-top: 25px; width: 140px;">
+        Сохранить
       </MyButton>
 
     </form>
@@ -25,50 +28,56 @@ import MyTextarea from "@/components/UI/MyTextarea";
 import MyButton from "@/components/UI/MyButton";
 import useRequestMaker from "@/composables/useRequestMaker";
 import useForm from "@/composables/useForm";
-import {useRouter} from "vue-router/dist/vue-router";
 import MyImageInput from "@/components/UI/MyImageInput";
+import {ref} from "vue";
 import {useStore} from "vuex";
 import PopUp from "@/components/popUps/PopUp";
 
 export default {
   components: {PopUp, MyImageInput, MyButton, MyTextarea, MyInput},
-  setup() {
-    const router = useRouter()
-    const store = useStore()
+  props: {
+    collection: Object
+  },
+  setup({collection}, {emit}) {
     const requestMaker = useRequestMaker()
+    const store = useStore()
 
-    const createNewCollectionRequest = async () => {
-      const response = await requestMaker.fetch('create/collection', 'POST', {
+    const editCollectionRequest = async () => {
+      const response = await requestMaker.fetch('edit/collection', 'POST', {
+        id: collection.id,
+        image: form.image,
         title: form.title,
         description: form.description,
-        image: form.image
-      }, [200, 422, 401])
+        isImageDeleted: isImageDeleted.value
+      }, [200, 422, 403])
 
       switch (response.status) {
-        case 201:
+        case 200:
           const responseData = await response.json()
-          router.push('/collection/' + responseData.id)
+          emit('collectionEdited', responseData)
           break;
         case 422:
           store.commit('notifications/addNotification', {
-            text: 'Введены не корректные данные, убедитесь что вы задали название коллекции и что изображение имеем формат png или jpeg'
+            text: 'Введены не корректные данные'
           })
           break;
-        case 401:
+        case 403:
           store.commit('notifications/addNotification', {
-            text: 'Создавать коллекции могут только авторизированные пользователи'
+            text: 'Только владелец коллекции может изменять её сведения'
           })
           break;
       }
     }
 
+    const isImageDeleted = ref(false)
     const form = useForm({
-      title: '',
-      description: '',
-      image: ''
-    }, createNewCollectionRequest)
+      image: undefined,
+      title: collection.title,
+      description: collection.description
+    }, editCollectionRequest)
 
     return {
+      isImageDeleted,
       form,
     }
   }
@@ -76,12 +85,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-@import "src/assets/styles/vars";
 
-.form-new-collection {
+.form-edit-collection {
   text-align: right;
+  width: 100%;
   max-width: 500px;
-  margin-top: 30px;
 
   &__inputs {
     text-align: left;

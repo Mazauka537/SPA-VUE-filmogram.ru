@@ -43,27 +43,24 @@
                    :film="selectedFilm"
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
-    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">
-      <AddToCollectionsBlock :film="addingToCollectionFilm"
-                             @currentCollectionChanged="currentCollectionChanged"
-                             @favoriteCollectionChanged="favoriteCollectionChanged"/>
-    </PopUp>
+<!--    <PopUp :pop-up-controller="popUpAddToCollections" title="Добавить в коллекцию">-->
+<!--      <AddToCollectionsBlock :film="addingToCollectionFilm"-->
+<!--                             @currentCollectionChanged="currentCollectionChanged"-->
+<!--                             @favoriteCollectionChanged="favoriteCollectionChanged"/>-->
+<!--    </PopUp>-->
 
   </template>
 </template>
 
 <script>
-import PopUp from "@/components/PopUp";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import {ref} from "vue";
 import {useRoute} from "vue-router";
 import InfoBlockFilm from "@/components/InfoBlockFilm";
 import FilmBlock from "@/components/FilmBlock";
-import AddToCollectionsBlock from "@/components/AddToCollectionsBlock";
 import FilmTableHead from "@/components/FilmTableHead";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import useFilmSelection from "@/composables/useFilmSelection";
-import useAddingFilmToCollections from "@/composables/useAddingFilmToCollections";
 import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import ScrollableBlock from "@/components/ScrollableBlock";
 import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
@@ -73,9 +70,8 @@ export default {
   components: {
     ScrollableBlock,
     FilmTableHead,
-    AddToCollectionsBlock,
     InfoBlockFilm,
-    FilmBlock, PopUp, LoadableItemsContainer
+    FilmBlock, LoadableItemsContainer
   },
   async setup() {
     const route = useRoute()
@@ -91,22 +87,12 @@ export default {
     const {getCollectionData} = useGetCollectionData()
     collection.value = await getCollectionData(route.params.id)
     const {searchedFilmsLoader} = useSearchedFilmsLoader(collection)
-    const {
-      addingToCollectionFilm,
-      popUpAddToCollections,
-      currentCollectionChanged,
-      favoriteCollectionChanged
-    } = useAddingFilmToCollections(searchedFilmsLoader, toggleFavorite)
 
     return {
       collection,
       searchedFilmsLoader,
       scrollableBlock,
       selectedFilm,
-      addingToCollectionFilm,
-      popUpAddToCollections,
-      currentCollectionChanged,
-      favoriteCollectionChanged,
       toggleFavorite,
       setSelectedFilm,
       loadAdditionalFilmInfo,

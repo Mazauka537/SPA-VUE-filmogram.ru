@@ -59,7 +59,6 @@ export default {
   components: {
     BlocksLineShort,
     BestBlocks, UserBlock, CollectionBlock, InfoBlockFilm, FilmBlockMini, BlocksLine, ScrollableBlock},
-
   props: {
     searchString: String
   },

@@ -1,5 +1,6 @@
 <template>
-  <div class="searching-films">
+  <PopUp :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title" @close="$emit('close')">
+    <div class="searching-films">
 
       <MySearchInput v-model="searchString"/>
 
@@ -16,7 +17,8 @@
         </LoadableItemsContainerWithOwnScroll>
       </div>
 
-  </div>
+    </div>
+  </PopUp>
 </template>
 
 <script>
@@ -27,9 +29,10 @@ import FilmBlockMini from "@/components/FilmBlockMini";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import useToggleFilm from "@/composables/useToggleFilm";
 import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
+import PopUp from "@/components/popUps/PopUp";
 
 export default {
-  components: {LoadableItemsContainerWithOwnScroll, FilmBlockMini, MyCheckbox, MySearchInput},
+  components: {PopUp, LoadableItemsContainerWithOwnScroll, FilmBlockMini, MyCheckbox, MySearchInput},
   props: {
     collection: Object
   },
