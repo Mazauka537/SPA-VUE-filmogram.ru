@@ -27,7 +27,9 @@ export default {
 @import "src/assets/styles/vars";
 
 .user-block {
-  padding: 15px 15px 30px 15px;
+  padding: 15px;
+  width: 180px;
+  height: 227px;
   background: $color-bg-side;
   display: inline-block;
   border-radius: 7px;
@@ -48,7 +50,61 @@ export default {
   &__name {
     margin-top: 15px;
     font-weight: 700;
-    color: $color-text-light
+    color: $color-text-light;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .user-block {
+    width: 150px;
+    height: 190px;
+
+    &__avatar {
+
+      img {
+        height: 120px;
+        width: 120px;
+      }
+    }
+
+    &__name {
+      font-weight: 700;
+      font-size: 12px;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .user-block {
+    width: 100%;
+    height: auto;
+    padding: 0;
+    background: transparent;
+
+    &:hover {
+      background: transparent;
+    }
+
+    &__avatar {
+      display: inline-block;
+      vertical-align: middle;
+
+      img {
+        height: 60px;
+        width: 60px;
+      }
+    }
+
+    &__name {
+      display: inline-block;
+      vertical-align: middle;
+      margin-top: 0;
+      margin-left: 10px;
+      font-weight: 400;
+    }
   }
 }
 

@@ -15,7 +15,7 @@
           <div class="searched-all__film-block"
                v-for="film in searchedItems.films.slice(0, 4)"
                @click="setSelectedFilm(film)">
-            <FilmBlockMini :film="film"/>
+            <FilmBlockMini :film="film" @save="toggleFavorite" @addToCollections="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollection'}})"/>
           </div>
         </div>
       </div>
@@ -35,14 +35,20 @@
   </ScrollableBlock>
 
 
-  <InfoBlockFilm v-if="selectedFilm"
-                 :film="selectedFilm"
+  <InfoBlockFilm :film="selectedFilm"
+                 back-link="/search"
                  @loadMoreInfo="loadAdditionalFilmInfo"/>
+
+  <PopUpsContainer>
+  <PopUpAddFilmToCollections v-if="$route.query.popUp === 'addFilmToCollection'"
+                             :film="addingToCollectionFilm"
+                             @favoriteCollectionChanged="toggleFavorite"/>
+  </PopUpsContainer>
 
 </template>
 
 <script>
-import {onMounted, watch} from "vue";
+import {defineAsyncComponent, onMounted, ref, watch} from "vue";
 import useSearchAllLoader from "@/composables/useSearchAllLoader";
 import ScrollableBlock from "@/components/ScrollableBlock";
 import BlocksLine from "@/components/BlocksLine";
@@ -54,10 +60,14 @@ import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
 import BestBlocks from "@/components/BestBlocks";
 import BlocksLineShort from "@/components/BlocksLineShort";
+import useToggleFavorite from "@/composables/useToggleFavorite";
+import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 
 export default {
   components: {
+    PopUpsContainer,
     BlocksLineShort,
+    PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     BestBlocks, UserBlock, CollectionBlock, InfoBlockFilm, FilmBlockMini, BlocksLine, ScrollableBlock},
   props: {
     searchString: String
@@ -66,6 +76,9 @@ export default {
     const {selectedFilm, setSelectedFilm} = useFilmSelection()
     const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
     const {loadSearchedItems, searchedItems} = useSearchAllLoader()
+    const {toggleFavorite} = useToggleFavorite()
+
+    const addingToCollectionFilm = ref(undefined)
 
     let isSearchingCount = 0
 
@@ -84,10 +97,12 @@ export default {
     onMounted(goSearch)
 
     return {
+      addingToCollectionFilm,
       searchedItems,
       selectedFilm,
       setSelectedFilm,
-      loadAdditionalFilmInfo
+      loadAdditionalFilmInfo,
+      toggleFavorite
     }
   }
 }
@@ -97,7 +112,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .searched-all {
-  padding-right: 300px;
+  padding-right: 320px;
 
   &__top-section {
     display: flex;
@@ -129,6 +144,29 @@ export default {
 
     &:hover {
       background: $color-bg-input;
+    }
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .searched-all {
+    &__best {
+      width: 350px;
+      padding-right: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .searched-all {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .searched-all {
+    &__best {
+      display: none;
     }
   }
 }

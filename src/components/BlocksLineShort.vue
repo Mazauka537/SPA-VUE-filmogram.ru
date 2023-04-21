@@ -157,7 +157,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1260px) {
+@media screen and (max-width: 1280px) {
   .blocks-line {
     &__block {
       &:nth-child(3) {

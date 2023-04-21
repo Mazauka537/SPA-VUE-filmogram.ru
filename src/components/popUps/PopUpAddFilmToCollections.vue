@@ -15,7 +15,7 @@
 
 <script>
 import CollectionCheck from "@/components/CollectionCheck";
-import {onMounted, ref} from "vue";
+import {onBeforeMount, onMounted, ref} from "vue";
 import {useStore} from "vuex";
 import {useRoute} from "vue-router";
 import MyButton from "@/components/UI/MyButton";
@@ -23,6 +23,7 @@ import LoadingPanel from "@/components/LoadingPanel";
 import useToggleFilm from "@/composables/useToggleFilm";
 import useLoadAllCollections from "@/composables/useLoadAllCollections";
 import PopUp from "@/components/popUps/PopUp";
+import {useRouter} from "vue-router/dist/vue-router";
 
 export default {
   components: {PopUp, LoadingPanel, MyButton, CollectionCheck},
@@ -54,9 +55,17 @@ export default {
 
     const store = useStore()
     const route = useRoute()
+    const router = useRouter()
     const {toggleFilm} = useToggleFilm()
     const {collections, isCollectionsLoading, loadCollections} = useLoadAllCollections()
     const isCurrentCollectionToggled = ref(false)
+
+    onBeforeMount(async () => {
+      if (!film) {
+        await router.replace({query: {}})
+        router.go(0)
+      }
+    })
 
     onMounted(() => {
       loadCollections(store.state.auth.user.id, film.film_id)

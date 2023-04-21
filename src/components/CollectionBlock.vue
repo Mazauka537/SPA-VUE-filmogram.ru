@@ -95,7 +95,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1260px) {
+@media screen and (max-width: 1460px) {
   .collection-block {
     width: 150px;
     height: 190px;
@@ -178,7 +178,6 @@ export default {
     }
 
     &__title {
-      font-size: 12px;
       display: inline-block;
       margin-top: 0;
       margin-left: 10px;

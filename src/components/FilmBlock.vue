@@ -139,6 +139,7 @@ export default {
   &__poster {
     width: 80px;
     height: 120px;
+    flex-shrink: 0;
 
     img {
       width: 100%;
@@ -149,6 +150,7 @@ export default {
   &__main-info {
     padding-left: 10px;
     flex-grow: 1;
+    min-width: 0;
     overflow: hidden;
   }
 
@@ -219,8 +221,72 @@ export default {
   &__more {
     height: 25px;
     width: 45px;
-    padding-left: 20px;
+    //padding-left: 20px;
     opacity: 0;
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .film-block {
+    &__poster {
+      width: 60px;
+      height: 90px;
+    }
+
+    &__name {
+      font-size: 13px;
+    }
+
+    &__original-name {
+      font-size: 13px;
+    }
+
+    &__type {
+      margin-top: 10px;
+    }
+
+    &__genres {
+      font-size: 13px;
+    }
+
+    &__year {
+      font-size: 13px;
+    }
+
+    &__rate {
+      font-size: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .film-block {
+
+    &__save {
+      opacity: 1;
+    }
+
+    &__more {
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .film-block {
+
+    &__poster {
+      width: 40px;
+      height: 60px;
+    }
+
+    &__type {
+      display: none;
+    }
+
+    &__countries {
+      display: none;
+    }
   }
 }
 </style>

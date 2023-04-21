@@ -21,16 +21,27 @@
       {{ film.filmKp.year }}
     </div>
 
+    <div class="film-block-mini__more" v-if="isMoreBtnVisible">
+      <AddToCollectionsBtn @click.stop="$emit('addToCollections', film)"/>
+    </div>
+
   </div>
 </template>
 
 <script>
 
 import SaveBtn from "@/components/UI/SaveBtn";
+import MoreBtn from "@/components/UI/MoreBtn";
+import AddToCollectionsBtn from "@/components/UI/AddToCollectionsBtn";
+
 export default {
-  components: {SaveBtn},
+  components: {AddToCollectionsBtn, MoreBtn, SaveBtn},
   props: {
-    film: Object
+    film: Object,
+    isMoreBtnVisible: {
+      type: Boolean,
+      default: true
+    }
   },
 }
 </script>
@@ -48,6 +59,10 @@ export default {
     .film-block-mini {
 
       &__save {
+        opacity: 1;
+      }
+
+      &__more {
         opacity: 1;
       }
     }
@@ -104,6 +119,64 @@ export default {
   &__year {
     width: 40px;
     flex-shrink: 0;
+  }
+
+  &__more {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    text-align: right;
+    opacity: 0;
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .film-block-mini {
+
+    &__poster {
+      width: 50px;
+      height: 75px;
+    }
+
+    &__name, &__original-name {
+      font-size: 14px;
+    }
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .film-block-mini {
+
+    &__save {
+      opacity: 1;
+    }
+
+    &__more {
+      opacity: 1;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .film-block-mini {
+
+    &__poster {
+      width: 40px;
+      height: 60px;
+    }
+
+    &__name, &__original-name {
+      font-size: 13px;
+    }
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .film-block-mini {
+
+    &__year {
+      display: none;
+    }
   }
 }
 </style>

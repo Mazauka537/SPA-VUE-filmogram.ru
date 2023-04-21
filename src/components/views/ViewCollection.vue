@@ -5,6 +5,8 @@
 
       <div class="view-collection">
 
+        <BackPageBtn/>
+
         <div class="view-collection__header">
           <div class="view-collection__preview">
             <template v-if="collection.image">
@@ -43,11 +45,11 @@
 
         <div class="view-collection__body">
           <div class="view-collection__ctrl-panel" v-if="!collection.constant">
-            <MyButton @click="$router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilms'}})"
-                      v-if="$store.getters['auth/isOwner'](collection.user_id)"
-                      style="margin-right: 25px;">
+            <span class="view-collection__btn" v-if="$store.getters['auth/isOwner'](collection.user_id)">
+            <MyButton @click="$router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilms'}})">
               Дополнить
             </MyButton>
+            </span>
             <button class="view-collection__save-btn"
                     v-if="!$store.getters['auth/isOwner'](collection.user.id)"
                     @click="toggleSave(collection)">
@@ -61,7 +63,9 @@
             </button>
           </div>
 
-          <FilmTableHead/>
+          <div class="view-collection__films-table-head">
+            <FilmTableHead/>
+          </div>
 
           <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;"
                                   :scrollable-block="scrollableBlock">
@@ -86,8 +90,8 @@
     </ScrollableBlock>
 
 
-    <InfoBlockFilm v-if="selectedFilm"
-                   :film="selectedFilm"
+    <InfoBlockFilm :film="selectedFilm"
+                   :back-link="'/collection/' + $route.params.id"
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
 
@@ -100,7 +104,7 @@
       <PopUpAddFilms v-else-if="$route.query.popUp === 'addFilms'"
                      :collection="collection"
                      @close="collectedFilmsLoader.reset()"/>
-      <PopUpAddFilmToCollections v-else-if="$route.query.popUp === 'addFilmToCollection'"
+      <PopUpAddFilmToCollections v-else-if="$route.query.popUp === 'addFilmToCollections'"
                                  :film="addingToCollectionFilm"
                                  @favoriteCollectionChanged="toggleFavorite"
                                  @close="onCurrentCollectionChanged"/>
@@ -135,9 +139,11 @@ import ScrollableBlock from "@/components/ScrollableBlock";
 import {useRouter} from "vue-router/dist/vue-router";
 import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
+import BackPageBtn from "@/components/BackPageBtn";
 
 export default {
   components: {
+    BackPageBtn,
     PopUpsContainer,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     PopUpAddFilms: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilms')),
@@ -244,7 +250,7 @@ export default {
 .view-collection {
   background: $color-bg-header;
   height: 100%;
-  padding-right: 300px;
+  padding-right: 320px;
 
   &__header {
     display: flex;
@@ -343,6 +349,10 @@ export default {
     }
   }
 
+  &__btn {
+    margin-right: 25px;
+  }
+
   &__save-btn, &__share-btn, &__more-btn {
     display: inline-block;
     height: 40px;
@@ -373,7 +383,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1260px) {
+@media screen and (max-width: 1460px) {
   .view-collection {
 
     &__preview {
@@ -404,10 +414,88 @@ export default {
         margin-left: 80px;
       }
     }
+
+    &__name {
+      font-size: 48px;
+      padding: 15px 0 37px;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .view-collection {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .view-collection {
+
+    &__header {
+      padding: 15px;
+    }
+
+    &__body {
+      padding: 15px 15px 130px 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .view-collection {
+    &__ctrl-panel {
+      padding-bottom: 0;
+    }
+
+    &__films-table-head {
+      display: none;
+    }
   }
 }
 
 @media screen and (max-width: 560px) {
+  .view-collection {
+    background: $color-bg-header-media2;
 
+    &__header {
+      display: block;
+      padding: 15px 15px 0 15px;
+    }
+
+    &__preview {
+      margin: 0 auto;
+    }
+
+    &__info {
+      padding-left: 0;
+    }
+
+    &__open {
+      display: none;
+    }
+
+    &__name {
+      font-size: 16px;
+      padding: 10px 0 7px 0;
+    }
+
+    &__body {
+      background: none;
+      padding: 10px 15px 130px 15px;
+    }
+
+    &__btn {
+      margin-right: 15px;
+    }
+
+    &__more-btn, &__share-btn {
+      height: 36px;
+      width: 36px;
+    }
+
+    &__share-btn {
+      margin-right: 10px;
+    }
+  }
 }
 </style>

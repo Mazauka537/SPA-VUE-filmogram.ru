@@ -1,7 +1,9 @@
 <template>
   <div class="searched-films">
 
-    <FilmTableHead/>
+    <div class="searched-films__films-table-head">
+      <FilmTableHead/>
+    </div>
 
     <div class="searched-films__films">
       <LoadableItemsContainerWithOwnScroll :loader="searchedFilmsLoader">
@@ -9,7 +11,7 @@
           <FilmBlock :film="film"
                      :number="index + 1"
                      @save="toggleFavorite"
-                     @pointerdown="selectedFilm = film"
+                     @pointerdown="setSelectedFilm(film)"
                      @addToCollection="addingToCollectionFilm = film; $router.push({path: '/search', query: {popUp: 'addFilmToCollection'}})"/>
         </div>
       </LoadableItemsContainerWithOwnScroll>
@@ -27,8 +29,8 @@
     Фильтр
   </div>
 
-  <InfoBlockFilm v-if="selectedFilm"
-                 :film="selectedFilm"
+  <InfoBlockFilm :film="selectedFilm"
+                 back-link="/search"
                  @loadMoreInfo="loadAdditionalFilmInfo"/>
 
   <PopUpsContainer>
@@ -54,6 +56,7 @@ import ScrollableBlock from "@/components/ScrollableBlock";
 import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsContainerWithOwnScroll";
 import {useRouter} from "vue-router/dist/vue-router";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
+import useFilmSelection from "@/composables/useFilmSelection";
 
 export default {
   components: {
@@ -71,7 +74,6 @@ export default {
     const router = useRouter()
 
     const addingToCollectionFilm = ref(undefined)
-    const selectedFilm = ref(undefined)
     const filmsFilter = ref({
       order: 'NUM_VOTE',
       type: 'ALL',
@@ -85,6 +87,7 @@ export default {
     const {toggleFavorite} = useToggleFavorite()
     const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
     const {searchedFilmsLoader, callback} = useSearchedFilmsLoader(filmsFilter)
+    const {selectedFilm, setSelectedFilm} = useFilmSelection()
 
     const setFilter = (filter) => {
       filmsFilter.value = filter
@@ -112,6 +115,7 @@ export default {
       toggleFavorite,
       searchedFilmsLoader,
       selectedFilm,
+      setSelectedFilm,
       loadAdditionalFilmInfo,
       setFilter,
       filmsFilter,
@@ -125,7 +129,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .searched-films {
-  padding-right: 300px;
+  padding-right: 320px;
   height: 100%;
 
   &__films {
@@ -173,6 +177,21 @@ export default {
       fill: $color-text-light;
       height: 16px;
       width: 16px;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .searched-films {
+    padding-right: 0;
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .searched-films {
+
+    &__films-table-head {
+      display: none;
     }
   }
 }

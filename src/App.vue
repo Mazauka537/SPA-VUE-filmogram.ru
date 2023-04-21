@@ -65,7 +65,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 970px) {
+@media screen and (max-width: 1460px) {
   .app {
 
     &__nav {

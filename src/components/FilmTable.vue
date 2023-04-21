@@ -28,9 +28,7 @@
 </template>
 
 <script>
-export default {
-
-}
+export default {}
 </script>
 
 <style scoped lang="scss">
@@ -51,6 +49,7 @@ export default {
   &__name {
     flex-grow: 1;
     padding-right: 10px;
+    min-width: 0;
   }
 
   &__genre {
@@ -79,11 +78,82 @@ export default {
   &__more {
     width: 50px;
     flex-shrink: 0;
+    padding-left: 10px;
   }
 
   &__grab {
     width: 50px;
     flex-shrink: 0;
+  }
+}
+
+@media screen and (max-width: 1660px) {
+  .film-table {
+    &__genre {
+      width: 200px;
+      padding-right: 20px;
+    }
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .film-table {
+    &__year {
+      width: 60px;
+    }
+
+    &__save {
+      width: 25px;
+    }
+
+    &__more {
+      width: 40px;
+      flex-shrink: 0;
+    }
+
+    &__grab {
+      width: 40px;
+      flex-shrink: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .film-table {
+    &__number {
+      width: 30px;
+      padding-right: 7px;
+      font-size: 12px;
+    }
+
+    &__genre {
+      width: 150px;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .film-table {
+    &__number {
+      display: none;
+    }
+
+    &__genre {
+      display: none;
+    }
+
+    &__rate {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .film-table {
+
+    &__year {
+      display: none;
+    }
   }
 }
 </style>

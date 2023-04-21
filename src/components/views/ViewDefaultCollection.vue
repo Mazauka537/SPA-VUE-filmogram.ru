@@ -44,7 +44,7 @@
                    @loadMoreInfo="loadAdditionalFilmInfo"/>
 
     <PopUpsContainer>
-      <PopUpAddFilmToCollections v-else-if="$route.query.popUp === 'addFilmToCollection'"
+      <PopUpAddFilmToCollections v-if="$route.query.popUp === 'addFilmToCollection'"
                                  :film="addingToCollectionFilm"
                                  @favoriteCollectionChanged="toggleFavorite"/>
     </PopUpsContainer>

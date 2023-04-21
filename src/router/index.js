@@ -70,6 +70,20 @@ const routes = [
     name: 'settings',
     path: '/settings',
     component: () => import('@/components/views/ViewSettings'),
+    children: [
+      {
+        path: 'profile',
+        component: () => import('@/components/SettingsWindows/SWProfile')
+      },
+      {
+        path: 'notices',
+        component: () => import('@/components/SettingsWindows/SWNotices')
+      },
+      {
+        path: 'password',
+        component: () => import('@/components/SettingsWindows/SWPassword')
+      },
+    ]
   },
   {
     name: 'tests',

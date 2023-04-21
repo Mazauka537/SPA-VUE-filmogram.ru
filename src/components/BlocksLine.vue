@@ -147,7 +147,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1460px) {
+@media screen and (max-width: 1280px) {
   .blocks-line {
     &__block {
       &:nth-child(6) {
@@ -157,7 +157,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 1115px) {
+@media screen and (max-width: 1120px) {
   .blocks-line {
     &__block {
       &:nth-child(5) {
@@ -167,7 +167,27 @@ export default {
   }
 }
 
-@media screen and (max-width: 910px) {
+@media screen and (max-width: 900px) {
+  .blocks-line {
+    &__block {
+      &:nth-child(4) {
+        display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .blocks-line {
+    &__block {
+      &:nth-child(4) {
+        display: block;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 710px) {
   .blocks-line {
     &__block {
       &:nth-child(4) {

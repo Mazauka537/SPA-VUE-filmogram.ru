@@ -1,6 +1,11 @@
 <template>
-  <div class="info-block-film">
-    <ScrollableBlock>
+  <div class="info-block-film" :class="{'info-block-film_visible': $route.query.film}">
+
+    <div class="info-block-film__top">
+      <div class="info-block-film__close" @click="$router.replace(backLink)"></div>
+    </div>
+
+    <ScrollableBlock v-if="film">
       <div class="info-block-film__inner">
 
         <div class="info-block-film__poster">
@@ -162,7 +167,11 @@
 
       </div>
     </ScrollableBlock>
+    <div class="info-block-film__empty" v-else>
+      Выберите фильм
+    </div>
   </div>
+
 </template>
 
 <script>
@@ -176,7 +185,8 @@ import ScrollableBlock from "@/components/ScrollableBlock";
 export default {
   components: {ScrollableBlock, LoadingPanel, PersonsList, MyButton},
   props: {
-    film: Object
+    film: Object,
+    backLink: String
   },
   setup(props) {
     const {genresList, countries, type} = useFilmComputeds(props)
@@ -212,12 +222,64 @@ export default {
   position: fixed;
   right: 0;
   top: 0;
-  max-width: 300px;
+  max-width: 320px;
   min-width: 240px;
   width: 100%;
   height: 100vh;
   text-align: center;
   z-index: 2;
+  background: $color-bg-side;
+  transition: right 0.1s;
+
+  &_visible {
+    right: 0;
+  }
+
+  &__top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 40px;
+    z-index: 3;
+    background: rgba($color-bg-side, 0.7);
+  }
+
+  &__close {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    height: 15px;
+    width: 15px;
+
+    &:hover {
+      &:after, &:before {
+        background: $color-text-light;
+      }
+    }
+
+    &:after, &:before {
+      content: '';
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: $color-text;
+      border-radius: 50px;
+      position: absolute;
+      left: 0;
+      top: 50%;
+    }
+
+    &:after {
+      transform: translateY(-50%) rotate(45deg);
+    }
+
+    &:before {
+      transform: translateY(-50%) rotate(-45deg);
+    }
+  }
 
   &__poster {
 
@@ -282,6 +344,22 @@ export default {
 
   &__link {
     font-size: 14px;
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .info-block-film {
+    right: -100%;
+
+    &_visible {
+      right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .info-block-film {
+    max-width: 100%;
   }
 }
 </style>

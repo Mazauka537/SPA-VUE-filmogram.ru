@@ -1,21 +1,22 @@
 <template>
-    <div class="view-search">
-      <div class="view-search__header">
-        <div class="view-search__search">
-          <MySearchInput v-model="searchString" :is-loading="isSearching"/>
-        </div>
-        <div class="view-search__types">
-          <SearchTypesList v-model="searchType"/>
-        </div>
+  <div class="view-search">
+    <div class="view-search__header">
+      <div class="view-search__search">
+        <MySearchInput v-model="searchString" :is-loading="isSearching"/>
       </div>
-
-      <div class="view-search__body">
-        <SearchedAll v-if="searchType === 'all'" :search-string="searchString" @setLoading="value => isSearching = value"/>
-        <SearchedCollections v-if="searchType === 'collections'" :search-string="searchString"/>
-        <SearchedUsers v-if="searchType === 'users'" :search-string="searchString"/>
-        <SearchedFilms v-if="searchType === 'films'" :search-string="searchString"/>
+      <div class="view-search__types">
+        <SearchTypesList v-model="searchType"/>
       </div>
     </div>
+
+    <div class="view-search__body">
+      <SearchedAll v-if="searchType === 'all'" :search-string="searchString"
+                   @setLoading="value => isSearching = value"/>
+      <SearchedCollections v-if="searchType === 'collections'" :search-string="searchString"/>
+      <SearchedUsers v-if="searchType === 'users'" :search-string="searchString"/>
+      <SearchedFilms v-if="searchType === 'films'" :search-string="searchString"/>
+    </div>
+  </div>
 </template>
 
 <script>
@@ -49,7 +50,7 @@ export default {
 <style scoped lang="scss">
 .view-search {
   height: 100%;
-  padding: 10px 30px 30px 30px;
+  padding: 10px 30px 0 30px;
 
   &__body {
     height: 100%;
@@ -61,7 +62,13 @@ export default {
   }
 
   &__types {
-    padding: 18px 0 20px 0;
+    padding: 10px 0 20px 0;
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .view-search {
+    padding: 10px 15px 0 15px;
   }
 }
 </style>

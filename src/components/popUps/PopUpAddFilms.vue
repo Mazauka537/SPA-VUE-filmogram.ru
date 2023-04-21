@@ -11,7 +11,7 @@
               <MyCheckbox :checked="film.isInCollection"/>
             </div>
             <div class="searching-films__film-block">
-              <FilmBlockMini :film="film" @save="toggleFavorite" style="padding: 10px 10px 10px 0;"/>
+              <FilmBlockMini :film="film" @save="toggleFavorite" :is-more-btn-visible="false" style="padding: 10px 10px 10px 0;"/>
             </div>
           </div>
         </LoadableItemsContainerWithOwnScroll>

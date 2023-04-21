@@ -1,6 +1,9 @@
 <template>
   <ScrollableBlock v-if="user">
     <div class="view-profile">
+
+      <BackPageBtn/>
+
       <div class="view-profile__header">
         <div class="view-profile__avatar">
           <img ref="elemAvatarImg"
@@ -68,9 +71,11 @@ import {useStore} from "vuex";
 import LoadingPanel from "@/components/LoadingPanel";
 import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
+import BackPageBtn from "@/components/BackPageBtn";
 
 export default {
   components: {
+    BackPageBtn,
     PopUpsContainer,
     PopEditUserData: defineAsyncComponent(() => import('@/components/popUps/PopEditUserData')),
     PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
@@ -206,12 +211,29 @@ export default {
   }
 }
 
-@media screen and (max-width: 1260px) {
+@media screen and (max-width: 1460px) {
   .view-profile {
 
     &__avatar {
       height: 180px;
       width: 180px;
+    }
+
+    &__user-name {
+      font-size: 48px;
+    }
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .view-profile {
+
+    &__header {
+      padding: 15px;
+    }
+
+    &__body {
+      padding: 15px;
     }
   }
 }
@@ -221,7 +243,7 @@ export default {
     background: $color-bg-header-media;
 
     &__header {
-      padding: 15px 15px 0 15px;
+      padding: 50px 15px 0 15px;
       align-items: center;
     }
 
@@ -243,7 +265,6 @@ export default {
 
     &__body {
       background: none;
-      padding: 15px;
     }
 
     &__btn {
