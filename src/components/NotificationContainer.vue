@@ -1,5 +1,5 @@
 <template>
-  <div class="notification-container"
+  <div class="notification-container" v-if="$store.state.notifications.notifications.length > 0"
        @mouseenter="$store.commit('notifications/stopFading')"
        @mouseleave="$store.commit('notifications/startFading')">
     <button class="notification-block__close-all"

@@ -86,7 +86,7 @@ export default {
     const route = useRoute()
     const store = useStore()
 
-    const {genres, countries, type, rateColorKp, rateColorImdb} = useFilmComputeds(props)
+    const {genres, countries, type, rateColorKp, rateColorImdb} = useFilmComputeds(props.film)
 
     const moreBtnOptions = [{
       text: () => 'удалить из коллекции',

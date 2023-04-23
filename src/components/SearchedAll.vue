@@ -14,17 +14,18 @@
           <div class="searched-all__top-section-title">Фильмы</div>
           <div class="searched-all__film-block"
                v-for="film in searchedItems.films.slice(0, 4)"
-               @click="setSelectedFilm(film)">
-            <FilmBlockMini :film="film" @save="toggleFavorite" @addToCollections="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollection'}})"/>
+               @click="$router.push({query: {film: film.filmKp.kinopoiskId}})">
+            <FilmBlockMini :film="film" @save="toggleFavorite"
+                           @addToCollections="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollections'}})"/>
           </div>
         </div>
       </div>
 
       <BlocksLineShort v-if="searchedItems.collections.length > 0"
-                  style="margin-top: 30px;"
-                  :is-users="false"
-                  title="Коллекции"
-                  :items="searchedItems.collections"/>
+                       style="margin-top: 30px;"
+                       :is-users="false"
+                       title="Коллекции"
+                       :items="searchedItems.collections"/>
 
       <BlocksLine v-if="searchedItems.users.length > 0"
                   style="margin-top: 30px;"
@@ -35,14 +36,12 @@
   </ScrollableBlock>
 
 
-  <InfoBlockFilm :film="selectedFilm"
-                 back-link="/search"
-                 @loadMoreInfo="loadAdditionalFilmInfo"/>
+  <SideFilmBlock/>
 
   <PopUpsContainer>
-  <PopUpAddFilmToCollections v-if="$route.query.popUp === 'addFilmToCollection'"
-                             :film="addingToCollectionFilm"
-                             @favoriteCollectionChanged="toggleFavorite"/>
+    <PopUpAddFilmToCollections v-if="$route.query.popUp === 'addFilmToCollections'"
+                               :film="addingToCollectionFilm"
+                               @favoriteCollectionChanged="toggleFavorite"/>
   </PopUpsContainer>
 
 </template>
@@ -53,28 +52,26 @@ import useSearchAllLoader from "@/composables/useSearchAllLoader";
 import ScrollableBlock from "@/components/ScrollableBlock";
 import BlocksLine from "@/components/BlocksLine";
 import FilmBlockMini from "@/components/FilmBlockMini";
-import InfoBlockFilm from "@/components/InfoBlockFilm";
-import useFilmSelection from "@/composables/useFilmSelection";
-import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
 import BestBlocks from "@/components/BestBlocks";
 import BlocksLineShort from "@/components/BlocksLineShort";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
+import SideFilmBlock from "@/components/SideFilmBlock";
 
 export default {
   components: {
+    SideFilmBlock,
     PopUpsContainer,
     BlocksLineShort,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
-    BestBlocks, UserBlock, CollectionBlock, InfoBlockFilm, FilmBlockMini, BlocksLine, ScrollableBlock},
+    BestBlocks, UserBlock, CollectionBlock, FilmBlockMini, BlocksLine, ScrollableBlock
+  },
   props: {
     searchString: String
   },
   setup(props, {emit}) {
-    const {selectedFilm, setSelectedFilm} = useFilmSelection()
-    const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
     const {loadSearchedItems, searchedItems} = useSearchAllLoader()
     const {toggleFavorite} = useToggleFavorite()
 
@@ -99,9 +96,6 @@ export default {
     return {
       addingToCollectionFilm,
       searchedItems,
-      selectedFilm,
-      setSelectedFilm,
-      loadAdditionalFilmInfo,
       toggleFavorite
     }
   }
@@ -112,7 +106,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .searched-all {
-  padding-right: 320px;
+  padding-right: 300px;
 
   &__top-section {
     display: flex;

@@ -58,7 +58,7 @@ export default {
 .searching-films {
   height: 100%;
   width: 100%;
-  max-width: 600px;
+  max-width: 560px;
 
   &__list {
     margin-top: 20px;

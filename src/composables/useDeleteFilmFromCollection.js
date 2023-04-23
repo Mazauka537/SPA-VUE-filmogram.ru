@@ -1,6 +1,6 @@
 import useToggleFilm from "@/composables/useToggleFilm";
 
-export default function useDeleteFilmFromCollection(collection, collectedFilmsLoader, elemsFilmBlocks, setSelectedFilm) {
+export default function useDeleteFilmFromCollection(collection, collectedFilmsLoader, elemsFilmBlocks) {
   const {toggleFilm} = useToggleFilm()
 
   const deleteFilm = async (film) => {
@@ -21,7 +21,6 @@ export default function useDeleteFilmFromCollection(collection, collectedFilmsLo
     elemDeletingFilmBlock.ontransitionend = () => {
       collection.value.films_count = collection.value.films_count - 1
       collectedFilmsLoader.items.splice(collectedFilmsLoader.items.indexOf(film), 1)
-      setSelectedFilm(undefined)
     }
   }
 

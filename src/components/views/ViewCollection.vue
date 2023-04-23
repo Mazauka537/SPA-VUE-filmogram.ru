@@ -77,7 +77,7 @@
                              :number="index + 1"
                              :collection="collection"
                              @save="toggleFavorite"
-                             @pointerdown="setSelectedFilm(film)"
+                             @pointerdown="$router.push({query: {film: film.filmKp.kinopoiskId}})"
                              @delete="deleteFilm(film)"
                              @addToCollection="addingToCollectionFilm = film; $router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilmToCollections'}})"/>
                 </div>
@@ -90,9 +90,7 @@
     </ScrollableBlock>
 
 
-    <InfoBlockFilm :film="selectedFilm"
-                   :back-link="'/collection/' + $route.params.id"
-                   @loadMoreInfo="loadAdditionalFilmInfo"/>
+    <SideFilmBlock/>
 
 
     <PopUpsContainer>
@@ -120,7 +118,6 @@ import DragContainer from "@/components/DragContainer";
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import {ref, computed, onMounted, watch} from "vue";
 import {useRoute} from "vue-router";
-import InfoBlockFilm from "@/components/InfoBlockFilm";
 import useDeleteFilmFromCollection from "@/composables/useDeleteFilmFromCollection";
 import useChangeFilmOrder from "@/composables/useChangeFilmOrder";
 import FilmBlock from "@/components/FilmBlock";
@@ -133,16 +130,16 @@ import useToggleSave from "@/composables/useToggleSave";
 import SaveBtn from "@/components/UI/SaveBtn";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import useGetCollection from "@/composables/useGetCollection";
-import useFilmSelection from "@/composables/useFilmSelection";
-import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import ScrollableBlock from "@/components/ScrollableBlock";
 import {useRouter} from "vue-router/dist/vue-router";
 import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import BackPageBtn from "@/components/BackPageBtn";
+import SideFilmBlock from "@/components/SideFilmBlock";
 
 export default {
   components: {
+    SideFilmBlock,
     BackPageBtn,
     PopUpsContainer,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
@@ -155,7 +152,6 @@ export default {
     MoreBtn,
     FilmTableHead,
     FilmTable,
-    InfoBlockFilm,
     FilmBlock, DragContainer, DragBlock, MyButton, LoadableItemsContainer
   },
   setup() {
@@ -171,10 +167,8 @@ export default {
 
     const route = useRoute()
     const router = useRouter()
-    const {selectedFilm, setSelectedFilm} = useFilmSelection()
     const {collection, collectedFilmsLoader, getCollection} = useGetCollection()
-    const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
-    const {deleteFilm} = useDeleteFilmFromCollection(collection, collectedFilmsLoader, elemsFilmBlocks, setSelectedFilm)
+    const {deleteFilm} = useDeleteFilmFromCollection(collection, collectedFilmsLoader, elemsFilmBlocks)
     const {changeOrder} = useChangeFilmOrder(sortedFilms)
     const {toggleCollectionPublic} = useToggleCollectionPublic()
     const {toggleSave} = useToggleSave()
@@ -227,7 +221,6 @@ export default {
       scrollableBlock,
       moreBtnOptions,
       collection,
-      selectedFilm,
       addingToCollectionFilm,
       collectedFilmsLoader,
       sortedFilms,
@@ -236,8 +229,6 @@ export default {
       toggleSave,
       toggleFavorite,
       elemsFilmBlocks,
-      setSelectedFilm,
-      loadAdditionalFilmInfo,
       window
     }
   }
@@ -250,7 +241,7 @@ export default {
 .view-collection {
   background: $color-bg-header;
   height: 100%;
-  padding-right: 320px;
+  padding-right: 300px;
 
   &__header {
     display: flex;

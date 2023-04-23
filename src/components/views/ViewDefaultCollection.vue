@@ -29,8 +29,8 @@
                          style="margin: 5px 0"
                          :number="index + 1"
                          @save="toggleFavorite"
-                         @pointerdown="setSelectedFilm(film)"
-                         @addToCollection="addingToCollectionFilm = film; $router.push({path: '/default/collection/' + $route.params.id, query: {popUp: 'addFilmToCollection'}})"/>
+                         @pointerdown="$router.push({query: {film: film.filmKp.kinopoiskId}})"
+                         @addToCollection="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollections'}})"/>
             </div>
           </LoadableItemsContainer>
         </div>
@@ -39,12 +39,10 @@
     </ScrollableBlock>
 
 
-    <InfoBlockFilm v-if="selectedFilm"
-                   :film="selectedFilm"
-                   @loadMoreInfo="loadAdditionalFilmInfo"/>
+    <SideFilmBlock/>
 
     <PopUpsContainer>
-      <PopUpAddFilmToCollections v-if="$route.query.popUp === 'addFilmToCollection'"
+      <PopUpAddFilmToCollections v-if="$route.query.popUp === 'addFilmToCollections'"
                                  :film="addingToCollectionFilm"
                                  @favoriteCollectionChanged="toggleFavorite"/>
     </PopUpsContainer>
@@ -56,24 +54,22 @@
 import LoadableItemsContainer from "@/components/LoadableItemsContainer";
 import {defineAsyncComponent, ref} from "vue";
 import {useRoute} from "vue-router";
-import InfoBlockFilm from "@/components/InfoBlockFilm";
 import FilmBlock from "@/components/FilmBlock";
 import FilmTableHead from "@/components/FilmTableHead";
 import useToggleFavorite from "@/composables/useToggleFavorite";
-import useFilmSelection from "@/composables/useFilmSelection";
-import useLoadAdditionalFilmInfo from "@/composables/useLoadAdditionalFilmInfo";
 import ScrollableBlock from "@/components/ScrollableBlock";
 import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
 import useGetCollectionData from "@/composables/useGetCollectionData";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
+import SideFilmBlock from "@/components/SideFilmBlock";
 
 export default {
   components: {
+    SideFilmBlock,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     PopUpsContainer,
     ScrollableBlock,
     FilmTableHead,
-    InfoBlockFilm,
     FilmBlock, LoadableItemsContainer
   },
   async setup() {
@@ -83,11 +79,7 @@ export default {
     const scrollableBlock = ref(undefined)
     const collection = ref(undefined)
 
-
-    const {selectedFilm, setSelectedFilm} = useFilmSelection()
-    const {loadAdditionalFilmInfo} = useLoadAdditionalFilmInfo()
     const {toggleFavorite} = useToggleFavorite()
-
     const {getCollectionData} = useGetCollectionData()
     collection.value = await getCollectionData(route.params.id)
     const {searchedFilmsLoader} = useSearchedFilmsLoader(collection)
@@ -97,10 +89,7 @@ export default {
       collection,
       searchedFilmsLoader,
       scrollableBlock,
-      selectedFilm,
       toggleFavorite,
-      setSelectedFilm,
-      loadAdditionalFilmInfo,
       window
     }
   }

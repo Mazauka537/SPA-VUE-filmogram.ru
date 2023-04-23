@@ -1,10 +1,10 @@
 import {computed} from "vue";
 
-export default function useFilmComputeds(props) {
+export default function useFilmComputeds(film) {
 
   const genres = computed(() => {
     let genresStr = ''
-    props.film.filmKp.genres.forEach(genre => {
+    film.filmKp.genres.forEach(genre => {
       genresStr += genre.genre + ', '
     })
     return genresStr.slice(0, -2)
@@ -16,14 +16,14 @@ export default function useFilmComputeds(props) {
 
   const countries = computed(() => {
     let countriesStr = ''
-    props.film.filmKp.countries.forEach(country => {
+    film.filmKp.countries.forEach(country => {
       countriesStr += country.country + ', '
     })
     return countriesStr.slice(0, -2)
   })
 
   const type = computed(() => {
-    switch (props.film.filmKp.type) {
+    switch (film.filmKp.type) {
       case 'FILM':
         return 'Фильм'
       case 'TV_SERIES':
@@ -48,11 +48,11 @@ export default function useFilmComputeds(props) {
   }
 
   const rateColorKp = computed(() => {
-    return rateColor(props.film.filmKp.ratingKinopoisk)
+    return rateColor(film.filmKp.ratingKinopoisk)
   })
 
   const rateColorImdb = computed(() => {
-    return rateColor(props.film.filmKp.ratingImdb)
+    return rateColor(film.filmKp.ratingImdb)
   })
 
   return {

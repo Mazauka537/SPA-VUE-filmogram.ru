@@ -34,7 +34,7 @@ export default {
     position: absolute;
     display: none;
     height: 180px;
-    left: 50%;
+    right: 0;
     top: 0;
     transform: translate(-50%, -100%);
   }
