@@ -121,7 +121,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .searched-films {
-  padding-right: 300px;
+  padding: 0 330px 25px 30px;
   height: 100%;
 
   &__films {
@@ -142,7 +142,7 @@ export default {
     background: $color-bg-search-type;
     border-radius: 100px;
     cursor: pointer;
-    z-index: 3;
+    z-index: 2;
 
     &:hover {
       background: $color-bg-input;
@@ -174,12 +174,19 @@ export default {
 
 @media screen and (max-width: 1280px) {
   .searched-films {
-    padding-right: 0;
+    padding: 0 30px 25px 30px;
+
 
     &__filter-btn {
       right: auto;
       left: 230px;
     }
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .searched-films {
+    padding: 0 15px 25px 15px;
   }
 }
 
@@ -194,6 +201,7 @@ export default {
 
 @media screen and (max-width: 770px) {
   .searched-films {
+    padding: 0 15px;
 
     &__filter-btn {
       right: auto;

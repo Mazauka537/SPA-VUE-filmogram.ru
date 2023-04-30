@@ -1,5 +1,7 @@
 <template>
-  <BlocksList :items-loader="searchedUsersLoader" :is-users="true"/>
+  <div class="searched-users">
+    <BlocksList :items-loader="searchedUsersLoader" :is-users="true"/>
+  </div>
 </template>
 
 <script>
@@ -26,6 +28,16 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.searched-users {
+  height: 100%;
+  padding: 0 30px;
+}
 
+
+@media screen and (max-width: 1030px) {
+  .searched-users {
+    padding: 0 15px;
+  }
+}
 </style>

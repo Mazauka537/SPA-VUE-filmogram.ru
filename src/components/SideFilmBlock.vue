@@ -5,178 +5,179 @@
       <div class="side-film-block__close" @click="$router.replace({query: {}})"></div>
     </div>
 
-    <!-- undefiend 404 loading film -->
-
     <ScrollableBlock>
-      <div class="side-film-block__undefiend" v-if="!filmFromKp">
-        Фильм не выбран
-        <div class="side-film-block__undefiend-sub">
-          Нажмите на фильм из списка для отображения дополнительной информации
+      <div class="side-film-block__inner">
+
+        <div class="side-film-block__undefiend" v-if="!filmFromKp">
+          Фильм не выбран
+          <div class="side-film-block__undefiend-sub">
+            Нажмите на фильм из списка для отображения дополнительной информации
+          </div>
         </div>
-      </div>
 
-      <div class="side-film-block__404" v-else-if="filmFromKp === '404'">
-        404
-        <div class="side-film-block__404-sub">
-          Фильм не найден
+        <div class="side-film-block__404" v-else-if="filmFromKp === '404'">
+          404
+          <div class="side-film-block__404-sub">
+            Фильм не найден
+          </div>
+          <div class="side-film-block__404-sub-sub">
+            Приносим свои извенения за неудобства, в данный момент выбранный вами фильм не доступен
+          </div>
         </div>
-        <div class="side-film-block__404-sub-sub">
-          Приносим свои извенения за неудобства, в данный момент выбранный вами фильм не доступен
+
+        <div class="side-film-block__loading" v-else-if="filmFromKp === 'loading'">
+          <LoadingPanel/>
         </div>
-      </div>
 
-      <div class="side-film-block__loading" v-else-if="filmFromKp === 'loading'">
-        <LoadingPanel/>
-      </div>
+        <div class="side-film-block__film" v-else>
 
-      <div class="side-film-block__film" v-else>
-
-        <div class="side-film-block__poster">
-          <img :src="filmFromKp.poster.previewUrl" alt="poster">
-          <div class="side-film-block__rates">
-            <div class="side-film-block__rate" v-if="filmFromKp.rating.kp">
-              <sup>КП</sup>{{ (filmFromKp.rating.kp + '').substr(0, 3) }}
+          <div class="side-film-block__poster">
+            <img :src="filmFromKp.poster.previewUrl" alt="poster">
+            <div class="side-film-block__rates">
+              <div class="side-film-block__rate" v-if="filmFromKp.rating.kp">
+                <sup>КП</sup>{{ (filmFromKp.rating.kp + '').substr(0, 3) }}
+              </div>
+              <div class="side-film-block__rate" style="margin-top: 7px;" v-if="filmFromKp.rating.imdb">
+                <sup>IMDb</sup>{{ (filmFromKp.rating.imdb + '').substr(0, 3) }}
+              </div>
             </div>
-            <div class="side-film-block__rate" style="margin-top: 7px;" v-if="filmFromKp.rating.imdb">
-              <sup>IMDb</sup>{{ (filmFromKp.rating.imdb + '').substr(0, 3) }}
-            </div>
           </div>
-        </div>
 
-        <div class="side-film-block__age">
-          {{ type }}
-          <template v-if="filmFromKp?.ageRating">{{ filmFromKp.ageRating }}+</template>
-        </div>
+          <div class="side-film-block__age">
+            {{ type }}
+            <template v-if="filmFromKp?.ageRating">{{ filmFromKp.ageRating }}+</template>
+          </div>
 
-        <div class="side-film-block__name">
-          {{ filmFromKp.name }}
-        </div>
+          <div class="side-film-block__name">
+            {{ filmFromKp.name }}
+          </div>
 
-        <div class="side-film-block__original-name">
-          {{ filmFromKp.names[1].name }}
-        </div>
+          <div class="side-film-block__original-name">
+            {{ filmFromKp.names[1].name }}
+          </div>
 
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Год:
-          </div>
-          <div class="side-film-block__splitted-right">
-            {{ filmFromKp.year }}
-          </div>
-        </div>
-
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Время:
-          </div>
-          <div class="side-film-block__splitted-right">
-            {{ length }}
-          </div>
-        </div>
-
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Бюджет:
-          </div>
-          <div class="side-film-block__splitted-right">
-            {{ budget }}
-          </div>
-        </div>
-
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Сборы:
-          </div>
-          <div class="side-film-block__splitted-right">
-            {{ fees }}
-          </div>
-        </div>
-
-        <div class="side-film-block__serial" v-if="seasonsCount">
           <div class="side-film-block__splitted">
             <div class="side-film-block__splitted-left">
-              Сезонов:
+              Год:
             </div>
             <div class="side-film-block__splitted-right">
-              {{ seasonsCount }}
+              {{ filmFromKp.year }}
             </div>
           </div>
 
           <div class="side-film-block__splitted">
             <div class="side-film-block__splitted-left">
-              Серий:
+              Время:
             </div>
             <div class="side-film-block__splitted-right">
-              {{ episodesCount }}
+              {{ length }}
             </div>
           </div>
-        </div>
 
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Страны:
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Бюджет:
+            </div>
+            <div class="side-film-block__splitted-right">
+              {{ budget }}
+            </div>
           </div>
-          <div class="side-film-block__splitted-right">
-            {{ countries }}
-          </div>
-        </div>
 
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Жанры:
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Сборы:
+            </div>
+            <div class="side-film-block__splitted-right">
+              {{ fees }}
+            </div>
           </div>
-          <div class="side-film-block__splitted-right" v-html="genresList">
-          </div>
-        </div>
 
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Актеры:
-          </div>
-          <div class="side-film-block__splitted-right">
-            <PersonsList :persons="actors"/>
-          </div>
-        </div>
+          <div class="side-film-block__serial" v-if="seasonsCount">
+            <div class="side-film-block__splitted">
+              <div class="side-film-block__splitted-left">
+                Сезонов:
+              </div>
+              <div class="side-film-block__splitted-right">
+                {{ seasonsCount }}
+              </div>
+            </div>
 
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Продюсеры:
+            <div class="side-film-block__splitted">
+              <div class="side-film-block__splitted-left">
+                Серий:
+              </div>
+              <div class="side-film-block__splitted-right">
+                {{ episodesCount }}
+              </div>
+            </div>
           </div>
-          <div class="side-film-block__splitted-right">
-            <PersonsList :persons="producers"/>
-          </div>
-        </div>
 
-        <div class="side-film-block__splitted">
-          <div class="side-film-block__splitted-left">
-            Сценаристы:
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Страны:
+            </div>
+            <div class="side-film-block__splitted-right">
+              {{ countries }}
+            </div>
           </div>
-          <div class="side-film-block__splitted-right">
-            <PersonsList :persons="writers"/>
+
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Жанры:
+            </div>
+            <div class="side-film-block__splitted-right" v-html="genresList">
+            </div>
           </div>
-        </div>
 
-        <div class="side-film-block__trailer" v-if="trailerUrl">
-          <iframe width="100%"
-                  height="auto"
-                  :src="trailerUrl"
-                  title="YouTube video player"
-                  frameborder="0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowfullscreen></iframe>
-        </div>
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Актеры:
+            </div>
+            <div class="side-film-block__splitted-right">
+              <PersonsList :persons="actors"/>
+            </div>
+          </div>
 
-        <div class="side-film-block__desc">
-          {{ filmFromKp.description }}
-        </div>
-        <div class="side-film-block__link">
-          <a :href="'https://www.kinopoisk.ru/film/' + $route.query.film">
-            Смотреть на Kinopoisk.ru
-          </a>
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Продюсеры:
+            </div>
+            <div class="side-film-block__splitted-right">
+              <PersonsList :persons="producers"/>
+            </div>
+          </div>
+
+          <div class="side-film-block__splitted">
+            <div class="side-film-block__splitted-left">
+              Сценаристы:
+            </div>
+            <div class="side-film-block__splitted-right">
+              <PersonsList :persons="writers"/>
+            </div>
+          </div>
+
+          <div class="side-film-block__trailer" v-if="trailerUrl">
+            <iframe width="100%"
+                    height="auto"
+                    :src="trailerUrl"
+                    title="YouTube video player"
+                    frameborder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowfullscreen></iframe>
+          </div>
+
+          <div class="side-film-block__desc">
+            {{ filmFromKp.description }}
+          </div>
+          <div class="side-film-block__link">
+            <a :href="'https://www.kinopoisk.ru/film/' + $route.query.film">
+              Смотреть на Kinopoisk.ru
+            </a>
+          </div>
+
         </div>
 
       </div>
-
     </ScrollableBlock>
 
   </div>
@@ -253,10 +254,13 @@ export default {
   width: 100%;
   height: 100vh;
   text-align: center;
-  z-index: 2;
+  z-index: 3;
   background: $color-bg-side;
   transition: right 0.1s;
-  padding: 0 15px;
+
+  &__inner {
+    padding: 0 15px;
+  }
 
   &__undefiend {
     color: $color-text-light;
@@ -446,6 +450,15 @@ export default {
 
     &_visible {
       right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .side-film-block {
+
+    &__inner {
+      padding: 0 15px 50px 15px;
     }
   }
 }

@@ -61,7 +61,7 @@ export default {
   width: 100%;
   height: 100%;
   background: rgba($color-placeholder, 0.6);
-  z-index: 3;
+  z-index: 5;
   overflow: hidden;
   display: flex;
   align-items: center;
@@ -149,7 +149,6 @@ export default {
 @media screen and (max-width: 560px) {
   .pop-up {
     display: block;
-    padding-bottom: 50px;
 
     &__inner {
       border-radius: 0;

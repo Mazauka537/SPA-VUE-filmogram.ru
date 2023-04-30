@@ -7,11 +7,11 @@
   box-sizing: border-box;
   outline: none;
   scrollbar-width: thin;
-  scrollbar-color: rgba(#999, 0.1) transparent;
+  scrollbar-color: $color-scroll transparent;
 }
 
 *:hover::-webkit-scrollbar-thumb {
-  background: rgba(#999, 0.1);
+  background: $color-scroll;
 }
 
 *::-webkit-scrollbar {
@@ -67,5 +67,5 @@ input::-webkit-inner-spin-button {
 }
 
 .ss-scroll {
-  background: rgba(130, 130, 130, 0.2) !important;
+  background: $color-scroll!important;
 }

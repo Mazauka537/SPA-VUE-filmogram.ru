@@ -50,11 +50,14 @@ export default {
 <style scoped lang="scss">
 .view-search {
   height: 100%;
-  padding: 10px 30px 0 30px;
+
+  &__header {
+    padding: 10px 30px 0 30px;
+  }
 
   &__body {
     height: 100%;
-    padding-bottom: 130px;
+    padding-bottom: 115px;
   }
 
   &__search {
@@ -68,7 +71,11 @@ export default {
 
 @media screen and (max-width: 1030px) {
   .view-search {
-    padding: 10px 15px 0 15px;
+
+    &__header {
+      padding: 10px 15px 0 15px;
+    }
   }
 }
+
 </style>

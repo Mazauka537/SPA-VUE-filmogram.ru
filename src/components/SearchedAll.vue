@@ -1,39 +1,43 @@
 <template>
-  <ScrollableBlock
-      v-if="searchedItems.films.length > 0 || searchedItems.collections.length > 0 || searchedItems.users.length > 0">
-    <div class="searched-all">
+  <div class="searched-all__wrapper"
+       v-if="searchedItems.films.length > 0 || searchedItems.collections.length > 0 || searchedItems.users.length > 0">
+    <ScrollableBlock>
 
-      <div class="searched-all__top-section">
-        <div class="searched-all__best">
-          <BestBlocks :film="searchedItems.films[0]"
-                      :collection="searchedItems.collections[0]"
-                      :user="searchedItems.users[0]"
-                      @filmSelected="setSelectedFilm"/>
-        </div>
-        <div class="searched-all__films">
-          <div class="searched-all__top-section-title">Фильмы</div>
-          <div class="searched-all__film-block"
-               v-for="film in searchedItems.films.slice(0, 4)"
-               @click="$router.push({query: {film: film.filmKp.kinopoiskId}})">
-            <FilmBlockMini :film="film" @save="toggleFavorite"
-                           @addToCollections="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollections'}})"/>
+      <div class="searched-all">
+
+        <div class="searched-all__top-section">
+          <div class="searched-all__best">
+            <BestBlocks :film="searchedItems.films[0]"
+                        :collection="searchedItems.collections[0]"
+                        :user="searchedItems.users[0]"
+                        @filmSelected="setSelectedFilm"/>
+          </div>
+          <div class="searched-all__films">
+            <div class="searched-all__top-section-title">Фильмы</div>
+            <div class="searched-all__film-block"
+                 v-for="film in searchedItems.films.slice(0, 4)"
+                 @click="$router.push({query: {film: film.filmKp.kinopoiskId}})">
+              <FilmBlockMini :film="film" @save="toggleFavorite"
+                             @addToCollections="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollections'}})"/>
+            </div>
           </div>
         </div>
+
+        <BlocksLineShort v-if="searchedItems.collections.length > 0"
+                         style="margin-top: 30px;"
+                         :is-users="false"
+                         title="Коллекции"
+                         :items="searchedItems.collections"/>
+
+        <BlocksLine v-if="searchedItems.users.length > 0"
+                    style="margin-top: 30px;"
+                    title="Пользователи"
+                    :items="searchedItems.users"/>
+
       </div>
 
-      <BlocksLineShort v-if="searchedItems.collections.length > 0"
-                       style="margin-top: 30px;"
-                       :is-users="false"
-                       title="Коллекции"
-                       :items="searchedItems.collections"/>
-
-      <BlocksLine v-if="searchedItems.users.length > 0"
-                  style="margin-top: 30px;"
-                  title="Пользователи"
-                  :items="searchedItems.users"/>
-
-    </div>
-  </ScrollableBlock>
+    </ScrollableBlock>
+  </div>
 
 
   <SideFilmBlock/>
@@ -106,11 +110,15 @@ export default {
 @import "src/assets/styles/vars";
 
 .searched-all {
-  padding-right: 300px;
+  padding: 0 42px 0 30px;
+
+  &__wrapper {
+    padding-right: 300px;
+    height: 100%;
+  }
 
   &__top-section {
     display: flex;
-    padding-right: 18px;
   }
 
   &__top-section-title {
@@ -153,7 +161,16 @@ export default {
 
 @media screen and (max-width: 1280px) {
   .searched-all {
-    padding-right: 0;
+
+    &__wrapper {
+      padding-right: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .searched-all {
+    padding: 0 27px 0 15px;
   }
 }
 

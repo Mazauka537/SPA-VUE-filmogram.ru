@@ -47,7 +47,7 @@ export default {
     position: fixed;
     right: 0;
     bottom: 0;
-    z-index: 2;
+    z-index: 6;
     padding: 20px;
     width: 350px;
   }
@@ -86,6 +86,10 @@ export default {
       height: 50px;
       z-index: 4;
       background: $color-bg-nav-media;
+    }
+
+    &__pages {
+      padding-bottom: 50px;
     }
   }
 }
