@@ -35,4 +35,13 @@ export default {
     color: $color-placeholder;
   }
 }
+
+@media screen and (max-width: 560px){
+  .my-input {
+    background: transparent;
+    text-align: center;
+    border-bottom: $border-input-media;
+    border-radius: 0;
+  }
+}
 </style>

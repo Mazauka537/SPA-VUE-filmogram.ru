@@ -137,6 +137,7 @@ export default {
 .view-profile {
   background: $color-bg-header;
   height: 100%;
+  padding-right: 12px;
 
   &__header {
     display: flex;

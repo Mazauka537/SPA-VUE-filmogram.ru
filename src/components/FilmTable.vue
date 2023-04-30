@@ -21,9 +21,6 @@
     <div class="film-table__more">
       <slot name="more"></slot>
     </div>
-    <div class="film-table__grab">
-      <slot name="grab"></slot>
-    </div>
   </div>
 </template>
 
@@ -80,11 +77,6 @@ export default {}
     flex-shrink: 0;
     padding-left: 10px;
   }
-
-  &__grab {
-    width: 50px;
-    flex-shrink: 0;
-  }
 }
 
 @media screen and (max-width: 1660px) {
@@ -107,11 +99,6 @@ export default {}
     }
 
     &__more {
-      width: 40px;
-      flex-shrink: 0;
-    }
-
-    &__grab {
       width: 40px;
       flex-shrink: 0;
     }

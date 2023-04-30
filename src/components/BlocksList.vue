@@ -4,19 +4,17 @@
     <LoadableItemsContainerWithOwnScroll :loader="itemsLoader">
       <div class="block-list__title">{{ title }}</div>
 
-      <div class="block-list__blocks-wrapper">
-        <div class="block-list__blocks">
-          <div class="block-list__block"
-               v-for="item in itemsLoader.items"
-               :key="item.id">
-            <UserBlock v-if="isUsers" :user="item"/>
-            <CollectionBlock v-else :collection="item"/>
-          </div>
-          <div class="block-list__block"
-               v-for="i in missingBlocksCount"
-               :key="i">
-            <EmptyBlock/>
-          </div>
+      <div class="block-list__blocks">
+        <div class="block-list__block"
+             v-for="item in itemsLoader.items"
+             :key="item.id">
+          <UserBlock v-if="isUsers" :user="item"/>
+          <CollectionBlock v-else :collection="item"/>
+        </div>
+        <div class="block-list__block"
+             v-for="i in missingBlocksCount"
+             :key="i">
+          <EmptyBlock/>
         </div>
       </div>
     </LoadableItemsContainerWithOwnScroll>
@@ -69,10 +67,6 @@ export default {
     letter-spacing: 0.8px;
   }
 
-  &__blocks-wrapper {
-    padding-right: 18px;
-  }
-
   &__blocks {
     display: flex;
     flex-wrap: wrap;
@@ -82,6 +76,15 @@ export default {
 
   &__block {
     padding: 15px 7px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .block-list {
+
+    &__blocks {
+      display: block;
+    }
   }
 }
 </style>

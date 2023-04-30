@@ -220,8 +220,7 @@ export default {
 
   &__more {
     height: 25px;
-    width: 45px;
-    //padding-left: 20px;
+    width: 30px;
     opacity: 0;
   }
 }

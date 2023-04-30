@@ -14,12 +14,13 @@
 
           <MyInput type="text" placeholder="Имя" v-model="form.name"/>
 
-          <MyButton @click="form.submit"
-                    :load="form.isSending"
-                    :white="true"
-                    style="margin-top: 30px;">
-            Сохранить
-          </MyButton>
+          <div class="form-edit-user-data__btn">
+            <MyButton @click="form.submit"
+                      :load="form.isSending"
+                      :white="true">
+              Сохранить
+            </MyButton>
+          </div>
 
         </div>
 
@@ -87,7 +88,6 @@ export default {
 .form-edit-user-data {
   text-align: right;
   max-width: 500px;
-  margin-top: 30px;
 
   &__inputs {
     display: flex;
@@ -105,6 +105,35 @@ export default {
   &__info {
     flex-grow: 1;
     margin-left: 25px;
+  }
+
+  &__btn {
+    margin-top: 30px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .form-edit-user-data {
+    text-align: center;
+    margin-top: 30px;
+
+    &__inputs {
+      text-align: center;
+      display: block;
+    }
+
+    &__avatar {
+      margin: 0 auto;
+    }
+
+    &__info {
+      margin-left: 0;
+      margin-top: 60px;
+    }
+
+    &__btn {
+      margin-top: 60px;
+    }
   }
 }
 

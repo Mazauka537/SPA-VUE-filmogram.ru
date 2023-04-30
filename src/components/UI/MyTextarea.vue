@@ -18,7 +18,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .my-textarea {
-  height: 100%;
+  height: 130px;
   width: 100%;
   resize: none;
   background: $color-bg-input;

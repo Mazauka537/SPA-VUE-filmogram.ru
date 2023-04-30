@@ -58,11 +58,6 @@ export default {
 @import "src/assets/styles/vars";
 
 .blocks-line {
-  padding-right: 18px;
-
-  &__header {
-
-  }
 
   &__title {
     font-size: 22px;

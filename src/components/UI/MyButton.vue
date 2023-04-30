@@ -32,7 +32,6 @@ export default {
   color: $color-text-light;
   padding: 7px 15px;
   font-weight: 700;
-  font-size: 12px;
   cursor: pointer;
   border: 2px solid $color-text-light;
   border-radius: 100px;

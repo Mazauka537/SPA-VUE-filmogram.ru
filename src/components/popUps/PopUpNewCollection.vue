@@ -8,11 +8,12 @@
         </div>
         <div class="form-new-collection__info">
           <MyInput type="text" placeholder="Название" v-model="form.title"/>
-          <MyTextarea placeholder="Описание" v-model="form.description" style="margin-top: 15px; height: 130px;"/><!--
+          <MyInput class="form-new-collection__input-desc" placeholder="Описание" v-model="form.description"/>
+          <MyTextarea class="form-new-collection__textarea-desc" placeholder="Описание" v-model="form.description"/><!--
    --></div>
       </div>
 
-      <MyButton @click="form.submit" :load="form.isSending" :white="true" style="margin-top: 25px; width: 140px;">Создать
+      <MyButton class="form-new-collection__btn" @click="form.submit" :load="form.isSending" :white="true">Создать
       </MyButton>
 
     </form>
@@ -97,6 +98,53 @@ export default {
   &__info {
     flex-grow: 1;
     margin-left: 15px;
+  }
+
+  &__input-desc {
+    display: none;
+  }
+
+  &__textarea-desc {
+    margin-top: 15px;
+    height: 130px;
+  }
+
+  &__btn {
+    margin-top: 25px;
+    width: 140px;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .form-new-collection {
+    text-align: center;
+
+    &__inputs {
+      text-align: center;
+      display: block;
+    }
+
+    &__image {
+      margin: 0 auto;
+    }
+
+    &__info {
+      margin-left: 0;
+      margin-top: 60px;
+    }
+
+    &__input-desc {
+      display: block;
+      margin-top: 35px;
+    }
+
+    &__textarea-desc {
+      display: none;
+    }
+
+    &__btn {
+      margin-top: 60px;
+    }
   }
 }
 

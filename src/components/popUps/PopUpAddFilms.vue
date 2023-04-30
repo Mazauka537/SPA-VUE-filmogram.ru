@@ -58,7 +58,6 @@ export default {
 .searching-films {
   height: 100%;
   width: 100%;
-  max-width: 560px;
 
   &__list {
     margin-top: 20px;
@@ -87,6 +86,18 @@ export default {
     flex-grow: 1;
     min-width: 0;
     overflow: hidden;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .searching-films {
+
+    &__film {
+
+      &:hover {
+        background: none;
+      }
+    }
   }
 }
 

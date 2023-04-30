@@ -1,13 +1,15 @@
 <template>
   <ScrollableBlock ref="scrollableBlock">
 
-    <LoadableItemsContainer :loader="loader" :scrollable-block="scrollableBlock">
+    <div class="loadable-container__scroll-wrapper">
+      <LoadableItemsContainer :loader="loader" :scrollable-block="scrollableBlock">
 
-      <slot>
+        <slot>
 
-      </slot>
+        </slot>
 
-    </LoadableItemsContainer>
+      </LoadableItemsContainer>
+    </div>
 
   </ScrollableBlock>
 </template>
@@ -32,6 +34,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+.loadable-container__scroll-wrapper {
+  padding-right: 12px;
+}
 </style>

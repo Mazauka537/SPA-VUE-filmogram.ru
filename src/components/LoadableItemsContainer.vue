@@ -70,6 +70,10 @@ export default {
     text-align: center;
   }
 
+  &__bottom {
+    padding-bottom: 40px;
+  }
+
   &__spin {
     text-align: center;
     padding: 20px;

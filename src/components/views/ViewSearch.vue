@@ -54,7 +54,7 @@ export default {
 
   &__body {
     height: 100%;
-    padding-bottom: 105px;
+    padding-bottom: 130px;
   }
 
   &__search {

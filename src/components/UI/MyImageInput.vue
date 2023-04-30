@@ -3,15 +3,22 @@
     <img class="my-image-input__image" :src="imagePreviewSrc ?? startingImage ?? '/image.png'">
 
     <div class="my-image-input__hover">
-      <label class="my-image-input__btn" :class="{'my-image-input__btn_center': !isImageSelected}">
+      <label class="my-image-input__select-btn" :class="{'my-image-input__select-btn_center': !isImageSelected}">
         <span class="my-image-input__text">Выбрать фото</span>
-        <input class="my-image-input__input" ref="elemInput" type="file" accept="image/png,image/jpeg,image/gif" @input="updateInput">
+        <input class="my-image-input__input" ref="elemInput" type="file" accept="image/png,image/jpeg,image/gif"
+               @input="updateInput">
       </label>
-      <div class="my-image-input__btn" :class="{'my-image-input__btn_hidden': !isImageSelected}" @click="clearImage">
+      <div class="my-image-input__delete-btn" :class="{'my-image-input__delete-btn_hidden': !isImageSelected}"
+           @click="clearImage">
         <span class="my-image-input__text">Удалить фото</span>
       </div>
     </div>
 
+  </div>
+
+  <div class="my-image-input__delete-btn-media" :class="{'my-image-input__delete-btn-media_hidden': !isImageSelected}"
+       @click="clearImage">
+    Удалить фото
   </div>
 </template>
 
@@ -99,22 +106,11 @@ export default {
     color: $color-text;
   }
 
-  &__btn {
+  &__select-btn, &__delete-btn {
     height: 50%;
     position: relative;
     display: block;
-
-    &_center {
-      height: 100%;
-
-      .my-image-input__text {
-        transform: translateY(-50%);
-      }
-    }
-
-    &_hidden {
-      display: none;
-    }
+    cursor: pointer;
 
     &:hover {
       .my-image-input__text {
@@ -129,6 +125,31 @@ export default {
     }
   }
 
+  &__select-btn {
+
+    &_center {
+      height: 100%;
+
+      .my-image-input__text {
+        transform: translateY(-50%);
+      }
+    }
+  }
+
+  &__delete-btn {
+
+    &_hidden {
+      display: none;
+    }
+  }
+
+  &__delete-btn-media {
+    display: none;
+    color: $color-text-light;
+    cursor: pointer;
+    padding: 10px 0;
+  }
+
   &__text {
     position: absolute;
     width: 100%;
@@ -138,6 +159,40 @@ export default {
 
   &__input {
     display: none;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .my-image-input {
+
+    &__hover {
+      display: block;
+      background: transparent;
+    }
+
+    &__select-btn {
+      height: 100%;
+
+      .my-image-input__text {
+        transform: translateY(-50%);
+      }
+    }
+
+    &__delete-btn {
+      display: none;
+    }
+
+    &__delete-btn-media {
+      display: block;
+
+      &_hidden {
+        display: none;
+      }
+    }
+
+    &__text {
+      display: none;
+    }
   }
 }
 </style>

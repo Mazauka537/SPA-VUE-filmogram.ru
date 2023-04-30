@@ -41,6 +41,8 @@ export default {
 @import "src/assets/styles/vars";
 
 .search-types-list {
+  overflow-x: auto;
+  white-space: nowrap;
 
   &__item {
     padding: 7px 11px;

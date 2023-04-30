@@ -126,4 +126,15 @@ export default {
   }
 }
 
+@media screen and (max-width: 560px){
+  .my-select {
+
+    &__btn {
+      background: none;
+      border-bottom: $border-input-media;
+      border-radius: 0;
+    }
+  }
+}
+
 </style>

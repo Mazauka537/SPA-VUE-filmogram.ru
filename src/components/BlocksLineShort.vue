@@ -17,6 +17,7 @@
         <EmptyBlock/>
       </div>
     </div>
+    <router-link v-if="link" class="blocks-line__link-bottom" :to="link">Смотреть все</router-link>
   </div>
 </template>
 
@@ -57,11 +58,6 @@ export default {
 @import "src/assets/styles/vars";
 
 .blocks-line {
-  padding-right: 18px;
-
-  &__header {
-
-  }
 
   &__title {
     font-size: 22px;
@@ -74,6 +70,13 @@ export default {
     float: right;
     text-transform: uppercase;
     font-weight: 700;
+  }
+
+  &__link-bottom {
+    padding-top: 10px;
+    display: none;
+    color: $color-text-light;
+    font-size: 13px;
   }
 
   &__blocks {
@@ -162,6 +165,42 @@ export default {
     &__block {
       &:nth-child(3) {
         display: none;
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 560px) {
+  .blocks-line {
+
+    &__title {
+      font-size: 16px;
+    }
+
+    &__link {
+      display: none;
+    }
+
+    &__link-bottom {
+      display: block;
+    }
+
+    &__blocks {
+      display: block;
+      margin: 0;
+      padding-top: 10px;
+    }
+
+    &__block {
+      padding: 7px 0;
+
+      &:nth-child(4) {
+        display: block;
+      }
+
+      &:nth-child(5) {
+        display: block;
       }
     }
   }

@@ -125,7 +125,6 @@ export default {
   height: 100%;
 
   &__films {
-    padding-right: 18px;
     height: 100%;
   }
 
@@ -176,6 +175,11 @@ export default {
 @media screen and (max-width: 1280px) {
   .searched-films {
     padding-right: 0;
+
+    &__filter-btn {
+      right: auto;
+      left: 230px;
+    }
   }
 }
 
@@ -184,6 +188,27 @@ export default {
 
     &__films-table-head {
       display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 770px) {
+  .searched-films {
+
+    &__filter-btn {
+      right: auto;
+      left: 15px;
+      bottom: 65px;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .searched-films {
+
+    &__filter-btn {
+      right: 15px;
+      left: auto;
     }
   }
 }

@@ -69,10 +69,9 @@ export default {
 
   &__inner {
     background: $color-bg-main;
-    border-radius: 8px;
+    border-radius: 7px;
     max-height: 100%;
-    padding: 5px;
-
+    max-width: 560px;
     display: flex;
     flex-direction: column;
 
@@ -95,6 +94,7 @@ export default {
   &__body {
     overflow-y: auto;
     padding: 0 20px 20px 20px;
+    height: 100%;
   }
 
   &__title {
@@ -149,11 +149,17 @@ export default {
 @media screen and (max-width: 560px) {
   .pop-up {
     display: block;
+    padding-bottom: 50px;
 
     &__inner {
       border-radius: 0;
       height: 100%;
       width: 100%;
+      padding-bottom: 0;
+    }
+
+    &__header {
+      padding: 10px 20px 10px 20px;
     }
 
     &__title {

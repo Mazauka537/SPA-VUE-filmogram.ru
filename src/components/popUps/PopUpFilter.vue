@@ -2,7 +2,7 @@
   <PopUp :closable="false" title="Фильтр поиска фильмов">
     <form class="form-films-filter">
 
-      <MySelect :options="orderOptions" v-model="form.order" style="margin-top: 20px;"/>
+      <MySelect :options="orderOptions" v-model="form.order"/>
       <MySelect :options="typeOptions" v-model="form.type" style="margin-top: 30px;"/>
       <MySelect :options="genreOptions" v-model="form.genre" style="margin-top: 30px;"/>
 
@@ -53,38 +53,38 @@ export default {
 
     const genreOptions = [
       {name: 'Все жанры', value: 0},
-      {name: 'триллер', value: 1},
-      {name: 'криминал', value: 3},
-      {name: 'детектив', value: 5},
-      {name: 'боевик', value: 11},
-      {name: 'приключения', value: 7},
-      {name: 'фантастика', value: 6},
-      {name: 'вестерн', value: 10},
-      {name: 'фэнтези', value: 12},
-      {name: 'ужасы', value: 17},
-      {name: 'драма', value: 2},
-      {name: 'мелодрама', value: 4},
-      {name: 'биография', value: 8},
-      {name: 'комедия', value: 13},
-      {name: 'военный', value: 14},
-      {name: 'документальный', value: 22},
-      {name: 'история', value: 15},
-      {name: 'мультфильм', value: 18},
-      {name: 'аниме', value: 24},
-      {name: 'семейный', value: 19},
-      {name: 'детский', value: 33},
-      {name: 'короткометражка', value: 23},
-      {name: 'фильм-нуар', value: 9},
-      {name: 'музыка', value: 16},
-      {name: 'мюзикл', value: 20},
-      {name: 'спорт', value: 21},
-      {name: 'для взрослых', value: 28},
-      {name: 'концерт', value: 27},
-      {name: 'новости', value: 26},
-      {name: 'игра', value: 31},
-      {name: 'реальное ТВ', value: 30},
-      {name: 'ток-шоу', value: 32},
-      {name: 'церемония', value: 29},
+      {name: 'Триллер', value: 1},
+      {name: 'Криминал', value: 3},
+      {name: 'Детектив', value: 5},
+      {name: 'Боевик', value: 11},
+      {name: 'Приключения', value: 7},
+      {name: 'Фантастика', value: 6},
+      {name: 'Вестерн', value: 10},
+      {name: 'Фэнтези', value: 12},
+      {name: 'Ужасы', value: 17},
+      {name: 'Драма', value: 2},
+      {name: 'Мелодрама', value: 4},
+      {name: 'Биография', value: 8},
+      {name: 'Комедия', value: 13},
+      {name: 'Военный', value: 14},
+      {name: 'Документальный', value: 22},
+      {name: 'История', value: 15},
+      {name: 'Мультфильм', value: 18},
+      {name: 'Аниме', value: 24},
+      {name: 'Семейный', value: 19},
+      {name: 'Детский', value: 33},
+      {name: 'Короткометражка', value: 23},
+      {name: 'Фильм-нуар', value: 9},
+      {name: 'Музыка', value: 16},
+      {name: 'Мюзикл', value: 20},
+      {name: 'Спорт', value: 21},
+      {name: 'Для взрослых', value: 28},
+      {name: 'Концерт', value: 27},
+      {name: 'Новости', value: 26},
+      {name: 'Игра', value: 31},
+      {name: 'Реальное ТВ', value: 30},
+      {name: 'Ток-шоу', value: 32},
+      {name: 'Церемония', value: 29},
     ]
 
     const formSubmit = () => {
@@ -129,8 +129,7 @@ export default {
 <style scoped lang="scss">
 
 .form-films-filter {
-  width: 100%;
-  max-width: 400px;
+  padding-top: 10px;
 
   &__input-line {
     display: flex;
@@ -139,6 +138,12 @@ export default {
 
   &__btn {
     text-align: right;
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .form-films-filter {
+    padding-top: 20px;
   }
 }
 </style>
