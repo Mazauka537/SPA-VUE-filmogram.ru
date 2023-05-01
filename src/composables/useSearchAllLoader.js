@@ -10,16 +10,23 @@ export default function useSearchAllLoader() {
     users: []
   })
 
+  const isItemsLoading = ref(false)
+
   const loadSearchedItems = async (searchString) => {
+    isItemsLoading.value = true
+
     const response = await requestMaker.fetch('search/all', 'GET', {
       keyword: searchString,
     }, [200])
 
     searchedItems.value = await response.json()
+
+    isItemsLoading.value = false
   }
 
   return {
     loadSearchedItems,
     searchedItems,
+    isItemsLoading
   }
 }

@@ -1,7 +1,19 @@
 <template>
-  <div class="searched-all__wrapper"
-       v-if="searchedItems.films.length > 0 || searchedItems.collections.length > 0 || searchedItems.users.length > 0">
-    <ScrollableBlock>
+  <div class="searched-all__wrapper">
+
+    <div class="searched-all__loading" v-if="isItemsLoading">
+      <LoadingPanel :size="60"/>
+    </div>
+
+    <div class="searched-all__empty"
+         v-else-if="searchedItems.films.length === 0 && searchedItems.collections.length === 0 && searchedItems.users.length === 0">
+      <h1 class="searched-all__empty-title">
+        Ничего не найдено
+      </h1>
+      По вашему запросу "{{ searchString }}" ничего не найдено
+    </div>
+
+    <ScrollableBlock v-else>
 
       <div class="searched-all">
 
@@ -65,9 +77,11 @@ import useToggleFavorite from "@/composables/useToggleFavorite";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import SideFilmBlock from "@/components/SideFilmBlock";
 import useSearchInput2 from "@/composables/useSearchInput2";
+import LoadingPanel from "@/components/LoadingPanel";
 
 export default {
   components: {
+    LoadingPanel,
     SideFilmBlock,
     PopUpsContainer,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
@@ -77,7 +91,7 @@ export default {
     searchString: String
   },
   setup(props) {
-    const {loadSearchedItems, searchedItems} = useSearchAllLoader()
+    const {loadSearchedItems, searchedItems, isItemsLoading} = useSearchAllLoader()
     const {toggleFavorite} = useToggleFavorite()
     const {goSearch} = useSearchInput2()
 
@@ -94,6 +108,7 @@ export default {
     return {
       addingToCollectionFilm,
       searchedItems,
+      isItemsLoading,
       toggleFavorite
     }
   }
@@ -105,6 +120,20 @@ export default {
 
 .searched-all {
   padding: 0 42px 0 30px;
+
+  &__loading {
+    position: relative;
+    padding: 100px;
+  }
+
+  &__empty {
+    padding: 30px 15px;
+    text-align: center;
+  }
+
+  &__empty-title {
+
+  }
 
   &__wrapper {
     padding-right: 300px;
@@ -178,6 +207,11 @@ export default {
 
 @media screen and (max-width: 560px) {
   .searched-all {
+
+    &__top-section-title {
+      font-size: 16px;
+    }
+
     &__film-block {
       &:hover {
         background: none;
