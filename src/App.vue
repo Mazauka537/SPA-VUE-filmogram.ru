@@ -45,10 +45,9 @@ export default {
 
   &__notifications {
     position: fixed;
-    right: 0;
-    bottom: 0;
+    right: 20px;
+    bottom: 20px;
     z-index: 6;
-    padding: 20px;
     width: 350px;
   }
 

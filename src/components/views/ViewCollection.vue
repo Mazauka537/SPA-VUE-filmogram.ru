@@ -241,7 +241,7 @@ export default {
 .view-collection {
   background: $color-bg-header;
   height: 100%;
-  padding-right: 318px;
+  padding-right: 312px;
 
   &__header {
     display: flex;
@@ -415,7 +415,7 @@ export default {
 
 @media screen and (max-width: 1280px) {
   .view-collection {
-    padding-right: 18px;
+    padding-right: 12px;
   }
 }
 

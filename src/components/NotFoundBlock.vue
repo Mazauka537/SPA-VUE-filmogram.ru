@@ -1,6 +1,6 @@
 <template>
-  <div class="empty-block">
-    <span class="empty-block__text">
+  <div class="not-found-block">
+    <span class="not-found-block__text">
       {{ text }}
     </span>
   </div>
@@ -17,7 +17,7 @@ export default {
 <style scoped lang="scss">
 @import "src/assets/styles/vars";
 
-.empty-block {
+.not-found-block {
   width: 180px;
   height: 227px;
   padding: 15px 15px 30px 15px;
@@ -37,6 +37,17 @@ export default {
     font-weight: 700;
     letter-spacing: 0.8px;
     text-align: center;
+  }
+}
+
+@media screen and (max-width: 1460px) {
+  .not-found-block {
+    width: 150px;
+    height: 190px;
+
+    &__text {
+      font-size: 14px;
+    }
   }
 }
 </style>

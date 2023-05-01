@@ -5,6 +5,8 @@
 
       <div class="view-default-collection">
 
+        <BackPageBtn/>
+
         <div class="view-default-collection__header">
           <div class="view-default-collection__preview">
             <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
@@ -19,14 +21,17 @@
         </div>
 
         <div class="view-default-collection__body">
-          <FilmTableHead/>
+
+          <div class="view-default-collection__films-table-head">
+            <FilmTableHead/>
+          </div>
 
           <LoadableItemsContainer :loader="searchedFilmsLoader" style="margin-top: 15px;"
                                   :scrollable-block="scrollableBlock">
             <div class="view-default-collection__film-block-wrapper" v-for="(film, index) in searchedFilmsLoader.items"
                  :key="film.id">
               <FilmBlock :film="film"
-                         style="margin: 5px 0"
+                         style="margin: 10px 0"
                          :number="index + 1"
                          @save="toggleFavorite"
                          @pointerdown="$router.push({query: {film: film.filmKp.kinopoiskId}})"
@@ -62,9 +67,11 @@ import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
 import useGetCollectionData from "@/composables/useGetCollectionData";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import SideFilmBlock from "@/components/SideFilmBlock";
+import BackPageBtn from "@/components/BackPageBtn";
 
 export default {
   components: {
+    BackPageBtn,
     SideFilmBlock,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     PopUpsContainer,
@@ -102,7 +109,7 @@ export default {
 .view-default-collection {
   background: $color-bg-header;
   height: 100%;
-  padding-right: 300px;
+  padding-right: 312px;
 
   &__header {
     display: flex;
@@ -150,14 +157,6 @@ export default {
     padding-left: 25px;
   }
 
-  &__open {
-    text-transform: uppercase;
-    color: $color-text-light;
-    font-weight: 700;
-    font-size: 13px;
-    letter-spacing: 0.1px;
-  }
-
   &__name {
     font-size: 72px;
     color: $color-text-light;
@@ -173,61 +172,86 @@ export default {
     }
   }
 
-  &__owner-avatar {
-    padding-right: 5px;
-
-    * {
-      vertical-align: middle;
-    }
-
-    img {
-      height: 25px;
-      width: 25px;
-      border-radius: 50%;
-      background: $color-bg-side;
-    }
-  }
-
   &__body {
     background: $color-bg-body;
     padding: 30px 30px 130px 30px;
-  }
-
-  &__ctrl-panel {
-    padding-bottom: 30px;
-
-    * {
-      vertical-align: middle;
-    }
-  }
-
-  &__save-btn, &__share-btn, &__more-btn {
-    display: inline-block;
-    height: 40px;
-    width: 40px;
-    cursor: pointer;
-
-    svg {
-      fill: $color-text-light;
-    }
-  }
-
-  &__save-btn {
-    margin-right: 20px;
-
-    &_active {
-      svg {
-        fill: $color-main;
-      }
-    }
-  }
-
-  &__share-btn {
-    margin-right: 20px;
   }
 
   &__film-block-wrapper {
 
   }
 }
+
+@media screen and (max-width: 1460px) {
+  .view-default-collection {
+
+    &__preview {
+      height: 180px;
+      width: 180px;
+    }
+
+    &__name {
+      font-size: 48px;
+      padding: 15px 0 37px;
+    }
+  }
+}
+
+@media screen and (max-width: 1280px) {
+  .view-default-collection {
+    padding-right: 12px;
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .view-default-collection {
+
+    &__header {
+      padding: 15px;
+    }
+
+    &__body {
+      padding: 15px 15px 130px 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 900px) {
+  .view-default-collection {
+
+    &__films-table-head {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .view-default-collection {
+    background: $color-bg-header-media2;
+
+    &__header {
+      display: block;
+      padding: 15px 15px 0 15px;
+    }
+
+    &__preview {
+      margin: 0 auto;
+    }
+
+    &__info {
+      padding-left: 0;
+    }
+
+    &__name {
+      font-size: 16px;
+      padding: 10px 0 7px 0;
+    }
+
+    &__body {
+      background: none;
+      padding: 10px 15px 130px 15px;
+    }
+  }
+}
+
 </style>

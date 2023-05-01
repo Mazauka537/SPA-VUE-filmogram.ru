@@ -23,16 +23,18 @@
           </div>
         </div>
 
-        <BlocksLineShort v-if="searchedItems.collections.length > 0"
-                         style="margin-top: 30px;"
-                         :is-users="false"
-                         title="Коллекции"
-                         :items="searchedItems.collections"/>
+        <BlocksLine v-if="searchedItems.collections.length > 0"
+                    style="margin-top: 30px;"
+                    :is-users="false"
+                    title="Коллекции"
+                    :items="searchedItems.collections"
+                    :is-short="true"/>
 
         <BlocksLine v-if="searchedItems.users.length > 0"
                     style="margin-top: 30px;"
                     title="Пользователи"
-                    :items="searchedItems.users"/>
+                    :items="searchedItems.users"
+                    :is-short="true"/>
 
       </div>
 
@@ -59,43 +61,35 @@ import FilmBlockMini from "@/components/FilmBlockMini";
 import CollectionBlock from "@/components/CollectionBlock";
 import UserBlock from "@/components/UserBlock";
 import BestBlocks from "@/components/BestBlocks";
-import BlocksLineShort from "@/components/BlocksLineShort";
 import useToggleFavorite from "@/composables/useToggleFavorite";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import SideFilmBlock from "@/components/SideFilmBlock";
+import useSearchInput2 from "@/composables/useSearchInput2";
 
 export default {
   components: {
     SideFilmBlock,
     PopUpsContainer,
-    BlocksLineShort,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     BestBlocks, UserBlock, CollectionBlock, FilmBlockMini, BlocksLine, ScrollableBlock
   },
   props: {
     searchString: String
   },
-  setup(props, {emit}) {
+  setup(props) {
     const {loadSearchedItems, searchedItems} = useSearchAllLoader()
     const {toggleFavorite} = useToggleFavorite()
+    const {goSearch} = useSearchInput2()
 
     const addingToCollectionFilm = ref(undefined)
 
-    let isSearchingCount = 0
+    watch(() => props.searchString, () => goSearch(() => {
+      loadSearchedItems(props.searchString)
+    }))
 
-    const goSearch = async () => {
-      isSearchingCount++
-      emit('setLoading', true)
-      await loadSearchedItems(props.searchString)
-      isSearchingCount--
-      if (isSearchingCount === 0) {
-        emit('setLoading', false)
-      }
-    }
-
-    watch(() => props.searchString, goSearch)
-
-    onMounted(goSearch)
+    onMounted(() => goSearch(() => {
+      loadSearchedItems(props.searchString)
+    }))
 
     return {
       addingToCollectionFilm,
@@ -178,6 +172,16 @@ export default {
   .searched-all {
     &__best {
       display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 560px) {
+  .searched-all {
+    &__film-block {
+      &:hover {
+        background: none;
+      }
     }
   }
 }

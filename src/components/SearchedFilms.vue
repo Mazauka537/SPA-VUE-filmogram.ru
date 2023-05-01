@@ -43,7 +43,7 @@
 
 <script>
 import BlocksList from "@/components/BlocksList";
-import {computed, defineAsyncComponent, ref, watch} from "vue";
+import {computed, defineAsyncComponent, onMounted, ref, watch} from "vue";
 import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
 import FilmBlock from "@/components/FilmBlock";
 import FilmTableHead from "@/components/FilmTableHead";
@@ -53,6 +53,7 @@ import LoadableItemsContainerWithOwnScroll from "@/components/LoadableItemsConta
 import {useRouter} from "vue-router/dist/vue-router";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import SideFilmBlock from "@/components/SideFilmBlock";
+import useSearchInput2 from "@/composables/useSearchInput2";
 
 export default {
   components: {
@@ -81,8 +82,9 @@ export default {
       rating_to: ''
     })
 
+    const {searchedFilmsLoader} = useSearchedFilmsLoader(filmsFilter)
     const {toggleFavorite} = useToggleFavorite()
-    const {searchedFilmsLoader, callback} = useSearchedFilmsLoader(filmsFilter)
+    const {goSearch} = useSearchInput2()
 
     const setFilter = (filter) => {
       filmsFilter.value = filter
@@ -101,9 +103,15 @@ export default {
 
     })
 
-    watch(() => props.searchString, () => {
-      callback(props.searchString)
-    })
+    watch(() => props.searchString, () => goSearch(() => {
+      searchedFilmsLoader.setKeyword(props.searchString)
+      searchedFilmsLoader.reset()
+    }))
+
+    onMounted(() => goSearch(() => {
+      searchedFilmsLoader.setKeyword(props.searchString)
+      searchedFilmsLoader.reset()
+    }))
 
     return {
       addingToCollectionFilm,

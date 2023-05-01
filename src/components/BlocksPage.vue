@@ -12,5 +12,6 @@ export default {}
 
 .blocks-page {
   padding: 30px;
+  height: 100%;
 }
 </style>

@@ -1,5 +1,5 @@
 <template>
-  <div class="blocks-line">
+  <div class="blocks-line" :class="{'blocks-line_short': isShort}">
     <div class="blocks-line__header">
       <span class="blocks-line__title">{{ title }}</span>
       <router-link v-if="link" class="blocks-line__link" :to="link">Показать все</router-link>
@@ -36,6 +36,10 @@ export default {
       type: Boolean,
       default: true
     },
+    isShort: {
+      type: Boolean,
+      default: false
+    },
     items: Array
   },
   setup(props) {
@@ -58,6 +62,19 @@ export default {
 @import "src/assets/styles/vars";
 
 .blocks-line {
+
+  &_short {
+
+    .blocks-line__block {
+      &:nth-child(11) {
+        display: none;
+      }
+
+      &:nth-child(10) {
+        display: none;
+      }
+    }
+  }
 
   &__title {
     font-size: 22px;
@@ -102,11 +119,35 @@ export default {
   }
 }
 
+@media screen and (max-width: 2360px) {
+  .blocks-line {
+    &_short {
+      .blocks-line__block {
+        &:nth-child(9) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 2230px) {
   .blocks-line {
     &__block {
       &:nth-child(10) {
         display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 2150px) {
+  .blocks-line {
+    &_short {
+      .blocks-line__block {
+        &:nth-child(8) {
+          display: none;
+        }
       }
     }
   }
@@ -122,11 +163,35 @@ export default {
   }
 }
 
+@media screen and (max-width: 1960px) {
+  .blocks-line {
+    &_short {
+      .blocks-line__block {
+        &:nth-child(7) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1850px) {
   .blocks-line {
     &__block {
       &:nth-child(8) {
         display: none;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1770px) {
+  .blocks-line {
+    &_short {
+      .blocks-line__block {
+        &:nth-child(6) {
+          display: none;
+        }
       }
     }
   }
@@ -142,7 +207,31 @@ export default {
   }
 }
 
+@media screen and (max-width: 1570px) {
+  .blocks-line {
+    &_short {
+      .blocks-line__block {
+        &:nth-child(5) {
+          display: none;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-width: 1280px) {
+  .blocks-line {
+    &_short {
+      .blocks-line__block {
+        &:nth-child(5) {
+          display: block;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1230px) {
   .blocks-line {
     &__block {
       &:nth-child(6) {
@@ -152,8 +241,17 @@ export default {
   }
 }
 
-@media screen and (max-width: 1120px) {
+@media screen and (max-width: 1070px) {
   .blocks-line {
+
+    &_short {
+      .blocks-line__block {
+        &:nth-child(5) {
+          display: none;
+        }
+      }
+    }
+
     &__block {
       &:nth-child(5) {
         display: none;
@@ -162,7 +260,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 870px) {
   .blocks-line {
     &__block {
       &:nth-child(4) {
@@ -182,7 +280,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 710px) {
+@media screen and (max-width: 670px) {
   .blocks-line {
     &__block {
       &:nth-child(4) {

@@ -40,8 +40,10 @@ export default {
     itemsLoader: Object
   },
   setup(props) {
+    const maxItemsCount = 11;
+
     const missingBlocksCount = computed(() => {
-      return 8 - (props.itemsLoader.items.length % 8)
+      return maxItemsCount - (props.itemsLoader.items.length % maxItemsCount)
     })
 
     const elemScrollableBlock = ref(undefined)

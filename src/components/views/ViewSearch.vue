@@ -2,7 +2,7 @@
   <div class="view-search">
     <div class="view-search__header">
       <div class="view-search__search">
-        <MySearchInput v-model="searchString" :is-loading="isSearching"/>
+        <MySearchInput v-model="searchString"/>
       </div>
       <div class="view-search__types">
         <SearchTypesList v-model="searchType"/>
@@ -34,12 +34,10 @@ export default {
     SearchedFilms, SearchedUsers, SearchedCollections, SearchTypesList, MySearchInput
   },
   setup() {
-    const isSearching = ref(false)
     const searchType = ref('all')
     const searchString = ref('')
 
     return {
-      isSearching,
       searchType,
       searchString,
     }

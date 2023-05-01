@@ -7,7 +7,8 @@
 <script>
 import BlocksList from "@/components/BlocksList";
 import useSearchedCollectionsLoader from "@/composables/useSearchedCollectionsLoader";
-import {watch} from "vue";
+import {onMounted, watch} from "vue";
+import useSearchInput2 from "@/composables/useSearchInput2";
 
 export default {
   components: {BlocksList},
@@ -15,11 +16,18 @@ export default {
     searchString: String
   },
   setup(props) {
-    const {searchedCollectionsLoader, callback} = useSearchedCollectionsLoader()
+    const {searchedCollectionsLoader} = useSearchedCollectionsLoader()
+    const {goSearch} = useSearchInput2()
 
-    watch(() => props.searchString, () => {
-      callback(props.searchString)
-    })
+    watch(() => props.searchString, () => goSearch(() => {
+      searchedCollectionsLoader.setKeyword(props.searchString)
+      searchedCollectionsLoader.reset()
+    }))
+
+    onMounted(() => goSearch(() => {
+      searchedCollectionsLoader.setKeyword(props.searchString)
+      searchedCollectionsLoader.reset()
+    }))
 
     return {
       searchedCollectionsLoader

@@ -1,6 +1,5 @@
 import useRequestMaker from "@/composables/useRequestMaker";
 import useSearchedItemsLoader from "@/composables/useSearchedItemsLoader";
-import useSearchStringWatcherCallback from "@/composables/useSearchStringWatcherCallback";
 
 export default function useSearchedFilmsLoader(filmsFilter) {
   const requestMaker = useRequestMaker()
@@ -28,7 +27,6 @@ export default function useSearchedFilmsLoader(filmsFilter) {
   }
 
   const {itemsLoader, handleSuccessfulResponse} = useSearchedItemsLoader(loadSearchedFilmsRequest)
-  const {callback} = useSearchStringWatcherCallback(itemsLoader)
 
-  return {searchedFilmsLoader: itemsLoader, callback}
+  return {searchedFilmsLoader: itemsLoader}
 }
