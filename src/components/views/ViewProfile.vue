@@ -1,8 +1,8 @@
 <template>
-  <ScrollableBlock v-if="user">
+  <ScrollableBlock ref="scrollableBlock" v-if="user">
     <div class="view-profile">
 
-      <BackPageBtn/>
+      <HeadBar :title="user.name" :scrollable-block="scrollableBlock" :scroll-height="10"/>
 
       <div class="view-profile__header">
         <div class="view-profile__avatar">
@@ -71,11 +71,11 @@ import {useStore} from "vuex";
 import LoadingPanel from "@/components/LoadingPanel";
 import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
-import BackPageBtn from "@/components/BackPageBtn";
+import HeadBar from "@/components/HeadBar";
 
 export default {
   components: {
-    BackPageBtn,
+    HeadBar,
     PopUpsContainer,
     PopEditUserData: defineAsyncComponent(() => import('@/components/popUps/PopEditUserData')),
     PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
@@ -92,6 +92,8 @@ export default {
     const store = useStore()
     const {toggleSubscription} = useToggleSubscription()
     const {user, isUserLoading, getUser} = useGetUser()
+
+    const scrollableBlock = ref(undefined)
 
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
@@ -125,6 +127,7 @@ export default {
       isUserLoading,
       onUserDataChanged,
       toggleSubscription,
+      scrollableBlock,
       window
     }
   }

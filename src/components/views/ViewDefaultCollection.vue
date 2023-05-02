@@ -5,7 +5,7 @@
 
       <div class="view-default-collection">
 
-        <BackPageBtn/>
+        <HeadBar :title="collection.title"/>
 
         <div class="view-default-collection__header">
           <div class="view-default-collection__preview">
@@ -67,11 +67,11 @@ import useSearchedFilmsLoader from "@/composables/useSearchedFilmsLoader";
 import useGetCollectionData from "@/composables/useGetCollectionData";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import SideFilmBlock from "@/components/SideFilmBlock";
-import BackPageBtn from "@/components/BackPageBtn";
+import HeadBar from "@/components/HeadBar";
 
 export default {
   components: {
-    BackPageBtn,
+    HeadBar,
     SideFilmBlock,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     PopUpsContainer,

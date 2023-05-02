@@ -5,7 +5,7 @@
 
       <div class="view-collection">
 
-        <BackPageBtn/>
+        <HeadBar :title="collection.title" :scrollable-block="scrollableBlock" :scroll-height="130"/>
 
         <div class="view-collection__header">
           <div class="view-collection__preview">
@@ -134,13 +134,13 @@ import ScrollableBlock from "@/components/ScrollableBlock";
 import {useRouter} from "vue-router/dist/vue-router";
 import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
-import BackPageBtn from "@/components/BackPageBtn";
+import HeadBar from "@/components/HeadBar";
 import SideFilmBlock from "@/components/SideFilmBlock";
 
 export default {
   components: {
     SideFilmBlock,
-    BackPageBtn,
+    HeadBar,
     PopUpsContainer,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
     PopUpAddFilms: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilms')),
