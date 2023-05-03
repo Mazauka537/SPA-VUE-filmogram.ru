@@ -87,6 +87,10 @@ export default {
     &__blocks {
       display: block;
     }
+
+    &__block {
+      padding: 5px 7px;
+    }
   }
 }
 </style>

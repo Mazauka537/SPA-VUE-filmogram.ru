@@ -5,12 +5,12 @@
 
       <div class="view-default-collection">
 
-        <HeadBar :title="collection.title"/>
+        <HeadBar :title="collection.title" :scrollable-block="scrollableBlock" :scroll-height="130"/>
 
         <div class="view-default-collection__header">
           <div class="view-default-collection__preview">
-            <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
-                 :src="'http://127.0.0.1:8000/storage/images/defaultCollections/' + collection.image">
+            <CollectionPreview :scrollable-block="scrollableBlock"
+                               :image-path="'http://127.0.0.1:8000/storage/images/defaultCollections/' + collection.image"/>
           </div>
           <div class="view-default-collection__info">
             <div class="view-default-collection__name" @click="selectedFilm = undefined">{{ collection.title }}</div>
@@ -68,9 +68,11 @@ import useGetCollectionData from "@/composables/useGetCollectionData";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import SideFilmBlock from "@/components/SideFilmBlock";
 import HeadBar from "@/components/HeadBar";
+import CollectionPreview from "@/components/CollectionPreview";
 
 export default {
   components: {
+    CollectionPreview,
     HeadBar,
     SideFilmBlock,
     PopUpAddFilmToCollections: defineAsyncComponent(() => import('@/components/popUps/PopUpAddFilmToCollections')),
@@ -122,35 +124,6 @@ export default {
     height: 240px;
     width: 240px;
     flex-shrink: 0;
-
-    img {
-      vertical-align: middle;
-      background: #fff;
-    }
-
-    img:nth-child(4) {
-      width: 160px;
-      height: 240px;
-      margin-left: -186px;
-    }
-
-    img:nth-child(3) {
-      width: 144px;
-      height: 216px;
-      margin-left: -170px;
-    }
-
-    img:nth-child(2) {
-      width: 128px;
-      height: 192px;
-      margin-left: -154px;
-    }
-
-    img:nth-child(1) {
-      width: 112px;
-      height: 168px;
-      margin-left: 128px;
-    }
   }
 
   &__info {

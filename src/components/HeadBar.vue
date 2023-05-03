@@ -27,14 +27,13 @@ export default {
     setTimeout(() => {
       const elemScrollableBlock = props.scrollableBlock.elemScrollableBlock.querySelector('.ss-content')
 
-      elemScrollableBlock.onscroll = () => {
+      elemScrollableBlock.addEventListener('scroll', () => {
         if (elemScrollableBlock.scrollTop > props.scrollHeight) {
           bgOpacityPercent.value = (elemScrollableBlock.scrollTop - props.scrollHeight) / 30
           titleOpacityPercent.value = (elemScrollableBlock.scrollTop - props.scrollHeight - 30) / 30
 
           if (bgOpacityPercent.value > 1) bgOpacityPercent.value = 1
           if (titleOpacityPercent.value > 1) titleOpacityPercent.value = 1
-          console.log(elemScrollableBlock.scrollTop, bgOpacityPercent.value, titleOpacityPercent.value)
 
         } else {
           bgOpacityPercent.value = 0
@@ -42,7 +41,7 @@ export default {
         }
 
 
-      }
+      })
     }, 300)
 
     return {

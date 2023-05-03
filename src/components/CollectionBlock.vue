@@ -7,10 +7,10 @@
              :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image" alt="">
       </template>
       <template v-else>
-        <img :src="collection.posters[3] ?? defaultPoster">
-        <img :src="collection.posters[2] ?? defaultPoster">
-        <img :src="collection.posters[1] ?? defaultPoster">
-        <img :src="collection.posters[0] ?? defaultPoster">
+        <ImageSlabs :img1="collection.posters[3]"
+                    :img2="collection.posters[2]"
+                    :img3="collection.posters[1]"
+                    :img4="collection.posters[0]"/>
       </template>
     </div>
 
@@ -23,7 +23,9 @@
 
 <script>
 
+import ImageSlabs from "@/components/ImageSlabs";
 export default {
+  components: {ImageSlabs},
   props: {
     collection: Object
   },
@@ -54,35 +56,6 @@ export default {
   &__image {
     height: 150px;
     width: 150px;
-
-    img {
-      vertical-align: middle;
-      background: #fff;
-    }
-
-    img:nth-child(4) {
-      width: 100px;
-      height: 150px;
-      margin-left: -117px;
-    }
-
-    img:nth-child(3) {
-      width: 90px;
-      height: 135px;
-      margin-left: -107px;
-    }
-
-    img:nth-child(2) {
-      width: 80px;
-      height: 120px;
-      margin-left: -96px;
-    }
-
-    img:nth-child(1) {
-      width: 70px;
-      height: 105px;
-      margin-left: 80px;
-    }
   }
 
   &__title {
@@ -103,30 +76,6 @@ export default {
     &__image {
       height: 120px;
       width: 120px;
-
-      img:nth-child(4) {
-        width: 80px;
-        height: 120px;
-        margin-left: -93px;
-      }
-
-      img:nth-child(3) {
-        width: 72px;
-        height: 108px;
-        margin-left: -85px;
-      }
-
-      img:nth-child(2) {
-        width: 64px;
-        height: 96px;
-        margin-left: -77px;
-      }
-
-      img:nth-child(1) {
-        width: 56px;
-        height: 84px;
-        margin-left: 63px;
-      }
     }
 
     &__title {
@@ -151,30 +100,6 @@ export default {
       height: 60px;
       width: 60px;
       display: inline-block;
-
-      img:nth-child(4) {
-        width: 40px;
-        height: 60px;
-        margin-left: -46px;
-      }
-
-      img:nth-child(3) {
-        width: 36px;
-        height: 54px;
-        margin-left: -41px;
-      }
-
-      img:nth-child(2) {
-        width: 32px;
-        height: 48px;
-        margin-left: -38px;
-      }
-
-      img:nth-child(1) {
-        width: 28px;
-        height: 42px;
-        margin-left: 30px;
-      }
     }
 
     &__title {

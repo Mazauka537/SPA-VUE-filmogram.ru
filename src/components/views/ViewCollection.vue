@@ -8,24 +8,14 @@
         <HeadBar :title="collection.title" :scrollable-block="scrollableBlock" :scroll-height="130"/>
 
         <div class="view-collection__header">
-          <div class="view-collection__preview">
-            <template v-if="collection.image">
-              <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
-                   ref="elemPreviewImg"
-                   :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image + '?=1'">
-            </template>
-            <template v-else>
-              <img :src="sortedFilms[3] ? sortedFilms[3].filmKp.posterUrlPreview : defaultPoster">
-              <img :src="sortedFilms[2] ? sortedFilms[2].filmKp.posterUrlPreview : defaultPoster">
-              <img :src="sortedFilms[1] ? sortedFilms[1].filmKp.posterUrlPreview : defaultPoster">
-              <img :src="sortedFilms[0] ? sortedFilms[0].filmKp.posterUrlPreview : defaultPoster">
-            </template>
 
+          <div class="view-collection__preview">
+            <CollectionPreview :scrollable-block="scrollableBlock" :sorted-films="sortedFilms" :image-path="imagePath"/>
           </div>
+
           <div class="view-collection__info">
-            <div class="view-collection__open">{{
-                collection.public ? 'Открытая коллеция' : 'Закрытая коллекция'
-              }}
+            <div class="view-collection__open">
+              {{ collection.public ? 'Открытая коллеция' : 'Закрытая коллекция' }}
             </div>
             <div class="view-collection__name" @click="selectedFilm = undefined">{{ collection.title }}</div>
             <div class="view-collection__main-info">
@@ -136,9 +126,11 @@ import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import HeadBar from "@/components/HeadBar";
 import SideFilmBlock from "@/components/SideFilmBlock";
+import CollectionPreview from "@/components/CollectionPreview";
 
 export default {
   components: {
+    CollectionPreview,
     SideFilmBlock,
     HeadBar,
     PopUpsContainer,
@@ -157,7 +149,6 @@ export default {
   setup() {
     const elemsFilmBlocks = ref(undefined)
     const scrollableBlock = ref(undefined)
-    const elemPreviewImg = ref(undefined)
 
     const addingToCollectionFilm = ref(undefined)
 
@@ -174,11 +165,14 @@ export default {
     const {toggleSave} = useToggleSave()
     const {toggleFavorite} = useToggleFavorite()
 
+    const imageUpdater = ref('?=1')
+    const imagePath = computed(() => {
+      return collection.value?.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.value.image + imageUpdater.value : undefined
+    })
+
     const onCollectionEdited = (newCollection) => {
       collection.value = newCollection
-      if (elemPreviewImg.value) {
-        elemPreviewImg.value.src += '1'
-      }
+      imageUpdater.value += '1'
       router.back()
     }
 
@@ -215,7 +209,7 @@ export default {
 
     return {
       defaultPoster: 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/746160.jpg',
-      elemPreviewImg,
+      imagePath,
       onCollectionEdited,
       onCurrentCollectionChanged,
       scrollableBlock,
@@ -254,35 +248,6 @@ export default {
     height: 240px;
     width: 240px;
     flex-shrink: 0;
-
-    img {
-      vertical-align: middle;
-      background: #fff;
-    }
-
-    img:nth-child(4) {
-      width: 160px;
-      height: 240px;
-      margin-left: -186px;
-    }
-
-    img:nth-child(3) {
-      width: 144px;
-      height: 216px;
-      margin-left: -170px;
-    }
-
-    img:nth-child(2) {
-      width: 128px;
-      height: 192px;
-      margin-left: -154px;
-    }
-
-    img:nth-child(1) {
-      width: 112px;
-      height: 168px;
-      margin-left: 128px;
-    }
   }
 
   &__info {
@@ -380,30 +345,6 @@ export default {
     &__preview {
       height: 180px;
       width: 180px;
-
-      img:nth-child(4) {
-        width: 120px;
-        height: 180px;
-        margin-left: -136px;
-      }
-
-      img:nth-child(3) {
-        width: 108px;
-        height: 162px;
-        margin-left: -123px;
-      }
-
-      img:nth-child(2) {
-        width: 96px;
-        height: 144px;
-        margin-left: -111px;
-      }
-
-      img:nth-child(1) {
-        width: 84px;
-        height: 126px;
-        margin-left: 80px;
-      }
     }
 
     &__name {
