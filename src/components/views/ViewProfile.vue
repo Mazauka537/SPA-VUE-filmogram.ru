@@ -1,53 +1,55 @@
 <template>
-  <ScrollableBlock ref="scrollableBlock" v-if="user">
-    <div class="view-profile">
+  <div class="view-profile" v-if="user">
+    <ScrollableBlock ref="scrollableBlock">
+      <div class="view-profile__inner">
 
-      <HeadBar :title="user.name" :scrollable-block="scrollableBlock" :scroll-height="10"/>
+        <HeadBar :title="user.name" :scrollable-block="scrollableBlock" :scroll-height="10"/>
 
-      <div class="view-profile__header">
-        <div class="view-profile__avatar">
-          <img ref="elemAvatarImg"
-               :src="(user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg') + '?=1'"
-               alt="avatar">
-        </div>
-        <div class="view-profile__user-info">
-          <div class="view-profile__user-name">{{ user.name }}</div>
-          <div class="view-profile__main-info">
-            <router-link :to="'/user/' + user.id" id="collections-count">{{ user.public_collections }} открытых
-              коллекций
-            </router-link>
-            <span id="collections-count-space">&nbsp;&bull;&nbsp;</span>
-            <router-link :to="'/user/' + user.id + '/subscribers'">{{ user.subscribers }} подписчиков</router-link>&nbsp;&bull;
-            <router-link :to="'/user/' + user.id + '/subscriptions'">{{ user.subscriptions }} подписок</router-link>
+        <div class="view-profile__header">
+          <div class="view-profile__avatar">
+            <img ref="elemAvatarImg"
+                 :src="(user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg') + '?=1'"
+                 alt="avatar">
+          </div>
+          <div class="view-profile__user-info">
+            <div class="view-profile__user-name">{{ user.name }}</div>
+            <div class="view-profile__main-info">
+              <router-link :to="'/user/' + user.id" id="collections-count">{{ user.public_collections }} открытых
+                коллекций
+              </router-link>
+              <span id="collections-count-space">&nbsp;&bull;&nbsp;</span>
+              <router-link :to="'/user/' + user.id + '/subscribers'">{{ user.subscribers }} подписчиков</router-link>&nbsp;&bull;
+              <router-link :to="'/user/' + user.id + '/subscriptions'">{{ user.subscriptions }} подписок</router-link>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div class="view-profile__body">
-        <div class="view-profile__ctrl-panel">
+        <div class="view-profile__body">
+          <div class="view-profile__ctrl-panel">
           <span v-if="!$store.getters['auth/isOwner'](user.id)" class="view-profile__btn">
           <MyButton @click="toggleSubscription(user)">
             {{ user.isSubscribed ? 'Отписаться' : 'Подписаться' }}
           </MyButton>
           </span>
-          <span v-else class="view-profile__btn">
+            <span v-else class="view-profile__btn">
           <MyButton @click="$router.push({ path: '/user/' + $route.params.id, query: {popUp: 'newCollection'}})">
             Создать коллецию
           </MyButton>
           </span>
-          <button class="view-profile__share-btn">
-            <ShareBtn :link="window.location.origin + '/user/' + user.id"/>
-          </button>
-          <button class="view-profile__more-btn" v-if="$store.getters['auth/isOwner'](user.id)">
-            <MoreBtn :options="moreBtnOptions"/>
-          </button>
+            <button class="view-profile__share-btn">
+              <ShareBtn :link="window.location.origin + '/user/' + user.id"/>
+            </button>
+            <button class="view-profile__more-btn" v-if="$store.getters['auth/isOwner'](user.id)">
+              <MoreBtn :options="moreBtnOptions"/>
+            </button>
+          </div>
+
+          <ProfileBody :user="user"/>
         </div>
 
-        <ProfileBody :user="user"/>
       </div>
-    </div>
-
-  </ScrollableBlock>
+    </ScrollableBlock>
+  </div>
 
   <PopUpsContainer>
     <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
@@ -98,7 +100,7 @@ export default {
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
       onClick: () => {
-        router.push({ path: '/user/' + route.params.id, query: {popUp: 'editUser'}})
+        router.push({path: '/user/' + route.params.id, query: {popUp: 'editUser'}})
       }
     }]
 
@@ -138,9 +140,13 @@ export default {
 @import "src/assets/styles/vars";
 
 .view-profile {
-  background: $color-bg-header;
   height: 100%;
-  padding-right: 12px;
+
+  &__inner {
+    background: $color-bg-header;
+    padding-right: 12px;
+    padding-bottom: 30px;
+  }
 
   &__header {
     display: flex;
@@ -185,6 +191,7 @@ export default {
   &__body {
     background: $color-bg-body;
     height: 100%;
+    min-height: 100vh;
     padding: 30px;
   }
 
@@ -244,7 +251,10 @@ export default {
 
 @media screen and (max-width: 560px) {
   .view-profile {
-    background: $color-bg-header-media;
+
+    &__inner {
+      background: $color-bg-header-media;
+    }
 
     &__header {
       padding: 50px 15px 0 15px;

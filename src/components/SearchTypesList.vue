@@ -43,6 +43,7 @@ export default {
 .search-types-list {
   overflow-x: auto;
   white-space: nowrap;
+  padding-bottom: 10px;
 
   &__item {
     padding: 7px 11px;

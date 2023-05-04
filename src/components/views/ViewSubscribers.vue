@@ -1,7 +1,6 @@
 <template>
-  <BlocksPage>
-    <BlocksList title="Подписчики" :items-loader="subscribersLoader"/>
-  </BlocksPage>
+  <BlocksPage title="Подписчики"
+              :items-loader="subscribersLoader"/>
 </template>
 
 <script>

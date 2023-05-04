@@ -1,17 +1,15 @@
 <template>
-  <div class="block-list">
+  <div class="blocks-list">
 
     <LoadableItemsContainerWithOwnScroll :loader="itemsLoader">
-      <div class="block-list__title">{{ title }}</div>
-
-      <div class="block-list__blocks">
-        <div class="block-list__block"
+      <div class="blocks-list__blocks">
+        <div class="blocks-list__block"
              v-for="item in itemsLoader.items"
              :key="item.id">
           <UserBlock v-if="isUsers" :user="item"/>
           <CollectionBlock v-else :collection="item"/>
         </div>
-        <div class="block-list__block"
+        <div class="blocks-list__block"
              v-for="i in missingBlocksCount"
              :key="i">
           <EmptyBlock/>
@@ -36,7 +34,6 @@ export default {
       type: Boolean,
       default: true
     },
-    title: String,
     itemsLoader: Object
   },
   setup(props) {
@@ -59,37 +56,41 @@ export default {
 <style scoped lang="scss">
 @import "src/assets/styles/vars";
 
-.block-list {
+.blocks-list {
   height: 100%;
-
-  &__title {
-    font-size: 22px;
-    color: $color-text-light;
-    font-weight: 700;
-    letter-spacing: 0.8px;
-  }
 
   &__blocks {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     margin: 0 -7px;
+    padding: 0 30px;
   }
 
   &__block {
-    padding: 15px 7px;
+    padding: 0 7px;
+    margin-bottom: 30px;
+  }
+}
+
+@media screen and (max-width: 1030px) {
+  .blocks-list {
+    &__blocks {
+      padding: 0 15px;
+    }
   }
 }
 
 @media screen and (max-width: 560px) {
-  .block-list {
+  .blocks-list {
 
     &__blocks {
+      padding: 15px;
       display: block;
     }
 
     &__block {
-      padding: 5px 7px;
+      margin-bottom: 15px;
     }
   }
 }

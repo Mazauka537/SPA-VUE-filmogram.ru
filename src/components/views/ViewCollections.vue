@@ -1,9 +1,7 @@
 <template>
-  <BlocksPage>
-    <BlocksList :title="$store.getters['auth/isOwner']($route.params.id) ? 'Мои коллекции' : 'Открытые коллекции'"
-                :items-loader="collectionsLoader"
-                :is-users="false"/>
-  </BlocksPage>
+  <BlocksPage :title="$store.getters['auth/isOwner']($route.params.id) ? 'Мои коллекции' : 'Открытые коллекции'"
+              :items-loader="collectionsLoader"
+              :is-users="false"/>
 </template>
 
 <script>

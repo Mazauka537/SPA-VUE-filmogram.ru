@@ -1,7 +1,7 @@
 <template>
-  <BlocksPage>
-    <BlocksList title="Сохранненые коллекции" :items-loader="savesLoader" :is-users="false"/>
-  </BlocksPage>
+  <BlocksPage title="Сохранненые коллекции"
+              :items-loader="savesLoader"
+              :is-users="false"/>
 </template>
 
 <script>

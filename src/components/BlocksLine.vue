@@ -90,7 +90,6 @@ export default {
   }
 
   &__link-bottom {
-    padding-top: 10px;
     display: none;
     color: $color-text-light;
     font-size: 13px;
@@ -312,7 +311,8 @@ export default {
     }
 
     &__block {
-      padding: 7px 0;
+      padding: 0;
+      margin-bottom: 15px;
 
       &:nth-child(4) {
         display: block;

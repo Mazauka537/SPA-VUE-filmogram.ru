@@ -26,22 +26,29 @@ export default {
     const titleOpacityPercent = ref(0)
 
     setTimeout(() => {
-      const elemScrollableBlock = props.scrollableBlock.elemScrollableBlock.querySelector('.ss-content')
+      if (props.scrollableBlock) {
 
-      elemScrollableBlock.addEventListener('scroll', () => {
-        if (elemScrollableBlock.scrollTop > props.scrollHeight) {
-          bgOpacityPercent.value = (elemScrollableBlock.scrollTop - props.scrollHeight) / 30
-          titleOpacityPercent.value = (elemScrollableBlock.scrollTop - props.scrollHeight - 30) / 30
+        const elemScrollableBlock = props.scrollableBlock.elemScrollableBlock.querySelector('.ss-content')
 
-          if (bgOpacityPercent.value > 1) bgOpacityPercent.value = 1
-          if (titleOpacityPercent.value > 1) titleOpacityPercent.value = 1
+        elemScrollableBlock.addEventListener('scroll', () => {
+          if (elemScrollableBlock.scrollTop > props.scrollHeight) {
+            bgOpacityPercent.value = (elemScrollableBlock.scrollTop - props.scrollHeight) / 30
+            titleOpacityPercent.value = (elemScrollableBlock.scrollTop - props.scrollHeight - 30) / 30
 
-        } else {
-          bgOpacityPercent.value = 0
-          titleOpacityPercent.value = 0
-        }
+            if (bgOpacityPercent.value > 1) bgOpacityPercent.value = 1
+            if (titleOpacityPercent.value > 1) titleOpacityPercent.value = 1
 
-      })
+          } else {
+            bgOpacityPercent.value = 0
+            titleOpacityPercent.value = 0
+          }
+
+        })
+
+      } else {
+        bgOpacityPercent.value = 1
+        titleOpacityPercent.value = 1
+      }
     }, 300)
 
     return {
