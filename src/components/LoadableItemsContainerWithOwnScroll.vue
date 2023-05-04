@@ -37,5 +37,6 @@ export default {
 <style scoped lang="scss">
 .loadable-container__scroll-wrapper {
   padding-right: 12px;
+  padding-bottom: 100px;
 }
 </style>

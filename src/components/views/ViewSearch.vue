@@ -55,7 +55,7 @@ export default {
 
   &__body {
     height: 100%;
-    padding-bottom: 115px;
+    padding-bottom: 105px;
   }
 
   &__search {
@@ -63,7 +63,7 @@ export default {
   }
 
   &__types {
-    padding: 10px 0 5px 0;
+    padding: 10px 0;
   }
 }
 
@@ -72,6 +72,15 @@ export default {
 
     &__header {
       padding: 10px 15px 0 15px;
+    }
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .view-search {
+
+    &__types {
+      padding: 10px 0 4px 0;
     }
   }
 }

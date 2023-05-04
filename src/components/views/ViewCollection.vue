@@ -234,7 +234,6 @@ export default {
 
 .view-collection {
   background: $color-bg-header;
-  height: 100%;
   padding-right: 312px;
 
   &__header {
@@ -294,7 +293,7 @@ export default {
 
   &__body {
     background: $color-bg-body;
-    padding: 30px 30px 130px 30px;
+    padding: 30px 30px 100px 30px;
   }
 
   &__ctrl-panel {
@@ -368,7 +367,7 @@ export default {
     }
 
     &__body {
-      padding: 15px 15px 130px 15px;
+      padding: 15px 15px 100px 15px;
     }
   }
 }
@@ -413,7 +412,6 @@ export default {
 
     &__body {
       background: none;
-      padding: 10px 15px 130px 15px;
     }
 
     &__btn {

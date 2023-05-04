@@ -1,7 +1,9 @@
 <template>
-  <div class="view-profile" v-if="user">
+  <template v-if="user">
+
     <ScrollableBlock ref="scrollableBlock">
-      <div class="view-profile__inner">
+
+      <div class="view-profile">
 
         <HeadBar :title="user.name" :scrollable-block="scrollableBlock" :scroll-height="10"/>
 
@@ -48,14 +50,15 @@
         </div>
 
       </div>
+
     </ScrollableBlock>
-  </div>
 
-  <PopUpsContainer>
-    <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
-    <PopEditUserData v-else-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
-  </PopUpsContainer>
+    <PopUpsContainer>
+      <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
+      <PopEditUserData v-else-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
+    </PopUpsContainer>
 
+  </template>
 </template>
 
 <script>
@@ -140,13 +143,8 @@ export default {
 @import "src/assets/styles/vars";
 
 .view-profile {
-  height: 100%;
-
-  &__inner {
-    background: $color-bg-header;
-    padding-right: 12px;
-    padding-bottom: 30px;
-  }
+  background: $color-bg-header;
+  padding-right: 12px;
 
   &__header {
     display: flex;
@@ -190,9 +188,8 @@ export default {
 
   &__body {
     background: $color-bg-body;
-    height: 100%;
-    min-height: 100vh;
-    padding: 30px;
+    min-height: 400px;
+    padding: 30px 30px 100px 30px;
   }
 
   &__ctrl-panel {
@@ -244,17 +241,14 @@ export default {
     }
 
     &__body {
-      padding: 15px;
+      padding: 15px 15px 100px 15px;
     }
   }
 }
 
 @media screen and (max-width: 560px) {
   .view-profile {
-
-    &__inner {
-      background: $color-bg-header-media;
-    }
+    background: $color-bg-header-media;
 
     &__header {
       padding: 50px 15px 0 15px;

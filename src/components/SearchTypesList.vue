@@ -43,12 +43,11 @@ export default {
 .search-types-list {
   overflow-x: auto;
   white-space: nowrap;
-  padding-bottom: 10px;
+  padding: 5px 0;
 
   &__item {
     padding: 7px 11px;
     font-size: 13px;
-    margin-top: 7px;
     color: $color-text-light;
     background: $color-bg-search-type;
     border-radius: 100px;

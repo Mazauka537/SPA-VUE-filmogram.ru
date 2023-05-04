@@ -60,7 +60,7 @@ export default {
   width: 100%;
 
   &__list {
-    margin-top: 20px;
+    margin-top: 10px;
     padding-bottom: 35px;
     height: 100%;
   }

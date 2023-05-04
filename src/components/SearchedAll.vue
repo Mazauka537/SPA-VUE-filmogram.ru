@@ -119,7 +119,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .searched-all {
-  padding: 0 42px 0 30px;
+  padding: 0 42px 100px 30px;
 
   &__loading {
     position: relative;
@@ -193,7 +193,7 @@ export default {
 
 @media screen and (max-width: 1030px) {
   .searched-all {
-    padding: 0 27px 0 15px;
+    padding: 0 27px 100px 15px;
   }
 }
 
