@@ -1,5 +1,5 @@
 <template>
-  <div class="collection-preview" :style="{transform: 'scale(' + imageScale + ')', opacity: imageOpacity}">
+  <div class="collection-preview" :style="scaleStyles">
     <template v-if="imagePath">
       <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
            :src="imagePath">
@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import {ref} from "vue";
 import ImageSlabs from "@/components/ImageSlabs";
+import useImageScaleCalculator from "@/composables/useImageScaleCalculator";
 
 export default {
   components: {ImageSlabs},
@@ -25,31 +25,14 @@ export default {
     scrollableBlock: Object
   },
   setup(props) {
-    const imageScale = ref(1)
-    const imageOpacity = ref(1)
+    const {setScrollHandler, scaleStyles} = useImageScaleCalculator()
 
     setTimeout(() => {
-      const elemScrollableBlock = props.scrollableBlock.elemScrollableBlock.querySelector('.ss-content')
-
-      elemScrollableBlock.addEventListener('scroll', () => {
-        if (window.screen.width <= 560) {
-
-          imageScale.value = 1 - elemScrollableBlock.scrollTop * 100 / 180 / 100
-          imageOpacity.value = 1 - (elemScrollableBlock.scrollTop - 90) * 100 / 45 / 100
-
-          if (imageScale.value < 0.5 ) imageScale.value = 0.5
-          if (imageOpacity.value < 0 ) imageOpacity.value = 0
-
-        } else {
-          imageScale.value = 1
-          imageOpacity.value = 1
-        }
-      })
+      setScrollHandler(props.scrollableBlock, 180)
     }, 300)
 
     return {
-      imageScale,
-      imageOpacity
+      scaleStyles
     }
   }
 }
@@ -59,6 +42,5 @@ export default {
 .collection-preview {
   height: 100%;
   width: 100%;
-  transform-origin: bottom;
 }
 </style>

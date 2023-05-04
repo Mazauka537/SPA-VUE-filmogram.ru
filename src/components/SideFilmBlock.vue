@@ -1,11 +1,13 @@
 <template>
   <div class="side-film-block" :class="{'side-film-block_visible': $route.query.film}">
 
-    <div class="side-film-block__top">
-      <div class="side-film-block__close" @click="$router.replace({query: {}})"></div>
-    </div>
+    <HeadBar v-if="filmFromKp"
+             :title="filmFromKp?.name"
+             :scrollable-block="scrollableBlock"
+             :scroll-height="220"
+             style="position: absolute; display: block; text-align: left"/>
 
-    <ScrollableBlock>
+    <ScrollableBlock ref="scrollableBlock">
       <div class="side-film-block__inner">
 
         <div class="side-film-block__undefiend" v-if="!filmFromKp">
@@ -31,7 +33,7 @@
 
         <div class="side-film-block__film" v-else>
 
-          <div class="side-film-block__poster">
+          <div class="side-film-block__poster" :style="scaleStyles">
             <img :src="filmFromKp.poster.previewUrl" alt="poster">
             <div class="side-film-block__rates">
               <div class="side-film-block__rate" v-if="filmFromKp.rating.kp">
@@ -188,21 +190,30 @@ import MyButton from "@/components/UI/MyButton";
 import PersonsList from "@/components/PersonsList";
 import LoadingPanel from "@/components/LoadingPanel";
 import ScrollableBlock from "@/components/ScrollableBlock";
-import {onMounted, watch} from "vue";
+import {onMounted, ref, watch} from "vue";
 import useLoadFilmFromKp from "@/composables/useLoadFilmFromKp";
 import {useRoute} from "vue-router";
 import useSideFilmBlockComputeds from "@/composables/useSideFilmBlockComputeds";
+import HeadBar from "@/components/HeadBar";
+import useImageScaleCalculator from "@/composables/useImageScaleCalculator";
 
 export default {
-  components: {ScrollableBlock, LoadingPanel, PersonsList, MyButton},
+  components: {HeadBar, ScrollableBlock, LoadingPanel, PersonsList, MyButton},
   setup() {
     const route = useRoute()
+
+    const scrollableBlock = ref(undefined)
 
     const {filmFromKp, isFilmLoading, loadFilmFromKp} = useLoadFilmFromKp()
     const {
       budget, fees, actors, producers, writers, trailerUrl, episodesCount, seasonsCount, length,
       genresList, countries, type
     } = useSideFilmBlockComputeds(filmFromKp)
+    const {setScrollHandler, scaleStyles} = useImageScaleCalculator()
+
+    setTimeout(() => {
+      setScrollHandler(scrollableBlock.value, 300)
+    }, 300)
 
     const onQueryFilmChanged = () => {
       if (route.query.film) {
@@ -221,6 +232,9 @@ export default {
     })
 
     return {
+      scrollableBlock,
+      scaleStyles,
+
       filmFromKp,
       isFilmLoading,
 
@@ -305,52 +319,6 @@ export default {
 
   &_visible {
     right: 0;
-  }
-
-  &__top {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 40px;
-    z-index: 3;
-    background: rgba($color-bg-side, 0.7);
-  }
-
-  &__close {
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
-    height: 15px;
-    width: 15px;
-
-    &:hover {
-      &:after, &:before {
-        background: $color-text-light;
-      }
-    }
-
-    &:after, &:before {
-      content: '';
-      display: block;
-      height: 2px;
-      width: 100%;
-      background: $color-text;
-      border-radius: 50px;
-      position: absolute;
-      left: 0;
-      top: 50%;
-    }
-
-    &:after {
-      transform: translateY(-50%) rotate(45deg);
-    }
-
-    &:before {
-      transform: translateY(-50%) rotate(-45deg);
-    }
   }
 
   &__poster {

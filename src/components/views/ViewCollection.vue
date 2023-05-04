@@ -263,7 +263,7 @@ export default {
   }
 
   &__name {
-    font-size: 72px;
+    font-size: 68px;
     color: $color-text-light;
     font-weight: 700;
     padding: 20px 0 40px;

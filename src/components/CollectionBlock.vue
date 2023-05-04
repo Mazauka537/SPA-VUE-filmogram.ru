@@ -100,6 +100,7 @@ export default {
       height: 60px;
       width: 60px;
       display: inline-block;
+      vertical-align: middle;
     }
 
     &__title {
@@ -107,6 +108,7 @@ export default {
       margin-top: 0;
       margin-left: 10px;
       font-weight: 400;
+      vertical-align: middle;
     }
   }
 }
