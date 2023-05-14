@@ -20,16 +20,6 @@ const routes = [
     name: 'profile',
     path: '/user/:id(\\d+)/',
     component: () => import('@/components/views/ViewProfile'),
-    children: [
-      {
-        path: 'new/collection',
-        component: () => import('@/components/popUps/PopUpNewCollection')
-      },
-      {
-        path: 'edit/data',
-        component: () => import('@/components/popUps/PopEditUserData')
-      }
-    ]
   },
   {
     name: 'search',

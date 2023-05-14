@@ -59,15 +59,18 @@
 
           <LoadableItemsContainer :loader="collectedFilmsLoader" style="margin-top: 15px;"
                                   :scrollable-block="scrollableBlock">
-            <DragContainer @drop="changeOrder" :disable="!$store.getters['auth/isOwner'](collection.user_id)">
-              <DragBlock v-for="(film, index) in sortedFilms" :key="film.id">
+            <DragContainer @drop="changeOrder"
+                           :disable="!$store.getters['auth/isOwner'](collection.user_id)"
+                           :scrollable-block="scrollableBlock">
+              <DragBlock v-for="(film, index) in sortedFilms" :key="film.id" :is-grab-visible="isFilmsOrderChangeable">
                 <div class="view-collection__film-block-wrapper" ref="elemsFilmBlocks" :data-film-id="film.id">
                   <FilmBlock :film="film"
                              style="margin: 5px 0"
                              :number="index + 1"
                              :collection="collection"
+                             :is-more-btn-hidden="isFilmsOrderChangeable"
                              @save="toggleFavorite"
-                             @pointerdown="$router.push({query: {film: film.filmKp.kinopoiskId}})"
+                             @click="$router.push({query: {film: film.filmKp.kinopoiskId}})"
                              @delete="deleteFilm(film)"
                              @addToCollection="addingToCollectionFilm = film; $router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilmToCollections'}})"/>
                 </div>
@@ -151,6 +154,12 @@ export default {
     const scrollableBlock = ref(undefined)
 
     const addingToCollectionFilm = ref(undefined)
+    const isFilmsOrderChangeable = ref(false)
+    const imageUpdater = ref('?=1')
+
+    const imagePath = computed(() => {
+      return collection.value?.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.value.image + imageUpdater.value : undefined
+    })
 
     const sortedFilms = computed(() => {
       return collectedFilmsLoader.items.sort((filmA, filmB) => filmB.order - filmA.order)
@@ -165,11 +174,6 @@ export default {
     const {toggleSave} = useToggleSave()
     const {toggleFavorite} = useToggleFavorite()
 
-    const imageUpdater = ref('?=1')
-    const imagePath = computed(() => {
-      return collection.value?.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.value.image + imageUpdater.value : undefined
-    })
-
     const onCollectionEdited = (newCollection) => {
       collection.value = newCollection
       imageUpdater.value += '1'
@@ -182,20 +186,29 @@ export default {
       }
     }
 
+    const toggleChangeFilmsOrderMode = () => {
+      isFilmsOrderChangeable.value = !isFilmsOrderChangeable.value
+    }
+
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
       onClick: () => {
         router.push({path: '/collection/' + route.params.id, query: {popUp: 'editCollection'}})
       }
     }, {
-      text: () => 'Удалить коллекцию',
-      onClick: () => {
-        router.push({path: '/collection/' + route.params.id, query: {popUp: 'deleteCollection'}})
-      }
-    }, {
       text: () => collection.value.public ? 'Сделать приватной' : 'Сделать общедоступной',
       onClick: () => {
         toggleCollectionPublic(collection.value)
+      }
+    }, {
+      text: () => 'Изменить порядок',
+      onClick: () => {
+        toggleChangeFilmsOrderMode()
+      }
+    }, {
+      text: () => 'Удалить коллекцию',
+      onClick: () => {
+        router.push({path: '/collection/' + route.params.id, query: {popUp: 'deleteCollection'}})
       }
     }]
 
@@ -223,10 +236,11 @@ export default {
       toggleSave,
       toggleFavorite,
       elemsFilmBlocks,
+      isFilmsOrderChangeable,
       window
     }
   }
-}
+  }
 </script>
 
 <style scoped lang="scss">

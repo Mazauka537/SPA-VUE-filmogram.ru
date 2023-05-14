@@ -1,131 +1,134 @@
 <template>
-  <div class="drag-container" ref="dragContainer">
+  <div class="drag-container" ref="elemDragContainer">
     <slot></slot>
-    <button class="drag-preview" v-show="draggedBlock" ref="dragPreview"></button>
+    <button class="drag-preview" v-show="elemDraggedBlock" ref="elemDragPreview"></button>
   </div>
 </template>
 
 <script>
 
+import {onUpdated, ref} from "vue";
+
 export default {
   props: {
-    draggedGhostStyles: Object,
     disable: {
       type: Boolean,
       default: false
-    }
+    },
+    scrollableBlock: Object
   },
-  data: () => ({
-    blocks: [],
-    disabled: false,
-    draggedBlock: undefined,
-    blockUnderCursor: undefined,
-    clickPositionX: undefined,
-    clickPositionY: undefined,
-  }),
-  methods: {
-    dragStart(block, mouseEvent) {
-      if (this.disabled) return
-      //set variables
-      this.draggedBlock = block
-      this.blockUnderCursor = block
-      const draggedBlockRect = this.draggedBlock.getBoundingClientRect()
-      this.clickPositionX = mouseEvent.x - draggedBlockRect.x
-      this.clickPositionY = mouseEvent.y - draggedBlockRect.y
+  setup(props, {emit}) {
+    const elemsBlocks = ref([])
+    const disabled = ref(false)
+    const elemDraggedBlock = ref(undefined)
+    const elemBlockUnderCursor = ref(undefined)
+    const clickPositionX = ref(undefined)
+    const clickPositionY = ref(undefined)
+    const elemDragContainer = ref(undefined)
+    const elemDragPreview = ref(undefined)
+    const elemScrollableBlock = ref(undefined)
 
-      this.blocks.forEach(block => {
-        block.style.transition = 'transform 0.2s'
+
+    const dragStart = (elemBlock, pointerEvent) => {
+      if (disabled.value) return
+
+      //set variables
+      elemDraggedBlock.value = elemBlock
+      elemBlockUnderCursor.value = elemBlock
+      const draggedBlockRect = elemDraggedBlock.value.getBoundingClientRect()
+      clickPositionX.value = pointerEvent.x - draggedBlockRect.x
+      clickPositionY.value = pointerEvent.y - draggedBlockRect.y
+
+      elemsBlocks.value.forEach(elemBlock => {
+        elemBlock.style.transition = 'transform 0.2s'
       })
 
-      this.draggedBlock.style.height = this.draggedBlock.offsetHeight + 'px'
-      for (let key in this.draggedGhostStyles) {
-        this.draggedBlock.style[key] = this.draggedGhostStyles[key]
-      }
+      elemDraggedBlock.value.style.height = elemDraggedBlock.value.offsetHeight + 'px'
 
+      elemDragPreview.value.append(elemDraggedBlock.value.firstElementChild)
 
-      this.$refs.dragPreview.append(this.draggedBlock.firstElementChild)
-
-      this.$refs.dragPreview.style.width = this.draggedBlock.offsetWidth + 'px'
-      const [top, left] = this.getPreviewPosition(mouseEvent)
-      this.$refs.dragPreview.style.top = top + 'px'
-      this.$refs.dragPreview.style.left = left + 'px'
+      elemDragPreview.value.style.width = elemDraggedBlock.value.offsetWidth + 'px'
+      const [top, left] = getPreviewPosition(pointerEvent)
+      elemDragPreview.value.style.top = top + 'px'
+      elemDragPreview.value.style.left = left + 'px'
 
       //set events
-      window.addEventListener('mousemove', this.dragMove)
-      window.addEventListener('mouseup', this.dragEnd)
-    },
-    async dragEnd() {
-      this.disabled = true
+      window.addEventListener('pointermove', dragMove)
+      window.addEventListener('pointerup', dragEnd)
+    }
+
+    const dragEnd = async () => {
+      disabled.value = true
 
       let dropResult = {}
-      dropResult.droppedElement = this.$refs.dragPreview.firstElementChild.firstElementChild
-      dropResult.elementsCount = this.blocks.length
+      dropResult.droppedElement = elemDragPreview.value.firstElementChild.firstElementChild
+      dropResult.elementsCount = elemsBlocks.value.length
 
-      dropResult.droppedElementOldIndex = Array.from(this.blocks).indexOf(this.draggedBlock)
+      dropResult.droppedElementOldIndex = Array.from(elemsBlocks.value).indexOf(elemDraggedBlock.value)
 
-      const [blockUnderCursorTop] = this.getBlockPosition(this.blockUnderCursor)
-      const [draggedBlockTop] = this.getBlockPosition(this.draggedBlock)
+      const [blockUnderCursorTop] = getBlockPosition(elemBlockUnderCursor.value)
+      const [draggedBlockTop] = getBlockPosition(elemDraggedBlock.value)
       if (draggedBlockTop > blockUnderCursorTop) {
-        this.$refs.dragContainer.insertBefore(this.draggedBlock, this.blockUnderCursor)
+        elemDragContainer.value.insertBefore(elemDraggedBlock.value, elemBlockUnderCursor.value)
       } else {
-        this.$refs.dragContainer.insertBefore(this.draggedBlock, this.blockUnderCursor.nextSibling)
+        elemDragContainer.value.insertBefore(elemDraggedBlock.value, elemBlockUnderCursor.value.nextSibling)
       }
 
-      this.blocks = this.$refs.dragContainer.querySelectorAll('.drag-block')
-      dropResult.droppedElementNewIndex = Array.from(this.blocks).indexOf(this.draggedBlock)
+      elemsBlocks.value = elemDragContainer.value.querySelectorAll('.drag-block')
+      dropResult.droppedElementNewIndex = Array.from(elemsBlocks.value).indexOf(elemDraggedBlock.value)
 
-      this.$emit('drop', dropResult)
+      emit('drop', dropResult)
 
-      this.blocks.forEach(block => {
+      elemsBlocks.value.forEach(block => {
         block.style.removeProperty('transition')
         block.style.removeProperty('transform')
       })
 
-      await this.$refs.dragPreview.animate([
+      await elemDragPreview.value.animate([
         {
-          left: this.$refs.dragPreview.offsetLeft + 'px',
-          top: this.$refs.dragPreview.offsetTop + 'px',
+          left: elemDragPreview.value.offsetLeft + 'px',
+          top: elemDragPreview.value.offsetTop + 'px',
         },
         {
-          left: this.draggedBlock.getBoundingClientRect().x + 'px',
-          top: this.draggedBlock.getBoundingClientRect().y + 'px',
+          left: elemDraggedBlock.value.getBoundingClientRect().x + 'px',
+          top: elemDraggedBlock.value.getBoundingClientRect().y + 'px',
         },
       ], {duration: 200, easing: 'ease'}).finished
 
 
-      this.draggedBlock.append(this.$refs.dragPreview.firstElementChild)
-      this.draggedBlock.style.removeProperty('height')
-      for (let key in this.draggedGhostStyles) {
-        this.draggedBlock.style.removeProperty(key)
-      }
+      elemDraggedBlock.value.append(elemDragPreview.value.firstElementChild)
+      elemDraggedBlock.value.style.removeProperty('height')
+
+      elemDragContainer.value.style.removeProperty('touch-action')
 
       //clear events
-      window.removeEventListener('mousemove', this.dragMove)
-      window.removeEventListener('mouseup', this.dragEnd)
+      window.removeEventListener('pointermove', dragMove)
+      window.removeEventListener('pointerup', dragEnd)
       //clear variables
-      this.draggedBlock = undefined
-      this.blockUnderCursor = undefined
-      this.clickPositionX = undefined
-      this.clickPositionY = undefined
-      this.disabled = false
-    },
-    dragMove(mouseEvent) {
-      if (this.disabled) return
+      elemDraggedBlock.value = undefined
+      elemBlockUnderCursor.value = undefined
+      clickPositionX.value = undefined
+      clickPositionY.value = undefined
+      disabled.value = false
+    }
 
-      const [draggedBlockStart, draggedBlockEnd] = this.getBlockPosition(this.draggedBlock)
-      const cursorPosition = this.getCursorPosition(mouseEvent)
+    const dragMove = (pointerEvent) => {
+      if (disabled.value) return
 
-      const [top, left] = this.getPreviewPosition(mouseEvent)
-      this.$refs.dragPreview.style.top = top + 'px'
-      this.$refs.dragPreview.style.left = left + 'px'
+      const [draggedBlockStart, draggedBlockEnd] = getBlockPosition(elemDraggedBlock.value)
+      const cursorPosition = getCursorPosition(pointerEvent)
 
-      this.blockUnderCursor = Array.from(this.blocks).find(block => {
-        const [blockStart, blockEnd] = this.getBlockPosition(block)
+      const [top, left] = getPreviewPosition(pointerEvent)
+      elemDragPreview.value.style.top = top + 'px'
+      elemDragPreview.value.style.left = left + 'px'
+
+      elemBlockUnderCursor.value = Array.from(elemsBlocks.value).find(block => {
+        const [blockStart, blockEnd] = getBlockPosition(block)
         if (cursorPosition >= blockStart && cursorPosition <= blockEnd) {
           return true
         }
       })
-      const [blockUnderCursorStart, blockUnderCursorEnd] = this.getBlockPosition(this.blockUnderCursor)
+      const [blockUnderCursorStart, blockUnderCursorEnd] = getBlockPosition(elemBlockUnderCursor.value)
 
       let isMoveUp = false
       if (cursorPosition < draggedBlockStart) {
@@ -134,79 +137,91 @@ export default {
 
       let shiftingBlocks = []
       let notShiftingBlocks = []
-      this.blocks.forEach(block => {
-        if (block === this.draggedBlock)
+      elemsBlocks.value.forEach(elemBlock => {
+        if (elemBlock === elemDraggedBlock.value)
           return
 
-        const [blockStart, blockEnd] = this.getBlockPosition(block)
+        const [blockStart, blockEnd] = getBlockPosition(elemBlock)
 
         if (isMoveUp) {
           if (blockStart < draggedBlockStart && blockStart >= blockUnderCursorStart) {
-            shiftingBlocks.push(block)
+            shiftingBlocks.push(elemBlock)
           } else {
-            notShiftingBlocks.push(block)
+            notShiftingBlocks.push(elemBlock)
           }
         } else {
           if (blockEnd > draggedBlockEnd && blockEnd <= blockUnderCursorEnd) {
-            shiftingBlocks.push(block)
+            shiftingBlocks.push(elemBlock)
           } else {
-            notShiftingBlocks.push(block)
+            notShiftingBlocks.push(elemBlock)
           }
         }
       })
 
       let offset = 0
-      shiftingBlocks.forEach(block => {
+      shiftingBlocks.forEach(elemBlock => {
         if (isMoveUp) {
-          offset -= block.offsetHeight
+          offset -= elemBlock.offsetHeight
         } else {
-          offset += block.offsetHeight
+          offset += elemBlock.offsetHeight
         }
       })
-      this.draggedBlock.style.transform = 'translateY(' + offset + 'px)'
+      elemDraggedBlock.value.style.transform = 'translateY(' + offset + 'px)'
 
-      shiftingBlocks.forEach(block => {
+      shiftingBlocks.forEach(elemBlock => {
         if (isMoveUp) {
-          block.style.transform = 'translateY(' + this.draggedBlock.offsetHeight + 'px)'
+          elemBlock.style.transform = 'translateY(' + elemDraggedBlock.value.offsetHeight + 'px)'
         } else {
-          block.style.transform = 'translateY(-' + this.draggedBlock.offsetHeight + 'px)'
+          elemBlock.style.transform = 'translateY(-' + elemDraggedBlock.value.offsetHeight + 'px)'
         }
       })
 
-      notShiftingBlocks.forEach(block => {
-        block.style.removeProperty('transform')
+      notShiftingBlocks.forEach(elemBlock => {
+        elemBlock.style.removeProperty('transform')
       })
-    },
-    getCursorPosition(mouseEvent) {
-      let cursorPositionInContainer = mouseEvent.y - this.$refs.dragContainer.offsetTop + window.scrollY
+    }
+
+    const getCursorPosition = (pointerEvent) => {
+      let cursorPositionInContainer = pointerEvent.y - elemDragContainer.value.offsetTop + elemScrollableBlock.value.scrollTop
       if (cursorPositionInContainer < 0) cursorPositionInContainer = 0
-      if (cursorPositionInContainer > this.$refs.dragContainer.offsetHeight) cursorPositionInContainer = this.$refs.dragContainer.offsetHeight
+      if (cursorPositionInContainer > elemDragContainer.value.offsetHeight) cursorPositionInContainer = elemDragContainer.value.offsetHeight
       return cursorPositionInContainer
-    },
-    getBlockPosition(block) {
-      const blockStartPosition = block.offsetTop
-      const blockEndPosition = block.offsetTop + block.offsetHeight
+    }
+    const getBlockPosition = (elemBlock) => {
+      const blockStartPosition = elemBlock.offsetTop
+      const blockEndPosition = elemBlock.offsetTop + elemBlock.offsetHeight
       return [blockStartPosition, blockEndPosition]
-    },
-    getPreviewPosition(mouseEvent) {
-      const top = mouseEvent.y - this.clickPositionY
-      const left = mouseEvent.x - this.clickPositionX
+    }
+    const getPreviewPosition = (pointerEvent) => {
+      const top = pointerEvent.y - clickPositionY.value
+      const left = pointerEvent.x - clickPositionX.value
       return [top, left]
     }
-  },
-  updated() {
-    this.blocks = this.$refs.dragContainer.querySelectorAll('.drag-block')
 
-    if (!this.disable) {
-      this.blocks.forEach(block => {
-        if (block.firstElementChild)
-          block.firstElementChild.onmousedown = (mouseEvent) => this.dragStart(block, mouseEvent)
-      })
-    } else {
-      this.blocks.forEach(block => {
-        if (block.firstElementChild)
-          block.firstElementChild.onmousedown = undefined
-      })
+    onUpdated(() => {
+      elemScrollableBlock.value = props.scrollableBlock.elemScrollableBlock.querySelector('.ss-content')
+
+      elemsBlocks.value = elemDragContainer.value.querySelectorAll('.drag-block')
+
+      if (!props.disable) {
+        elemsBlocks.value.forEach(elemBlock => {
+          if (elemBlock.firstElementChild)
+            elemBlock.firstElementChild.querySelector('.drag-block__grab').onpointerdown = (pointerEvent) => {
+              dragStart(elemBlock, pointerEvent)
+            }
+        })
+      } else {
+        elemsBlocks.value.forEach(elemBlock => {
+          if (elemBlock.firstElementChild)
+            elemBlock.firstElementChild.querySelector('.drag-block__grab').onpointerdown = undefined
+        })
+      }
+    })
+
+    return {
+      elemDraggedBlock,
+      elemDragContainer,
+      elemDragPreview
     }
   }
 }

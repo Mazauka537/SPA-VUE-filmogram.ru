@@ -40,7 +40,7 @@
 
       <template #save>
         <div class="film-block__save" :class="{'film-block__save_visible': film.isInFavorite}">
-          <SaveBtn :active="film.isInFavorite" @pointerdown.stop="$emit('save', film)"/>
+          <SaveBtn :active="film.isInFavorite" @click.stop="$emit('save', film)"/>
         </div>
       </template>
 
@@ -57,7 +57,7 @@
       </template>
 
       <template #more>
-        <div class="film-block__more">
+        <div class="film-block__more" v-if="!isMoreBtnHidden">
           <MoreBtn :options="moreBtnOptions"/>
         </div>
       </template>
@@ -80,7 +80,11 @@ export default {
   props: {
     number: Number,
     film: Object,
-    collection: Object
+    collection: Object,
+    isMoreBtnHidden: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, {emit}) {
     const route = useRoute()
