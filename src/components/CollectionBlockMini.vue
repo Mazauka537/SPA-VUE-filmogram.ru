@@ -1,7 +1,7 @@
 <template>
-  <router-link :to="'/collection/' + collection.id" class="collection-block">
+  <router-link :to="'/collection/' + collection.id" class="collection-block-mini">
 
-    <div class="collection-block__image">
+    <div class="collection-block-mini__image">
       <template v-if="collection.image">
         <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
              :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image" alt="">
@@ -14,7 +14,7 @@
       </template>
     </div>
 
-    <div class="collection-block__title">
+    <div class="collection-block-mini__title">
       {{ collection.title }}
     </div>
 
@@ -35,76 +35,40 @@ export default {
 <style scoped lang="scss">
 @import "src/assets/styles/vars";
 
-.collection-block {
-  padding: 15px;
-  width: 180px;
-  height: 227px;
-  background: $color-bg-side;
+.collection-block-mini {
   display: inline-block;
+  width: 100%;
+  padding: 5px;
   border-radius: 7px;
 
   &:hover {
-    background: $color-bg-input;
+    background: $color-bg-side;
   }
 
   &__image {
-    height: 150px;
-    width: 150px;
+    height: 40px;
+    width: 40px;
+    display: inline-block;
+    vertical-align: middle;
   }
 
   &__title {
-    margin-top: 15px;
-    font-weight: 700;
+    font-size: 13px;
     color: $color-text-light;
+    margin-left: 10px;
+    max-width: 164px;
+    display: inline-block;
     text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
   }
 }
 
 @media screen and (max-width: 1460px) {
-  .collection-block {
-    width: 150px;
-    height: 190px;
-
-    &__image {
-      height: 120px;
-      width: 120px;
-    }
+  .collection-block-mini {
 
     &__title {
-      font-weight: 700;
-      font-size: 12px;
+      max-width: 124px;
     }
   }
 }
-
-@media screen and (max-width: 560px) {
-  .collection-block {
-    width: 100%;
-    height: auto;
-    padding: 0;
-    background: transparent;
-
-    &:hover {
-      background: transparent;
-    }
-
-    &__image {
-      height: 60px;
-      width: 60px;
-      display: inline-block;
-      vertical-align: middle;
-    }
-
-    &__title {
-      display: inline-block;
-      margin-top: 0;
-      margin-left: 10px;
-      font-weight: 400;
-      vertical-align: middle;
-    }
-  }
-}
-
 </style>

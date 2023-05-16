@@ -16,6 +16,10 @@
     <NotificationContainer/>
   </div>
 
+  <PopUpsContainer>
+    <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
+  </PopUpsContainer>
+
 </template>
 
 <script>
@@ -23,9 +27,13 @@ import MainNav from "@/components/MainNav";
 import ViewAuth from "@/components/views/ViewAuth";
 import NotificationBlock from "@/components/NotificationBlock";
 import NotificationContainer from "@/components/NotificationContainer";
+import PopUpsContainer from "@/components/popUps/PopUpsContainer";
+import {defineAsyncComponent} from "vue";
 
 export default {
-  components: {NotificationContainer, NotificationBlock, ViewAuth, MainNav},
+  components: {
+    PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
+    PopUpsContainer, NotificationContainer, NotificationBlock, ViewAuth, MainNav},
 }
 
 </script>
@@ -54,6 +62,7 @@ export default {
   &__nav {
     width: 240px;
     min-width: 240px;
+    height: 100%;
     background: $color-bg-nav;
   }
 

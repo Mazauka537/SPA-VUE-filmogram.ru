@@ -307,6 +307,7 @@ export default {
 
   &__body {
     background: $color-bg-body;
+    min-height: 400px;
     padding: 30px 30px 100px 30px;
   }
 
@@ -364,6 +365,14 @@ export default {
       font-size: 48px;
       padding: 15px 0 37px;
     }
+
+    &__ctrl-panel {
+      padding-bottom: 20px;
+    }
+
+    &__body {
+      padding: 20px 30px 100px 30px;
+    }
   }
 }
 
@@ -378,6 +387,10 @@ export default {
 
     &__header {
       padding: 15px;
+    }
+
+    &__ctrl-panel {
+      padding-bottom: 15px;
     }
 
     &__body {

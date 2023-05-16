@@ -54,8 +54,7 @@
     </ScrollableBlock>
 
     <PopUpsContainer>
-      <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
-      <PopUpEditUserData v-else-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
+      <PopUpEditUserData v-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
     </PopUpsContainer>
 
   </template>
@@ -83,7 +82,6 @@ export default {
     HeadBar,
     PopUpsContainer,
     PopUpEditUserData: defineAsyncComponent(() => import('@/components/popUps/PopUpEditUserData')),
-    PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
     LoadingPanel,
     ScrollableBlock,
     ProfileBody,

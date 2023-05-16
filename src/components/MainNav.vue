@@ -1,5 +1,5 @@
 <template>
-  <nav class="main-nav">
+  <nav class="main-nav" :class="{'main-nav_guest': !$store.state.auth.user}">
     <ul>
       <li>
         <router-link class="main-nav__link" :to="profileLink">
@@ -19,6 +19,22 @@
           <span>Поиск</span>
         </router-link>
       </li>
+
+      <template v-if="$store.state.auth.user">
+        <li>
+          <div class="main-nav__collections-title">
+            Мои коллекции
+            <svg width="100%" height="100%" viewBox="0 0 768 768" @click="$router.push({query: {popUp: 'newCollection'}})">
+              <path
+                  d="M576 320h-128v-128c0-35.328-28.672-64-64-64s-64 28.672-64 64l2.272 128h-130.272c-35.328 0-64 28.672-64 64s28.672 64 64 64l130.272-2.272-2.272 130.272c0 35.328 28.672 64 64 64s64-28.672 64-64v-130.272l128 2.272c35.328 0 64-28.672 64-64s-28.672-64-64-64z"></path>
+            </svg>
+          </div>
+        </li>
+        <li class="main-nav__collections">
+          <NavCollections/>
+        </li>
+      </template>
+
       <li>
         <router-link class="main-nav__link" to="/settings">
           <svg width="100%" height="100%" viewBox="0 0 768 768">
@@ -39,8 +55,10 @@
 <script>
 import {computed} from "vue";
 import {useStore} from "vuex";
+import NavCollections from "@/components/NavCollections";
 
 export default {
+  components: {NavCollections},
   setup() {
     const store = useStore()
 
@@ -55,16 +73,54 @@ export default {
 @import "src/assets/styles/vars";
 
 .main-nav {
-  padding: 10px 0;
   height: 100%;
 
+  &_guest {
+
+    .main-nav__link {
+      padding: 20px;
+    }
+  }
+
+  ul {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__collections-title {
+    position: relative;
+    padding: 10px;
+    font-weight: 700;
+    border-top: 1px solid $color-nav-border;
+    cursor: default;
+
+    svg {
+      cursor: pointer;
+      position: absolute;
+      top: 50%;
+      right: 10px;
+      transform: translateY(-50%);
+      height: 20px;
+      width: 20px;
+      fill: $color-text;
+    }
+  }
+
+  &__collections {
+    overflow: hidden;
+    flex-grow: 1;
+    border-bottom: 1px solid $color-nav-border;
+  }
+
   &__link {
-    padding: 20px;
+    padding: 10px;
     display: block;
 
     span {
       vertical-align: middle;
       padding-left: 10px;
+      font-weight: 700;
     }
 
     svg {
