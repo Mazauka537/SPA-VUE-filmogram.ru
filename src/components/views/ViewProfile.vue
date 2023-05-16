@@ -55,7 +55,7 @@
 
     <PopUpsContainer>
       <PopUpNewCollection v-if="$route.query.popUp === 'newCollection'"/>
-      <PopEditUserData v-else-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
+      <PopUpEditUserData v-else-if="$route.query.popUp === 'editUser'" @userDataChanged="onUserDataChanged"/>
     </PopUpsContainer>
 
   </template>
@@ -82,7 +82,7 @@ export default {
   components: {
     HeadBar,
     PopUpsContainer,
-    PopEditUserData: defineAsyncComponent(() => import('@/components/popUps/PopEditUserData')),
+    PopUpEditUserData: defineAsyncComponent(() => import('@/components/popUps/PopUpEditUserData')),
     PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
     LoadingPanel,
     ScrollableBlock,
@@ -103,7 +103,7 @@ export default {
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
       onClick: () => {
-        router.push({path: '/user/' + route.params.id, query: {popUp: 'editUser'}})
+        router.push({query: {popUp: 'editUser'}})
       }
     }]
 

@@ -40,11 +40,12 @@ export default {
 
 .view-auth {
   height: 100%;
+  padding: 15px 27px 15px 15px;
 
   &__form {
     width: 100%;
     margin: 0 auto;
-    padding: 100px 0;
+    padding: 30px 0 60px 0;
     max-width: 340px;
   }
 }
