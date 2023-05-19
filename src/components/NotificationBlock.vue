@@ -6,17 +6,8 @@
            v-if="notification.closable"
            @click="$emit('close', notification.id)"></div>
 
-      <div class="notification__content">
-        <div class="notification__text">{{ notification.text }}</div>
-        <div class="notification__icon"></div>
-      </div>
-
-      <div class="notification__buttons" v-if="notification.buttons?.length > 0">
-        <button class="notification__button"
-                v-for="button in notification.buttons"
-                @click="button.onClick">
-          {{ button.text }}
-        </button>
+      <div class="notification__text">
+        {{ notification.text }}
       </div>
 
     </div>
@@ -89,68 +80,76 @@ export default {
   }
 
   &_fading {
-    transition: opacity 7s 3s;
+    transition: opacity 3s 2s;
   }
 
   &__inner {
-    margin: 10px 0;
-    padding: 20px;
-    background: $color-bg-nav;
+    margin: 5px 0;
+    padding: 15px;
+    background: $color-bg-notice;
     width: 100%;
     position: relative;
   }
 
   &__close {
-    width: 20px;
-    height: 20px;
+    width: 15px;
+    height: 15px;
     position: absolute;
     top: 5px;
     right: 5px;
     cursor: pointer;
 
-    &:before, &:after {
+    &:hover {
+      &:after, &:before {
+        background: $color-text-light;
+      }
+    }
+
+    &:after, &:before {
       content: '';
+      display: block;
+      height: 2px;
+      width: 100%;
+      background: $color-text;
+      border-radius: 50px;
       position: absolute;
       left: 0;
       top: 50%;
-      height: 1px;
-      width: 100%;
-      background: $color-text;
-    }
-
-    &:before {
-      transform: rotate(-45deg);
     }
 
     &:after {
-      transform: rotate(45deg);
+      transform: translateY(-50%) rotate(45deg);
     }
-  }
 
-  &__content {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    &:before {
+      transform: translateY(-50%) rotate(-45deg);
+    }
   }
 
   &__text {
     color: $color-text;
   }
+}
 
-  &__icon {
-
-  }
-
-  &__buttons {
-    padding-top: 10px;
+@media screen and (max-width: 560px) {
+  .notification {
+    max-width: 80%;
+    margin: 0 auto;
     text-align: center;
-  }
 
-  &__button {
-    padding: 5px 10px;
-    margin: 0 10px;
-    color: $color-text-light;
-    background: $color-main;
+    &__inner {
+      border-radius: 10px;
+      margin: 3px 0;
+      padding: 5px 10px;
+      font-size: 12px;
+      display: inline-block;
+      width: auto;
+      background: $color-bg-notice-media;
+    }
+
+    &__close {
+      display: none;
+    }
   }
 }
 </style>

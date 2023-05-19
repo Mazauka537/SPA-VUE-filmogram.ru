@@ -46,4 +46,13 @@ export default {
     }
   }
 }
+
+@media screen and (max-width: 560px) {
+  .notification-block {
+
+    &__close-all {
+      display: none;
+    }
+  }
+}
 </style>

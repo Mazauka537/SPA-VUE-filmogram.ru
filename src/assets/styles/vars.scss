@@ -7,6 +7,7 @@ $color-text-button: #000000;
 
 
 $color-bg-nav: #000000;
+$color-bg-notice: #000000;
 $color-bg-search-type: #232323;
 $color-bg-more: #282828;
 $color-bg-main: #121212;
@@ -21,7 +22,8 @@ $color-nav-border: #333;
 //media
 $color-bg-header-media: linear-gradient(to bottom, #545454, #2A2A2A 100px, $color-bg-main 200px);
 $color-bg-header-media2: linear-gradient(to bottom, #545454, #2A2A2A 200px, $color-bg-main 300px);
-//$color-bg-nav-media: linear-gradient(to bottom, #121212, #000 50%, #000 100%);
 $color-bg-nav-media: rgba(#121212, 0.95);
 $border-input-media: 0.1px solid $color-text;
+$color-bg-notice-media: rgba(#000000, 0.8);
+
 

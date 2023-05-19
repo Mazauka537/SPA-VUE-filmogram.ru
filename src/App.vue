@@ -95,9 +95,16 @@ export default {
       z-index: 4;
       background: $color-bg-nav-media;
     }
+  }
+}
 
-    &__pages {
-      //padding-bottom: 50px;
+@media screen and (max-width: 560px){
+  .app {
+
+    &__notifications {
+      width: 100%;
+      right: 0;
+      bottom: 60px;
     }
   }
 }

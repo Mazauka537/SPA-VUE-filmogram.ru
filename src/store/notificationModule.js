@@ -16,7 +16,7 @@ const setFading = (state, notification) => {
     notification.state = 'fading'
     notification.timeoutId = setTimeout(() => {
       removeNotification(state, notification.id)
-    }, 10000)
+    }, 5000)
   }
 }
 
@@ -54,7 +54,6 @@ export const notificationModule = {
       notification.text = notification.text ?? '[empty]'
       notification.closable = notification.closable ?? true
       notification.autoClose = notification.autoClose ?? true
-      notification.buttons = notification.buttons ?? []
       notification.state = 'adding'
 
       state.notifications.push(notification)
