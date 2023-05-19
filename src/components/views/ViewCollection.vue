@@ -265,6 +265,7 @@ export default {
 
   &__info {
     padding-left: 25px;
+    overflow: hidden;
   }
 
   &__open {
@@ -276,6 +277,9 @@ export default {
   }
 
   &__name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-size: 68px;
     color: $color-text-light;
     font-weight: 700;

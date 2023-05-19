@@ -83,6 +83,8 @@ export default {
     height: auto;
     padding: 0;
     background: transparent;
+    white-space: nowrap;
+    overflow: hidden;
 
     &:hover {
       background: transparent;

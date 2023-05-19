@@ -55,6 +55,7 @@ export default {
       switch (response.status) {
         case 200:
           const responseData = await response.json()
+          store.commit('collections/replaceCollection', responseData)
           emit('collectionEdited', responseData)
           break;
         case 422:

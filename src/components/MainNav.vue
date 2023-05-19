@@ -21,14 +21,13 @@
       </li>
 
       <template v-if="$store.state.auth.user">
-        <li>
-          <div class="main-nav__collections-title">
-            Мои коллекции
-            <svg width="100%" height="100%" viewBox="0 0 768 768" @click="$router.push({query: {popUp: 'newCollection'}})">
-              <path
-                  d="M576 320h-128v-128c0-35.328-28.672-64-64-64s-64 28.672-64 64l2.272 128h-130.272c-35.328 0-64 28.672-64 64s28.672 64 64 64l130.272-2.272-2.272 130.272c0 35.328 28.672 64 64 64s64-28.672 64-64v-130.272l128 2.272c35.328 0 64-28.672 64-64s-28.672-64-64-64z"></path>
-            </svg>
-          </div>
+        <li class="main-nav__collections-title">
+          Мои коллекции
+          <svg width="100%" height="100%" viewBox="0 0 768 768"
+               @click="$router.push({query: {popUp: 'newCollection'}})">
+            <path
+                d="M576 320h-128v-128c0-35.328-28.672-64-64-64s-64 28.672-64 64l2.272 128h-130.272c-35.328 0-64 28.672-64 64s28.672 64 64 64l130.272-2.272-2.272 130.272c0 35.328 28.672 64 64 64s64-28.672 64-64v-130.272l128 2.272c35.328 0 64-28.672 64-64s-28.672-64-64-64z"></path>
+          </svg>
         </li>
         <li class="main-nav__collections">
           <NavCollections/>
@@ -114,7 +113,7 @@ export default {
   }
 
   &__link {
-    padding: 10px;
+    padding: 13px 10px;
     display: block;
 
     span {
@@ -144,11 +143,25 @@ export default {
   .main-nav {
     padding: 0;
 
+    &_guest {
+
+      .main-nav__link {
+        padding: 20px;
+      }
+    }
+
     ul {
-      display: flex;
+      flex-direction: row;
       justify-content: space-around;
       align-items: center;
-      height: 100%;
+    }
+
+    &__collections-title {
+      display: none;
+    }
+
+    &__collections {
+      display: none;
     }
 
     &__link {

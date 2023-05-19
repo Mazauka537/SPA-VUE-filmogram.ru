@@ -1,9 +1,9 @@
 <template>
   <ScrollableBlock>
     <div class="nav-collections">
-      <LoadingPanel v-if="isLoading" :size="40"/>
+      <LoadingPanel v-if="$store.state.collections.isLoading" :size="40"/>
       <template v-else>
-        <CollectionBlockMini v-for="collection in collections" :collection="collection"/>
+        <CollectionBlockMini v-for="collection in $store.state.collections.collections" :key="collection.id" :collection="collection"/>
       </template>
     </div>
   </ScrollableBlock>
@@ -11,38 +11,21 @@
 
 <script>
 import ScrollableBlock from "@/components/ScrollableBlock";
-import useRequestMaker from "@/composables/useRequestMaker";
-import {onMounted, ref} from "vue";
+import {onMounted} from "vue";
 import CollectionBlockMini from "@/components/CollectionBlockMini";
 import LoadingPanel from "@/components/LoadingPanel";
 import MyButton from "@/components/UI/MyButton";
+import {useStore} from "vuex";
 
 export default {
   components: {MyButton, LoadingPanel, CollectionBlockMini, ScrollableBlock},
   setup() {
-    const requestMaker = useRequestMaker()
+    const store = useStore()
 
-    const collections = ref([])
-    const isLoading = ref(false)
 
-    const getCollectionsRequest = async () => {
-      isLoading.value = true
-
-      const response = await requestMaker.fetch('get/nav/collections')
-
-      isLoading.value = false
-
-      return await response.json()
-    }
-
-    onMounted(async () => {
-      collections.value = await getCollectionsRequest()
+    onMounted(() => {
+      store.dispatch('collections/loadCollections')
     })
-
-    return {
-      collections,
-      isLoading
-    }
   }
 }
 </script>

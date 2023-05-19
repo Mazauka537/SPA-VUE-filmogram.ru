@@ -11,8 +11,8 @@
           <FilmBlock :film="film"
                      :number="index + 1"
                      @save="toggleFavorite"
-                     @pointerdown="$router.push({query: {film: film.filmKp.kinopoiskId}})"
-                     @addToCollection="addingToCollectionFilm = film; $router.push({path: '/search', query: {popUp: 'addFilmToCollections'}})"/>
+                     @click="$router.push({query: {film: film.filmKp.kinopoiskId}})"
+                     @addToCollection="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollections'}})"/>
         </div>
       </LoadableItemsContainerWithOwnScroll>
     </div>

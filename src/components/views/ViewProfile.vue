@@ -167,9 +167,13 @@ export default {
 
   &__user-info {
     padding-left: 25px;
+    overflow: hidden;
   }
 
   &__user-name {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     font-size: 72px;
     color: $color-text-light;
     font-weight: 700;

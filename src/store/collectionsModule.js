@@ -7,7 +7,6 @@ export const collectionsModule = {
     collections: [],
     isLoading: false,
   }),
-  getters: {},
   mutations: {
     startLoad(state) {
       state.isLoading = true
@@ -17,6 +16,19 @@ export const collectionsModule = {
     },
     setCollections(state, collections) {
       state.collections = collections
+    },
+    addCollection(state, collection) {
+      const favCollection = state.collections.shift()
+      state.collections.unshift(collection)
+      state.collections.unshift(favCollection)
+    },
+    replaceCollection(state, collection) {
+      const index = state.collections.findIndex(value => value.id === collection.id)
+      state.collections[index] = collection
+    },
+    removeCollection(state, collectionId) {
+      const index = state.collections.findIndex(value => value.id === collectionId)
+      state.collections.splice(index, 1)
     }
   },
   actions: {

@@ -48,6 +48,7 @@ export default {
       switch (response.status) {
         case 201:
           const responseData = await response.json()
+          store.commit('collections/addCollection', responseData)
           router.push('/collection/' + responseData.id)
           break;
         case 422:

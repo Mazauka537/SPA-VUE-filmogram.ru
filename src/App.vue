@@ -97,7 +97,7 @@ export default {
     }
 
     &__pages {
-      padding-bottom: 50px;
+      //padding-bottom: 50px;
     }
   }
 }
