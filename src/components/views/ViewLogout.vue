@@ -15,6 +15,7 @@
 
       localStorage.removeItem('token')
       store.commit('auth/setUser', undefined)
+      store.dispatch('collections/loadCollections')
       router.replace('/auth')
     }
   }

@@ -103,7 +103,14 @@ export default {
     }, {
       text: () => 'добавить в коллекцию',
       onClick: () => {
-        emit('addToCollection')
+        if (store.state.auth.user) {
+          emit('addToCollection')
+
+        } else {
+          store.commit('notifications/addNotification', {
+            text: 'Только авторизированные пользователи могут добавлять фильмы в коллекцию'
+          })
+        }
       }
     }]
 

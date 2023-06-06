@@ -22,7 +22,7 @@
     </div>
 
     <div class="film-block-mini__more" v-if="isMoreBtnVisible">
-      <AddToCollectionsBtn @click.stop="$emit('addToCollections', film)"/>
+      <AddToCollectionsBtn @click.stop="addToCollection(film)"/>
     </div>
 
   </div>
@@ -33,6 +33,7 @@
 import SaveBtn from "@/components/UI/SaveBtn";
 import MoreBtn from "@/components/UI/MoreBtn";
 import AddToCollectionsBtn from "@/components/UI/AddToCollectionsBtn";
+import {useStore} from "vuex";
 
 export default {
   components: {AddToCollectionsBtn, MoreBtn, SaveBtn},
@@ -43,6 +44,24 @@ export default {
       default: true
     }
   },
+  setup(_, {emit}) {
+    const store = useStore()
+
+    const addToCollection = (film) => {
+      if (store.state.auth.user) {
+        emit('addToCollections', film)
+
+      } else {
+        store.commit('notifications/addNotification', {
+          text: 'Только авторизированные пользователи могут добавлять фильмы в коллекцию'
+        })
+      }
+    }
+
+    return {
+      addToCollection
+    }
+  }
 }
 </script>
 

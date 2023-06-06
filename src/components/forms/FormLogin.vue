@@ -5,9 +5,9 @@
     </div>
 
     <MyInputIconic type="text" placeholder="Email" icon-class="icon-person" v-model="form.email"
-             style="margin-top: 33px"/>
+                   style="margin-top: 33px"/>
     <MyInputIconic type="password" placeholder="Пароль" icon-class="icon-lock" v-model="form.password"
-             style="margin-top: 40px"/>
+                   style="margin-top: 40px"/>
 
     <div class="form-login__forgot">
       <a class="form-login__forgot-link" @click.prevent="$emit('switchForm', 'restore')">Забыли пароль?</a>
@@ -70,6 +70,7 @@ export default {
           let userData = await response.json()
           localStorage.setItem('token', userData.token)
           store.commit('auth/setUser', userData.user)
+          store.dispatch('collections/loadCollections')
 
           router.push('/user/' + userData.user.id)
           break;
@@ -86,6 +87,11 @@ export default {
         case 400:
           store.commit('notifications/addNotification', {
             text: 'Введён неверный пароль'
+          })
+          break;
+        case 403:
+          store.commit('notifications/addNotification', {
+            text: 'Пользователь с данным Email зарегестрирован с помощью входа через гугл. Для входа в аккаунт с данным Email используйте кнопку "Войти с помощью Google"'
           })
           break;
       }
@@ -108,6 +114,7 @@ export default {
 
 .form-login {
   width: 100%;
+  padding-bottom: 50px;
 
   &__header {
     text-align: center;
@@ -141,7 +148,8 @@ export default {
   }
 
   &__socials {
-    padding: 25px 40px;
+    max-width: 250px;
+    margin: 60px auto;
   }
 
   &__register {

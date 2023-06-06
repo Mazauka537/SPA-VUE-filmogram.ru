@@ -72,6 +72,7 @@ export default {
           let userData = await response.json()
           localStorage.setItem('token', userData.token)
           store.commit('auth/setUser', userData.user)
+          store.dispatch('collections/loadCollections')
 
           router.push('/user/' + userData.user.id)
           break;
@@ -106,6 +107,7 @@ export default {
 
 .form-register {
   width: 100%;
+  padding-bottom: 50px;
 
   &__header {
     text-align: center;
@@ -132,7 +134,8 @@ export default {
   }
 
   &__socials {
-    padding: 25px 40px;
+    max-width: 250px;
+    margin: 40px auto;
   }
 
   &__login {

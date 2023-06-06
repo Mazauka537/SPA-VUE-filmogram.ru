@@ -17,7 +17,8 @@
             <div class="view-collection__open">
               {{ collection.public ? 'Открытая коллеция' : 'Закрытая коллекция' }}
             </div>
-            <div class="view-collection__name" @click="selectedFilm = undefined">{{ collection.title }}</div>
+            <div class="view-collection__name">{{ collection.title }}</div>
+            <div class="view-collection__desc" :class="{'view-collection__desc_wrapped': isDescWrapped}" @click="isDescWrapped = !isDescWrapped">{{ collection.description }}</div>
             <div class="view-collection__main-info">
               <router-link :to="'/user/' + collection.user_id" class="view-collection__owner">
                 <span class="view-collection__owner-avatar">
@@ -72,7 +73,7 @@
                              @save="toggleFavorite"
                              @click="$router.push({query: {film: film.filmKp.kinopoiskId}})"
                              @delete="deleteFilm(film)"
-                             @addToCollection="addingToCollectionFilm = film; $router.push({path: '/collection/' + $route.params.id, query: {popUp: 'addFilmToCollections'}})"/>
+                             @addToCollection="addingToCollectionFilm = film; $router.push({query: {popUp: 'addFilmToCollections'}})"/>
                 </div>
               </DragBlock>
             </DragContainer>
@@ -153,6 +154,7 @@ export default {
     const elemsFilmBlocks = ref(undefined)
     const scrollableBlock = ref(undefined)
 
+    const isDescWrapped = ref(true)
     const addingToCollectionFilm = ref(undefined)
     const isFilmsOrderChangeable = ref(false)
     const imageUpdater = ref('?=1')
@@ -228,6 +230,7 @@ export default {
       scrollableBlock,
       moreBtnOptions,
       collection,
+      isDescWrapped,
       addingToCollectionFilm,
       collectedFilmsLoader,
       sortedFilms,
@@ -283,7 +286,18 @@ export default {
     font-size: 68px;
     color: $color-text-light;
     font-weight: 700;
-    padding: 20px 0 40px;
+    padding-top: 20px;
+  }
+
+  &__desc {
+    font-size: 13px;
+    padding-bottom: 40px;
+
+    &_wrapped {
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
   }
 
   &__main-info {
@@ -367,7 +381,11 @@ export default {
 
     &__name {
       font-size: 48px;
-      padding: 15px 0 37px;
+      padding-top: 15px;
+    }
+
+    &__desc {
+      padding-bottom: 37px;
     }
 
     &__ctrl-panel {

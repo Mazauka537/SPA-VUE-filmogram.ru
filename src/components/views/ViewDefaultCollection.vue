@@ -13,7 +13,8 @@
                                :image-path="'http://127.0.0.1:8000/storage/images/defaultCollections/' + collection.image"/>
           </div>
           <div class="view-default-collection__info">
-            <div class="view-default-collection__name" @click="selectedFilm = undefined">{{ collection.title }}</div>
+            <div class="view-default-collection__name">{{ collection.title }}</div>
+            <div class="view-default-collection__desc">{{ collection.description }}</div>
             <div class="view-default-collection__main-info">
               100 фильмов
             </div>
