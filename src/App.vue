@@ -29,13 +29,29 @@ import NotificationBlock from "@/components/NotificationBlock";
 import NotificationContainer from "@/components/NotificationContainer";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import {defineAsyncComponent} from "vue";
+import useFirebaseSubscribe from "@/composables/useFirebaseSubscribe";
 
 export default {
   components: {
     PopUpNewCollection: defineAsyncComponent(() => import('@/components/popUps/PopUpNewCollection')),
-    PopUpsContainer, NotificationContainer, NotificationBlock, ViewAuth, MainNav},
-}
+    PopUpsContainer, NotificationContainer, NotificationBlock, ViewAuth, MainNav
+  },
+  setup() {
+    const {subscribe} = useFirebaseSubscribe()
 
+    if ('Notification' in window) {
+      if (Notification.permission === 'granted') {
+        subscribe()
+      } else {
+        Notification.requestPermission().then(permission => {
+          if (Notification.permission === 'granted') {
+            subscribe()
+          }
+        })
+      }
+    }
+  }
+}
 </script>
 
 <style lang="scss">
@@ -98,7 +114,7 @@ export default {
   }
 }
 
-@media screen and (max-width: 560px){
+@media screen and (max-width: 560px) {
   .app {
 
     &__notifications {

@@ -28,7 +28,7 @@
                 </span>
                 <span class="view-collection__owner-name">{{ collection.user.name }}</span>
               </router-link>&nbsp;&bull;
-              <span class="view-collection__likes">0 лайков</span>&nbsp;&bull;
+              <span class="view-collection__likes">{{ collection.saves_count }} лайков</span>&nbsp;&bull;
               <span class="view-collection__films_count">{{ collection.films_count }} фильмов</span>
             </div>
           </div>
@@ -456,7 +456,11 @@ export default {
 
     &__name {
       font-size: 16px;
-      padding: 10px 0 7px 0;
+      padding: 10px 0 5px 0;
+    }
+
+    &__desc {
+      padding-bottom: 10px;
     }
 
     &__body {

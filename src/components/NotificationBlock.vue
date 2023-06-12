@@ -89,11 +89,13 @@ export default {
     background: $color-bg-notice;
     width: 100%;
     position: relative;
+    border-radius: 8px;
+    text-align: left;
   }
 
   &__close {
-    width: 15px;
-    height: 15px;
+    width: 12px;
+    height: 12px;
     position: absolute;
     top: 5px;
     right: 5px;

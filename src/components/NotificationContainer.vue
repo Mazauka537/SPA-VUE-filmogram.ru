@@ -29,16 +29,21 @@ export default {
 <style scoped lang="scss">
 @import "src/assets/styles/vars";
 
+.notification-container {
+  text-align: right;
+}
+
 .notification-block {
 
   &__close-all {
     opacity: 0;
     transition: opacity 0.2s;
     background: $color-bg-nav;
-    padding: 10px;
+    padding: 5px 12px;
+    font-size: 13px;
     color: $color-text;
-    width: 100%;
     pointer-events: none;
+    border-radius: 8px;
 
     &_visible {
       pointer-events: all;

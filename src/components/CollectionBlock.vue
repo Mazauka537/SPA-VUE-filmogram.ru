@@ -87,6 +87,7 @@ export default {
     background: transparent;
     white-space: nowrap;
     overflow: hidden;
+    border-radius: 0;
 
     &:hover {
       background: transparent;
