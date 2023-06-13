@@ -10,7 +10,7 @@
         <div class="view-profile__header">
           <div class="view-profile__avatar">
             <img ref="elemAvatarImg"
-                 :src="(user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg') + '?=1'"
+                 :src="(user.avatar ? env.VUE_APP_AVATARS_PATH + user.avatar : '/img/user.jpg') + '?=1'"
                  alt="avatar">
           </div>
           <div class="view-profile__user-info">
@@ -34,7 +34,7 @@
           </MyButton>
           </span>
             <span v-else class="view-profile__btn">
-          <MyButton @click="$router.push({ path: '/user/' + $route.params.id, query: {popUp: 'newCollection'}})">
+          <MyButton @click="$router.push({query: {popUp: 'newCollection'}})">
             Создать коллецию
           </MyButton>
           </span>
@@ -131,7 +131,8 @@ export default {
       onUserDataChanged,
       toggleSubscription,
       scrollableBlock,
-      window
+      window,
+      env: process.env
     }
   }
 }

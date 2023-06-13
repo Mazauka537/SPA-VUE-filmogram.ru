@@ -1,6 +1,6 @@
 <template>
   <div class="my-image-input">
-    <img class="my-image-input__image" :src="imagePreviewSrc ?? startingImage ?? '/image.png'">
+    <img class="my-image-input__image" :src="imagePreviewSrc ?? startingImage ?? '/img/image.png'">
 
     <div class="my-image-input__hover">
       <label class="my-image-input__select-btn" :class="{'my-image-input__select-btn_center': !isImageSelected}">

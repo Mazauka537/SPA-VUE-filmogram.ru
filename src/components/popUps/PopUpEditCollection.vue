@@ -6,7 +6,7 @@
         <div class="form-edit-collection__image">
           <MyImageInput v-model="form.image"
                         @clear="isImageDeleted = true"
-                        :starting-image-src="collection.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.image : undefined"/>
+                        :starting-image-src="collection.image ? env.VUE_APP_COLLECTION_IMG_PATH + collection.image : undefined"/>
         </div>
         <div class="form-edit-collection__info">
           <MyInput type="text" placeholder="Название" v-model="form.title"/>
@@ -81,6 +81,7 @@ export default {
     return {
       isImageDeleted,
       form,
+      env: process.env
     }
   }
 }

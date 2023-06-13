@@ -29,8 +29,22 @@
         </SettingsSection>
 
         <SettingsSection title="Уведомления">
-          <SettingsLine :with-checkbox="true" :is-checked="settings.notices" @click="toggleNoticesSettings">
-            Уведомления
+          <div class="view-settings__notifications-warning"
+               v-if="'Notification' in window && Notification.permission !== 'granted'">
+            В данный момент уведомления блокируются браузером. Если вы хотите получать уведомления на своё устройство,
+            <span class="view-settings__accept-notifications" @click="notificationsAccessRequest">разрешие показ уведомлений</span>
+          </div>
+          <SettingsLine :with-checkbox="true"
+                        :is-checked="$store.state.auth.user.is_notification_subscribe_enabled"
+                        :disabled="Notification.permission !== 'granted'"
+                        @click="toggleSubscribeNotifications">
+            Уведомления о новых подписчиках
+          </SettingsLine>
+          <SettingsLine :with-checkbox="true"
+                        :is-checked="$store.state.auth.user.is_notification_like_enabled"
+                        :disabled="Notification.permission !== 'granted'"
+                        @click="toggleLikeNotifications">
+            Уведомления о лайках коллекций
           </SettingsLine>
         </SettingsSection>
 
@@ -75,6 +89,8 @@ import useGetUser from "@/composables/useGetUser";
 import {useStore} from "vuex";
 import {useRouter} from "vue-router/dist/vue-router";
 import HeadBar from "@/components/HeadBar";
+import useRequestMaker from "@/composables/useRequestMaker";
+import useFirebaseSubscribe from "@/composables/useFirebaseSubscribe";
 
 export default {
   components: {
@@ -92,16 +108,36 @@ export default {
   setup() {
     const store = useStore()
     const router = useRouter()
+    const requestMaker = useRequestMaker()
+    const {subscribe} = useFirebaseSubscribe()
 
-    const settings = reactive({})
-    settings.notices = true
+    const toggleSubscribeNotifications = () => {
+      store.commit('auth/toggleSubscribeNotifications')
+
+      requestMaker.fetch('toggle/subscribe/notifications', 'POST', {}, [200, 201])
+    }
+
+    const toggleLikeNotifications = () => {
+      store.commit('auth/toggleLikeNotifications')
+
+      requestMaker.fetch('toggle/like/notifications', 'POST', {}, [200, 201])
+    }
+
+    const notificationsAccessRequest = () => {
+      if ('Notification' in window) {
+        if (Notification.permission === 'granted') {
+          subscribe()
+        } else {
+          Notification.requestPermission().then(permission => {
+            if (Notification.permission === 'granted') {
+              subscribe()
+            }
+          })
+        }
+      }
+    }
 
     const {user, isUserLoading, getUser} = useGetUser()
-
-
-    const toggleNoticesSettings = () => {
-      settings.notices = !settings.notices
-    }
 
     const onUserDataChanged = async () => {
       await getUser(store.state.auth.user.id)
@@ -110,9 +146,12 @@ export default {
     }
 
     return {
-      settings,
-      toggleNoticesSettings,
-      onUserDataChanged
+      onUserDataChanged,
+      toggleSubscribeNotifications,
+      toggleLikeNotifications,
+      notificationsAccessRequest,
+      window,
+      Notification
     }
   }
 }
@@ -138,6 +177,18 @@ export default {
       color: $color-text-light;
       text-decoration: underline;
     }
+  }
+
+  &__notifications-warning {
+    font-size: 11px;
+    color: $color-text-dark;
+    padding: 0 0 5px;
+  }
+
+  &__accept-notifications {
+    color: $color-text;
+    text-decoration: underline;
+    cursor: pointer;
   }
 }
 

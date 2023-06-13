@@ -5,9 +5,11 @@ export default function () {
   const requestMaker = useRequestMaker()
   const store = useStore()
 
-  firebase.initializeApp({
-    messagingSenderId: '938866319375'
-  })
+  if (!firebase.apps.length) {
+    firebase.initializeApp({
+      messagingSenderId: process.env.VUE_APP_NOTIFICATIONS_SENDER_ID
+    })
+  }
 
   const messaging = firebase.messaging()
 

@@ -8,7 +8,7 @@ export default function useRequestMaker() {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Authorization': 'Bearer ' + localStorage.getItem('token'),
-      'X-API-KEY': '1a2a15cf-6efe-44a0-bb00-0cddec1829c3',
+      'X-API-KEY': process.env.VUE_APP_KINOPOISK_API_UNOFFICIAL_TOKEN,
     }
 
     const fetchInit = {
@@ -16,7 +16,7 @@ export default function useRequestMaker() {
       method,
     }
 
-    let fetchInput = 'http://127.0.0.1:8000/api/' + urn
+    let fetchInput = process.env.VUE_APP_API_PATH + urn
 
     if (method === 'GET') {
       fetchInput += parseParamsToUrl(body)

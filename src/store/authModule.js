@@ -20,6 +20,12 @@ export const authModule = {
       setTimeout(() => {
         state.user.avatar = avatarName
       })
+    },
+    toggleSubscribeNotifications(state) {
+      state.user.is_notification_subscribe_enabled = !state.user.is_notification_subscribe_enabled
+    },
+    toggleLikeNotifications(state) {
+      state.user.is_notification_like_enabled = !state.user.is_notification_like_enabled
     }
   },
   actions: {

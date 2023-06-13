@@ -2,7 +2,7 @@
   <router-link :to="'/user/' + user.id" class="user-block">
 
     <div class="user-block__avatar">
-      <img :src="user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + user.avatar : '/user.jpg'"
+      <img :src="user.avatar ? env.VUE_APP_AVATARS_PATH + user.avatar : '/img/user.jpg'"
            alt="avatar">
     </div>
 
@@ -19,6 +19,9 @@ export default {
     user: Object
   },
   setup() {
+    return {
+      env: process.env
+    }
   }
 }
 </script>

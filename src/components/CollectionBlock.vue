@@ -4,7 +4,7 @@
     <div class="collection-block__image">
       <template v-if="collection.image">
         <img style="height: 100%; width: 100%; margin: 0; object-fit: cover"
-             :src="'http://127.0.0.1:8000/storage/images/collections/' + collection.image" alt="">
+             :src="env.VUE_APP_COLLECTION_IMG_PATH + collection.image" alt="">
       </template>
       <template v-else>
         <ImageSlabs :img1="collection.posters[3]"
@@ -28,6 +28,11 @@ export default {
   components: {ImageSlabs},
   props: {
     collection: Object
+  },
+  setup() {
+    return {
+      env: process.env
+    }
   }
 }
 </script>

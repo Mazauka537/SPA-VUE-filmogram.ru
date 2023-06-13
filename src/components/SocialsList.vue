@@ -25,10 +25,10 @@ export default {
     const router = useRouter()
 
     const client = google.accounts.oauth2.initCodeClient({
-      client_id: '124116094811-dkj3g2ucqlfro5fk9d785nfs44ksdfmt.apps.googleusercontent.com',
+      client_id: process.env.VUE_APP_GOOGLE_AUTH_CLIENT_ID,
       scope: 'https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile',
       ux_mode: 'popup',
-      redirect_uri: "https://localhost:8080/search",
+      redirect_uri: process.env.VUE_APP_GOOGLE_AUTH_REDIRECT_URI,
       callback: async (googleResponse) => {
         const response = await requestMaker.fetch('google/auth', 'POST', {
           code: googleResponse.code

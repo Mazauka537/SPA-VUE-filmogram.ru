@@ -23,7 +23,7 @@
               <router-link :to="'/user/' + collection.user_id" class="view-collection__owner">
                 <span class="view-collection__owner-avatar">
                   <img
-                      :src="collection.user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + collection.user.avatar : '/user.jpg'"
+                      :src="collection.user.avatar ? env.VUE_APP_AVATARS_PATH + collection.user.avatar : '/img/user.jpg'"
                       alt="avatar">
                 </span>
                 <span class="view-collection__owner-name">{{ collection.user.name }}</span>
@@ -160,7 +160,7 @@ export default {
     const imageUpdater = ref('?=1')
 
     const imagePath = computed(() => {
-      return collection.value?.image ? 'http://127.0.0.1:8000/storage/images/collections/' + collection.value.image + imageUpdater.value : undefined
+      return collection.value?.image ? process.env.VUE_APP_COLLECTION_IMG_PATH + collection.value.image + imageUpdater.value : undefined
     })
 
     const sortedFilms = computed(() => {
@@ -195,7 +195,7 @@ export default {
     const moreBtnOptions = [{
       text: () => 'Изменить сведения',
       onClick: () => {
-        router.push({path: '/collection/' + route.params.id, query: {popUp: 'editCollection'}})
+        router.push({query: {popUp: 'editCollection'}})
       }
     }, {
       text: () => collection.value.public ? 'Сделать приватной' : 'Сделать общедоступной',
@@ -210,7 +210,7 @@ export default {
     }, {
       text: () => 'Удалить коллекцию',
       onClick: () => {
-        router.push({path: '/collection/' + route.params.id, query: {popUp: 'deleteCollection'}})
+        router.push({query: {popUp: 'deleteCollection'}})
       }
     }]
 
@@ -223,7 +223,6 @@ export default {
     })
 
     return {
-      defaultPoster: 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/746160.jpg',
       imagePath,
       onCollectionEdited,
       onCurrentCollectionChanged,
@@ -240,7 +239,8 @@ export default {
       toggleFavorite,
       elemsFilmBlocks,
       isFilmsOrderChangeable,
-      window
+      window,
+      env: process.env
     }
   }
   }

@@ -1,9 +1,9 @@
 import useRequestMaker from "@/composables/useRequestMaker";
-import {getCurrentInstance} from "vue";
+import {useStore} from "vuex";
 
 export default function useToggleSubscription() {
-  const currentInstance = getCurrentInstance()
   const requestMaker = useRequestMaker()
+  const store = useStore()
 
   const toggleSubscription = async (user) => {
     user.isSubscribed = !user.isSubscribed
@@ -13,11 +13,15 @@ export default function useToggleSubscription() {
       user_id: user.id
     }, [201, 200, 401, 404, 422])
 
-    if (response.status === 401) {
+    if (response.status !== 200 && response.status !== 201) {
       user.isSubscribed = !user.isSubscribed
       user.subscribers = user.isSubscribed ? user.subscribers + 1 : user.subscribers - 1
+    }
 
-      currentInstance.root.ctx.addNotice('Чтобы иметь возможность подписаться на другого пользователя, необходимо авторизоваться')
+    if (response.status === 401) {
+      store.commit('notifications/addNotification', {
+        text: 'Чтобы иметь возможность подписаться на другого пользователя, необходимо авторизоваться'
+      })
     }
   }
 

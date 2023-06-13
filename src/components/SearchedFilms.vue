@@ -20,7 +20,7 @@
   </div>
 
   <div class="searched-films__filter-btn" :class="{'searched-films__filter-btn_filtered': isFiltered}"
-       @click="$router.push({path: '/search', query: {popUp: 'filter'}})">
+       @click="$router.push({query: {popUp: 'filter'}})">
     <svg width="100%" height="100%" viewBox="0 0 768 768">
       <path
           d="M136.5 180q19.5 24 43.5 55.5t48.75 63 45 58.5 33 42.75l12.75 15.75v192q0 13.5 9.75 23.25t23.25 9.75h63q13.5 0 23.25-9.75t9.75-23.25v-192l12.75-15.75t33-42.75 45-58.5 48.75-63 43.5-55.5q9-10.5 7.5-22.5t-10.5-21-22.5-9h-444q-13.5 0-22.5 9t-10.5 21 7.5 22.5z"></path>

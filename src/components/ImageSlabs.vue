@@ -18,7 +18,7 @@ export default {
   setup() {
 
     return {
-      defaultPoster: 'https://kinopoiskapiunofficial.tech/images/posters/kp_small/746160.jpg',
+      defaultPoster: process.env.VUE_APP_DEFAULT_COLLECTION_IMG,
     }
   }
 }

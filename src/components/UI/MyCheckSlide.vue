@@ -1,5 +1,5 @@
 <template>
-  <label class="my-check-slide" :class="{'my-check-slide_active': isChecked}">
+  <label class="my-check-slide" :class="{'my-check-slide_active': isChecked, 'my-check-slide_disabled': disabled}">
     <span></span>
   </label>
 </template>
@@ -8,6 +8,10 @@
 export default {
   props: {
     isChecked: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false
+    }
   }
 }
 </script>
@@ -21,8 +25,8 @@ $color-bg-check-input: #9A9999;
 .my-check-slide {
   position: relative;
   display: block;
-  width: 40px;
-  height: 24px;
+  width: 38px;
+  height: 22px;
   background: $color-bg-check-input;
   border-radius: 50px;
   transition: background .2s ease;
@@ -32,8 +36,8 @@ $color-bg-check-input: #9A9999;
   span {
     position: absolute;
     display: block;
-    top: 3px;
-    left: 3px;
+    top: 2px;
+    left: 2px;
     width: 18px;
     height: 18px;
     background: $color-bg-check-sphere;
@@ -46,6 +50,14 @@ $color-bg-check-input: #9A9999;
 
     span {
       transform: translateX(16px);
+    }
+  }
+
+  &_disabled {
+    background: $color-bg-check-input;
+
+    span {
+      transform: translateX(0);
     }
   }
 }

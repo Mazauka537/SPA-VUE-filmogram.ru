@@ -2,7 +2,7 @@
   <div class="settings-line">
     <slot></slot>
     <div class="settings-line__check" v-if="withCheckbox">
-      <MyCheckSlide :is-checked="isChecked"/>
+      <MyCheckSlide :is-checked="isChecked" :disabled="disabled"/>
     </div>
   </div>
 </template>
@@ -13,7 +13,11 @@ export default {
   components: {MyCheckSlide},
   props: {
     withCheckbox: Boolean,
-    isChecked: Boolean
+    isChecked: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false,
+    }
   }
 
 }

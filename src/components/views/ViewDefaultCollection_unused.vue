@@ -10,7 +10,7 @@
         <div class="view-default-collection__header">
           <div class="view-default-collection__preview">
             <CollectionPreview :scrollable-block="scrollableBlock"
-                               :image-path="'http://127.0.0.1:8000/storage/images/defaultCollections/' + collection.image"/>
+                               :image-path="env.VUE_APP_COLLECTION_IMG_PATH + collection.image"/>
           </div>
           <div class="view-default-collection__info">
             <div class="view-default-collection__name">{{ collection.title }}</div>
@@ -100,7 +100,8 @@ export default {
       searchedFilmsLoader,
       scrollableBlock,
       toggleFavorite,
-      window
+      window,
+      env: process.env
     }
   }
 }

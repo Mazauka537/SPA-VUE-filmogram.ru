@@ -7,7 +7,7 @@
         <div class="form-edit-user-data__avatar">
           <MyImageInput v-model="form.image"
                         @clear="isImageDeleted = true"
-                        :starting-image-src="$store.state.auth.user.avatar ? 'http://127.0.0.1:8000/storage/images/avatars/' + $store.state.auth.user.avatar : undefined"/>
+                        :starting-image-src="$store.state.auth.user.avatar ? env.VUE_APP_AVATARS_PATH + $store.state.auth.user.avatar : undefined"/>
         </div>
 
         <div class="form-edit-user-data__info">
@@ -78,6 +78,7 @@ export default {
     return {
       isImageDeleted,
       form,
+      env: process.env
     }
   }
 }
