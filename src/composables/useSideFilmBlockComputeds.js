@@ -25,7 +25,7 @@ export default function useSideFilmBlockComputeds(filmFromKp) {
   }
 
   const trailerUrl = computed(() => {
-    let trailer = filmFromKp.value.videos.trailers.find(trailer => {
+    let trailer = filmFromKp.value.videos?.trailers.find(trailer => {
       return trailer.type === 'TRAILER' && trailer.site === 'youtube'
     })
 

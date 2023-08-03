@@ -73,8 +73,6 @@
     <PopUpSupport v-else-if="$route.query.popUp === 'support'"/>
     <PopUpAbout v-else-if="$route.query.popUp === 'about'"/>
     <PopUpContacts v-else-if="$route.query.popUp === 'contacts'"/>
-
-
   </PopUpsContainer>
 
 </template>
@@ -161,7 +159,7 @@ export default {
 @import "src/assets/styles/vars";
 
 .view-settings {
-  padding: 30px 48px 60px 30px;
+  padding: 30px 48px 200px 30px;
   max-width: 900px;
   margin: 0 auto;
 
@@ -194,7 +192,7 @@ export default {
 
 @media screen and (max-width: 1030px) {
   .view-settings {
-    padding: 15px 33px 60px 15px;
+    padding: 15px 33px 200px 15px;
   }
 }
 

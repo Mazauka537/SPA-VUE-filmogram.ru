@@ -136,6 +136,14 @@ export default {
         fill: $color-text-light;
       }
     }
+
+    &.router-link-active {
+      color: $color-text-light;
+
+      svg {
+        fill: $color-text-light;
+      }
+    }
   }
 }
 
@@ -178,6 +186,14 @@ export default {
       }
 
       &:hover {
+        color: $color-text-light;
+
+        svg {
+          fill: $color-text-light;
+        }
+      }
+
+      &.router-link-active {
         color: $color-text-light;
 
         svg {

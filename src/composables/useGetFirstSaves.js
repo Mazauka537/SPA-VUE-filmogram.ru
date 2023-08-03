@@ -5,12 +5,17 @@ export default function useGetFirstSaves() {
   const requestMaker = useRequestMaker()
 
   const savedCollections = ref([])
+  const isSavedCollectionsLoading = ref(false)
 
   const getSavedCollections = async (userId) => {
+    isSavedCollectionsLoading.value = true
+
     const response = await requestMaker.fetch('get/saves', 'GET', {
       user_id: userId,
       page: 1
     }, [200, 422, 404])
+
+    isSavedCollectionsLoading.value = false
 
     switch (response.status) {
       case 200:
@@ -22,6 +27,7 @@ export default function useGetFirstSaves() {
 
   return {
     savedCollections,
+    isSavedCollectionsLoading,
     getSavedCollections
   }
 }

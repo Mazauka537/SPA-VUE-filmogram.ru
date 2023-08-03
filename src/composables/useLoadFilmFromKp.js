@@ -7,10 +7,11 @@ export default function useLoadFilmFromKp() {
   const loadFilmFromKp = async filmKpId => {
     filmFromKp.value = 'loading'
 
-    const response = await fetch(process.env.VUE_APP_KINOPOISK_API_URL + 'movie?token=' + process.env.VUE_APP_KINOPOISK_API_TOKEN + '&field=id&search=' + filmKpId, {
+    const response = await fetch(process.env.VUE_APP_KINOPOISK_API_URL + 'movie/' + filmKpId, {
       method: 'GET',
       headers: {
         'Accept': 'application/json',
+        'X-API-KEY': process.env.VUE_APP_KINOPOISK_API_TOKEN
       }
     })
 

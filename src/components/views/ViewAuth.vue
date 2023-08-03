@@ -45,7 +45,7 @@ export default {
   &__form {
     width: 100%;
     margin: 0 auto;
-    padding: 30px 0 60px 0;
+    padding: 30px 0 200px 0;
     max-width: 340px;
   }
 }

@@ -28,8 +28,8 @@
                 </span>
                 <span class="view-collection__owner-name">{{ collection.user.name }}</span>
               </router-link>&nbsp;&bull;
-              <span class="view-collection__likes">{{ collection.saves_count }} лайков</span>&nbsp;&bull;
-              <span class="view-collection__films_count">{{ collection.films_count }} фильмов</span>
+              <span class="view-collection__likes">{{ collection.saves_count }} {{ likesDeclination }}</span>&nbsp;&bull;
+              <span class="view-collection__films_count">{{ collection.films_count }} {{ filmsDeclination }}</span>
             </div>
           </div>
         </div>
@@ -131,6 +131,7 @@ import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import HeadBar from "@/components/HeadBar";
 import SideFilmBlock from "@/components/SideFilmBlock";
 import CollectionPreview from "@/components/CollectionPreview";
+import useCollectionDataDeclination from "@/composables/useCollectionDataDeclination";
 
 export default {
   components: {
@@ -175,6 +176,7 @@ export default {
     const {toggleCollectionPublic} = useToggleCollectionPublic()
     const {toggleSave} = useToggleSave()
     const {toggleFavorite} = useToggleFavorite()
+    const {likesDeclination, filmsDeclination} = useCollectionDataDeclination(collection)
 
     const onCollectionEdited = (newCollection) => {
       collection.value = newCollection
@@ -224,6 +226,8 @@ export default {
 
     return {
       imagePath,
+      likesDeclination,
+      filmsDeclination,
       onCollectionEdited,
       onCurrentCollectionChanged,
       scrollableBlock,
@@ -326,7 +330,7 @@ export default {
   &__body {
     background: $color-bg-body;
     min-height: 400px;
-    padding: 30px 30px 100px 30px;
+    padding: 30px 30px 200px 30px;
   }
 
   &__ctrl-panel {
@@ -393,7 +397,7 @@ export default {
     }
 
     &__body {
-      padding: 20px 30px 100px 30px;
+      padding: 20px 30px 200px 30px;
     }
   }
 }
@@ -416,7 +420,7 @@ export default {
     }
 
     &__body {
-      padding: 15px 15px 100px 15px;
+      padding: 15px 15px 200px 15px;
     }
   }
 }

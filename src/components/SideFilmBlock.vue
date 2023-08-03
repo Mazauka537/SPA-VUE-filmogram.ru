@@ -270,7 +270,7 @@ export default {
   text-align: center;
   z-index: 3;
   background: $color-bg-side;
-  transition: right 0.1s;
+  transition: right 0.2s;
 
   &__inner {
     padding: 0 15px;
@@ -426,7 +426,7 @@ export default {
   .side-film-block {
 
     &__inner {
-      padding: 0 15px 50px 15px;
+      padding: 0 15px 150px 15px;
     }
   }
 }

@@ -7,6 +7,7 @@ export default function useToggleSave() {
 
   const toggleSave = async (collection) => {
     collection.isInSaves = !collection.isInSaves
+    collection.isInSaves ? ++collection.saves_count : --collection.saves_count;
 
     const response = await requestMaker.fetch('toggle/save', 'POST', {
       collection_id: collection.id

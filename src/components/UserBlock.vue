@@ -75,7 +75,7 @@ export default {
 
     &__name {
       font-weight: 700;
-      font-size: 12px;
+      font-size: 13px;
     }
   }
 }

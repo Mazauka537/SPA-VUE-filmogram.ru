@@ -6,6 +6,7 @@
       </div>
       <div class="add-to-collections-block__list" v-else>
         <CollectionCheck v-for="collection in collections"
+                         :key="collection.id"
                          :collection="collection"
                          @click="toggleSelect(collection.id)"/>
       </div>

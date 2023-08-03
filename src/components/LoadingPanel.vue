@@ -42,7 +42,7 @@ export default {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    animation: rotate 1s linear;
+    animation: rotate 1s linear infinite;
   }
 
   path {

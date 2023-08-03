@@ -16,19 +16,23 @@
   </BlocksLine>
 
   <div id="media-del">
-  <BlocksLine v-if="subscriptions.length > 0"
-              style="margin-top: 30px;"
-              title="Подписки"
-              :link="'/user/' + user.id + '/subscriptions'"
-              :items="subscriptions">
-  </BlocksLine>
+    <BlocksLine v-if="subscriptions.length > 0"
+                style="margin-top: 30px;"
+                title="Подписки"
+                :link="'/user/' + user.id + '/subscriptions'"
+                :items="subscriptions">
+    </BlocksLine>
 
-  <BlocksLine v-if="subscribers.length > 0"
-              style="margin-top: 30px;"
-              title="Подписчики"
-              :link="'/user/' + user.id + '/subscribes'"
-              :items="subscribers">
-  </BlocksLine>
+    <BlocksLine v-if="subscribers.length > 0"
+                style="margin-top: 30px;"
+                title="Подписчики"
+                :link="'/user/' + user.id + '/subscribes'"
+                :items="subscribers">
+    </BlocksLine>
+  </div>
+
+  <div class="profile-body__load" v-if="isCollectionsLoading || isSavedCollectionsLoading || isSubscribersLoading || isSubscriptionsLoading">
+    <LoadingPanel :size="50"/>
   </div>
 </template>
 
@@ -40,10 +44,12 @@ import useGetFirstCollections from "@/composables/useGetFirstCollections";
 import useGetFirstSaves from "@/composables/useGetFirstSaves";
 import useGetFirstSubscribers from "@/composables/useGetFirstSubscribers";
 import useGetFirstSubscriptions from "@/composables/useGetFirstSubscriptions";
-import {onMounted, watch} from "vue";
+import {computed, onMounted, watch} from "vue";
+import LoadingPanel from "@/components/LoadingPanel";
 
 export default {
   components: {
+    LoadingPanel,
     UserBlock,
     CollectionBlock,
     BlocksLine,
@@ -52,10 +58,10 @@ export default {
     user: Object
   },
   setup({user}) {
-    const {collections, getCollections} = useGetFirstCollections()
-    const {savedCollections, getSavedCollections} = useGetFirstSaves()
-    const {subscribers, getSubscribers} = useGetFirstSubscribers()
-    const {subscriptions, getSubscriptions} = useGetFirstSubscriptions()
+    const {collections, isCollectionsLoading, getCollections} = useGetFirstCollections()
+    const {savedCollections, isSavedCollectionsLoading, getSavedCollections} = useGetFirstSaves()
+    const {subscribers, isSubscribersLoading, getSubscribers} = useGetFirstSubscribers()
+    const {subscriptions, isSubscriptionsLoading, getSubscriptions} = useGetFirstSubscriptions()
 
     watch(() => user, () => {
       collections.value = []
@@ -83,13 +89,22 @@ export default {
       collections,
       savedCollections,
       subscribers,
-      subscriptions
+      subscriptions,
+      isCollectionsLoading,
+      isSavedCollectionsLoading,
+      isSubscribersLoading,
+      isSubscriptionsLoading
     }
   }
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
+.profile-body__load {
+  position: relative;
+  height: 100px;
+}
 
 @media screen and (max-width: 560px) {
   #media-del {

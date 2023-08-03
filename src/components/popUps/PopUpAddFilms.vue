@@ -1,5 +1,5 @@
 <template>
-  <PopUp :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title" @close="$emit('close')">
+  <PopUp :full-screen="true" :title="'Поиск фильмов в коллекцию ' + collection.title" @close="$emit('close')" :scroll-closable="false">
     <div class="searching-films">
 
       <MySearchInput v-model="searchString"/>

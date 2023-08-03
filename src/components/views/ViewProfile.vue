@@ -20,8 +20,8 @@
                 коллекций
               </router-link>
               <span id="collections-count-space">&nbsp;&bull;&nbsp;</span>
-              <router-link :to="'/user/' + user.id + '/subscribers'">{{ user.subscribers }} подписчиков</router-link>&nbsp;&bull;
-              <router-link :to="'/user/' + user.id + '/subscriptions'">{{ user.subscriptions }} подписок</router-link>
+              <router-link :to="'/user/' + user.id + '/subscribers'">{{ user.subscribers }} {{ subscribersDeclination }}</router-link>&nbsp;&bull;
+              <router-link :to="'/user/' + user.id + '/subscriptions'">{{ user.subscriptions }} {{ subscriptionsDeclination }}</router-link>
             </div>
           </div>
         </div>
@@ -76,6 +76,7 @@ import LoadingPanel from "@/components/LoadingPanel";
 import {defineAsyncComponent} from "vue";
 import PopUpsContainer from "@/components/popUps/PopUpsContainer";
 import HeadBar from "@/components/HeadBar";
+import useUserDataDeclination from "@/composables/useUserDataDeclination";
 
 export default {
   components: {
@@ -95,6 +96,7 @@ export default {
     const store = useStore()
     const {toggleSubscription} = useToggleSubscription()
     const {user, isUserLoading, getUser} = useGetUser()
+    const {subscribersDeclination, subscriptionsDeclination} = useUserDataDeclination(user)
 
     const scrollableBlock = ref(undefined)
 
@@ -128,6 +130,8 @@ export default {
       moreBtnOptions,
       user,
       isUserLoading,
+      subscribersDeclination,
+      subscriptionsDeclination,
       onUserDataChanged,
       toggleSubscription,
       scrollableBlock,
@@ -192,7 +196,7 @@ export default {
   &__body {
     background: $color-bg-body;
     min-height: 400px;
-    padding: 30px 30px 100px 30px;
+    padding: 30px 30px 200px 30px;
   }
 
   &__ctrl-panel {
@@ -244,7 +248,7 @@ export default {
     }
 
     &__body {
-      padding: 15px 15px 100px 15px;
+      padding: 15px 15px 200px 15px;
     }
   }
 }
