@@ -108,11 +108,6 @@ export default {
       searchedFilmsLoader.reset()
     }))
 
-    onMounted(() => goSearch(() => {
-      searchedFilmsLoader.setKeyword(props.searchString)
-      searchedFilmsLoader.reset()
-    }))
-
     return {
       addingToCollectionFilm,
       toggleFavorite,

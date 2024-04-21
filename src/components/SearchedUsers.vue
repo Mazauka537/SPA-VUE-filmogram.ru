@@ -24,11 +24,6 @@ export default {
       searchedUsersLoader.reset()
     }))
 
-    onMounted(() => goSearch(() => {
-      searchedUsersLoader.setKeyword(props.searchString)
-      searchedUsersLoader.reset()
-    }))
-
     return {
       searchedUsersLoader
     }

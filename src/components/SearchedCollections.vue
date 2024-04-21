@@ -24,11 +24,6 @@ export default {
       searchedCollectionsLoader.reset()
     }))
 
-    onMounted(() => goSearch(() => {
-      searchedCollectionsLoader.setKeyword(props.searchString)
-      searchedCollectionsLoader.reset()
-    }))
-
     return {
       searchedCollectionsLoader
     }

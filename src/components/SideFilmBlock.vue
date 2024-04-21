@@ -55,7 +55,7 @@
           </div>
 
           <div class="side-film-block__original-name">
-            {{ filmFromKp.names[1].name }}
+            {{ filmFromKp.enName }}
           </div>
 
           <div class="side-film-block__splitted">

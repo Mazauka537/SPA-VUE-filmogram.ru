@@ -1,5 +1,5 @@
 <template>
-  <div class="my-image-input">
+  <div class="my-image-input" :class="{'my-image-input_circle': isCircle}">
     <img class="my-image-input__image" :src="imagePreviewSrc ?? startingImage ?? '/img/image.png'">
 
     <div class="my-image-input__hover">
@@ -27,7 +27,11 @@ import {ref} from "vue";
 
 export default {
   props: {
-    startingImageSrc: String
+    startingImageSrc: String,
+    isCircle: {
+      type: Boolean,
+      default: false
+    }
   },
   setup(props, {emit}) {
     const isImageSelected = ref(!!props.startingImageSrc)
@@ -80,6 +84,10 @@ export default {
   border-radius: 3px;
   overflow: hidden;
   position: relative;
+
+  &_circle {
+    border-radius: 50%;
+  }
 
   &:hover {
 

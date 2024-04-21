@@ -21,8 +21,7 @@
           <div class="searched-all__best">
             <BestBlocks :film="searchedItems.films[0]"
                         :collection="searchedItems.collections[0]"
-                        :user="searchedItems.users[0]"
-                        @filmSelected="setSelectedFilm"/>
+                        :user="searchedItems.users[0]"/>
           </div>
           <div class="searched-all__films">
             <div class="searched-all__top-section-title">Фильмы</div>
@@ -101,9 +100,7 @@ export default {
       loadSearchedItems(props.searchString)
     }))
 
-    onMounted(() => goSearch(() => {
-      loadSearchedItems(props.searchString)
-    }))
+    loadSearchedItems(props.searchString)
 
     return {
       addingToCollectionFilm,

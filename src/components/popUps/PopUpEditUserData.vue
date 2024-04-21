@@ -7,6 +7,7 @@
         <div class="form-edit-user-data__avatar">
           <MyImageInput v-model="form.image"
                         @clear="isImageDeleted = true"
+                        :is-circle="true"
                         :starting-image-src="$store.state.auth.user.avatar ? env.VUE_APP_AVATARS_PATH + $store.state.auth.user.avatar : undefined"/>
         </div>
 
@@ -99,7 +100,6 @@ export default {
     width: 180px;
     height: 180px;
     border-radius: 50%;
-    overflow: hidden;
     flex-shrink: 0;
   }
 

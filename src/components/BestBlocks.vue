@@ -1,7 +1,7 @@
 <template>
   <div class="best-blocks">
     <div class="best-blocks__title">Лучший результат: фильм</div>
-    <div class="best-blocks__film" @click="$emit('filmSelected', film)">
+    <div class="best-blocks__film" @click="$router.push({query: {film: film.filmKp.kinopoiskId}})">
       <FilmBlockMini v-if="film" :film="film"/>
     </div>
     <div class="best-blocks__title" style="margin-top: 30px;">Коллекция, пользователь</div>

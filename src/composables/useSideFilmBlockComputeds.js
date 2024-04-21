@@ -44,7 +44,7 @@ export default function useSideFilmBlockComputeds(filmFromKp) {
   })
 
   const seasonsCount = computed(() => {
-    return filmFromKp.value.seasonsInfo.length !== 0 ? filmFromKp.value.seasonsInfo.length : NaN
+    return filmFromKp.value.seasonsInfo?.length !== 0 ? filmFromKp.value.seasonsInfo?.length : NaN
   })
 
   const length = computed(() => {
@@ -56,7 +56,7 @@ export default function useSideFilmBlockComputeds(filmFromKp) {
   })
 
   const fees = computed(() => {
-    return _splitCash(filmFromKp.value.fees.world?.value) + filmFromKp.value.fees.world?.currency
+    return _splitCash(filmFromKp.value.fees?.world?.value) + filmFromKp.value.fees?.world?.currency
   })
 
   const actors = computed(() => {
