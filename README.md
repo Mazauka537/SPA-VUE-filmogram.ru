@@ -15,10 +15,7 @@ npm run serve
 npm run build
 ```
 
-### Run your unit tests
-```
-npm run test:unit
-```
+Configure the __.env__ file, copy the sample file from __.env.exapmle__
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Clone and setup API project https://github.com/Mazauka537/filmogramAPI.git
+
